@@ -238,20 +238,34 @@ _FIELD = re.compile(r"^  (TITLE|JOURNAL)\s+(.*)$")
 
 
 def first_reference(flatfile: str) -> str | None:
-    """A GenBank flatfile's first REFERENCE as "title. journal", or None.
+    """A GenBank flatfile's first REFERENCE that names a study, as "title. journal", or None.
 
     A "Direct Submission" names no study: its JOURNAL line is the submitter's postal
     address, which this page has no business printing. So it reads as absent, as does a
     record with no REFERENCE at all.
+
+    EVERY REFERENCE BLOCK IS READ, not just the first (fixed 2026-11-10, review finding 7).
+    Stopping at the second block made a record whose REFERENCE 1 is a Direct Submission and
+    whose REFERENCE 2 is the real paper read as naming nothing, and the spike sentence then
+    dropped its "from <study>" clause in exactly the case the clause exists for -- a batch
+    deposited by one group alongside its publication.
     """
+
+    def named(fields: dict[str, list[str]]) -> str | None:
+        title = " ".join(fields.get("TITLE", []))
+        journal = " ".join(fields.get("JOURNAL", []))
+        if not title or title.lower() == "direct submission":
+            return None
+        return f"{title}. {journal}" if journal else title
+
     fields: dict[str, list[str]] = {}
     current = None
     inside = False
     for line in flatfile.splitlines():
         if line.startswith("REFERENCE"):
-            if inside:
-                break
-            inside = True
+            if inside and (got := named(fields)):
+                return got
+            fields, current, inside = {}, None, True
         elif inside and line[:1].strip():
             break
         elif inside:
@@ -263,11 +277,7 @@ def first_reference(flatfile: str) -> str | None:
                 fields[current].append(line.strip())
             else:
                 current = None
-    title = " ".join(fields.get("TITLE", []))
-    journal = " ".join(fields.get("JOURNAL", []))
-    if not title or title.lower() == "direct submission":
-        return None
-    return f"{title}. {journal}" if journal else title
+    return named(fields)
 
 
 def reference_lookup(
@@ -407,6 +417,15 @@ def build(
     del calls, inputs
     # Once for the run: this walks every `asm` archive. Null `report.collection_sidecar` is
     # the normal case today, and leaves only the assembly records' own dates.
+    # NOT NARROWED, and the review finding that asked for it is answered in the roadmap
+    # instead (finding 4, 2026-11-10). Materialising every record id here does sit at the
+    # 3.17 GB peak the docstring above names, and on the shipping config -- null
+    # `report.collection_sidecar` -- only the 13 `asm` assays can have a date at all. But
+    # `GraphRecord` carries no retrieval group, so there is no cheap per-record test for
+    # "could this have a date", and the obvious `getattr(r, "group", ...)` guard silently
+    # selects NOTHING and drops the dates of all 13. A correct narrowing needs the group
+    # from the registry, which is a change to this function's inputs, and that is not worth
+    # making between a release freeze and its run.
     sidecar = (cfg.get("report") or {}).get("collection_sidecar")
     collected = read_collection_years(
         retrieved,

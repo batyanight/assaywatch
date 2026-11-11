@@ -170,15 +170,33 @@ class AssayPage:
     failure_reasons: list[tuple[str, int]] = field(default_factory=list)
 
 
+#: `fail` reasons naming a failure the per-base mismatch chart CANNOT draw: the record has
+#: no site for an oligo, rather than mismatches under one. An allow-list on purpose, and not
+#: "the reason is non-empty" (fixed 2026-11-10, review finding 1). Under
+#: `scoring.engine: serial` every ordinary penalty failure carries `score.combine`'s
+#: "<roles> blocked", which is precisely what the chart DOES draw, so keying off emptiness
+#: printed the opposite of the truth on every page the moment the engine was flipped. A
+#: reason may carry a "; <detail>" tail (`score.py`), so only the head is matched.
+NO_POSITION_REASONS: frozenset[str] = frozenset({"no probe site inside amplicon"})
+NO_POSITION_SUFFIXES: tuple[str, ...] = ("undetermined record bases under the oligos",)
+
+
+def has_no_position(reason: str) -> bool:
+    """Does this `fail` reason name a failure with no position for the mismatch chart?"""
+    head = reason.split(";", 1)[0].strip()
+    return head in NO_POSITION_REASONS or head.endswith(NO_POSITION_SUFFIXES)
+
+
 def failure_reasons(
     calls_path: Path, assay_ids: set[str], *, min_records: int, shown: int
 ) -> dict[str, list[tuple[str, int]]]:
     """{assay: [(reason, records), ...]}: why its `fail` rows failed, where the row says.
 
-    Most `fail` rows have a blank `reason`, being a penalty over budget that the mismatch
-    chart draws. The rest have no position to draw. On the 2026-11-01 run there is one
-    such string, 'no probe site inside amplicon', with no number in it, so the string
-    itself is the kind; 11,127 rows on 30 assays.
+    Only the reasons in `NO_POSITION_REASONS`/`NO_POSITION_SUFFIXES` count: a `fail` whose
+    reason is blank, or is the serial engine's "<roles> blocked", is a penalty failure the
+    mismatch chart draws, and must not be reported as one it cannot. On the 2026-11-01 run
+    under `engine: budget` there is one such string, 'no probe site inside amplicon', with
+    no number in it, so the string itself is the kind; 11,127 rows on 30 assays.
 
     Counted through `key_calls_by_accession`, because the table repeats rows (G2R WA_F's
     5,235 are 3,123 records) and a fail on an old version or a RefSeq copy isn't a record
@@ -195,14 +213,26 @@ def failure_reasons(
     from assaywatch.refseq_twins import beside
 
     def rows() -> Any:
-        with _open(calls_path) as fh:
+        # newline="" because `reason` is the one column documented as able to hold a line
+        # break (`collect.py`), and universal-newline translation mangles a quoted field
+        # that does (review finding 2). The guards below are `calls.read_calls`'s, for the
+        # same reason it has them: concatenated screens produce short rows, and `reason` is
+        # the LAST column `Call.as_row` emits, so it is the first one a truncated row loses.
+        # An unguarded index here aborts the whole extract, not just this block (finding 3).
+        with _open(calls_path, newline="") as fh:
             reader = csv.reader(fh, delimiter="\t")
             header = next(reader, None) or []
+            if not all(c in header for c in ("assay_id", "record_id", "call", "reason")):
+                return
             cols = [header.index(c) for c in ("assay_id", "record_id", "call", "reason")]
+            width = max(cols) + 1
             for line in reader:
-                yield [line[i] for i in cols]
+                if len(line) >= width:
+                    yield [" ".join(line[i].split()) for i in cols]
 
-    with_reason = {a for a, _, call, why in rows() if call == "fail" and why and a in assay_ids}
+    with_reason = {
+        a for a, _, call, why in rows() if call == "fail" and has_no_position(why) and a in assay_ids
+    }
     if not with_reason:
         return {}
     kept = [
@@ -212,7 +242,7 @@ def failure_reasons(
     ]
     counts: dict[str, Counter[str]] = defaultdict(Counter)
     for row in key_calls_by_accession(kept, beside(calls_path)):
-        if row["call"] == "fail" and row["reason"]:
+        if row["call"] == "fail" and has_no_position(row["reason"]):
             counts[row["assay_id"]][row["reason"]] += 1
     out = {}
     for assay_id, reasons in counts.items():

@@ -984,22 +984,33 @@ def lineage_narrative(
     floor = max(opts.spike_min_fold * statistics.median(per_year.values()), opts.spike_min_records)
     years = sorted((y for y, n in per_year.items() if n >= floor), key=lambda y: (-per_year[y], y))
     usable = [r for r in records if r.evaluable]
+    # FILTER FIRST, TRUNCATE AFTER (review findings 5 and 6, 2026-11-10). Taking the
+    # `spikes_shown` largest years before dropping the ones with nothing to say meant an
+    # assay whose three largest spikes were scattered accessions said nothing at all, while
+    # a fourth year holding a 500-record consecutive batch with a real REFERENCE went
+    # unmentioned -- against this function's own promise of "the spike years with something
+    # to say". The loop now walks every spike year and the truncation is at the end.
     out = []
-    for year in years[: opts.spikes_shown]:
+    for year in years:
         mine = [r.record_id for r in usable if r.year == year]
         batch = largest_batch(mine)
         n = per_year[year]
         if len(batch) < opts.spike_evidence_min_records or len(batch) / n < opts.spike_batch_min_share:
             batch = []
+        # Asked for more than are shown, because the grammar and unsourced-event filters
+        # run after this and used to run after the truncation too: a year whose three
+        # highest-lift tokens were "for", "the" and "outbreak" lost its token sentence
+        # although real distinguishing tokens ranked just below them (finding 6).
         tokens = title_tokens(
             [titles.get(rid, "") for rid in mine],
             [titles.get(r.record_id, "") for r in usable if r.year != year],
             name="",
             min_share=opts.spike_token_min_share,
             min_lift=opts.token_min_lift,
-            top=opts.title_tokens_shown,
+            top=opts.title_tokens_shown * 4,
         )
         tokens = [t for t in tokens if t.lower() not in _TITLE_GRAMMAR and not _UNSOURCED_EVENT.search(t)]
+        tokens = tokens[: opts.title_tokens_shown]
         dated = [collected[rid] for rid in mine if rid in collected]
         if len(dated) < opts.spike_evidence_min_records:
             dated = []
@@ -1013,14 +1024,21 @@ def lineage_narrative(
                 batch_share=len(batch) / n,
                 batch_first=batch[0] if batch else "",
                 batch_last=batch[-1] if batch else "",
-                reference=reference_of(batch[0]) if batch else None,
+                reference=None,  # filled below, for the kept spikes only
                 tokens=tuple(tokens),
                 collected_first=min(dated, default=None),
                 collected_last=max(dated, default=None),
                 collected_records=len(dated),
             )
         )
-    return sorted(out, key=lambda s: s.year)
+    # `years` is already ordered by size, so `out` is too: the largest survivors are the
+    # first. The reference is read ONLY for these, after the cut, because it is the one
+    # field that costs a network call and the cut can drop a spike that has a batch.
+    kept = [
+        dataclasses.replace(sp, reference=reference_of(sp.batch_first) if sp.batch_first else None)
+        for sp in out[: opts.spikes_shown]
+    ]
+    return sorted(kept, key=lambda s: s.year)
 
 
 def _special_name(label: int) -> str:

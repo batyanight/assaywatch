@@ -954,3 +954,40 @@ def test_a_word_of_grammar_is_not_a_title_token():
     records = _spike_records(batch=0, scattered=45)
     titles = {r.record_id: ("Testus gene for zebra" if r.year == 2022 else "Testus gene") for r in records}
     assert _narrate(records, titles=titles)[0].tokens == ("zebra",)
+
+
+def test_a_spike_year_with_evidence_is_not_lost_behind_larger_years_that_have_none():
+    """Review finding 5, 2026-11-10. The spike years were cut to `spikes_shown` BEFORE the
+    `if not (batch or tokens or dated): continue` filter, so an assay whose largest spikes
+    were scattered accessions could say nothing at all while a smaller year holding a real
+    consecutive batch went unmentioned -- against the docstring's own promise of "the spike
+    years with something to say"."""
+    from assaywatch.drift import GraphRecord
+
+    def rec(acc, year):
+        return GraphRecord(acc + ".1", year, "detect", True, True, False, None)
+
+    quiet = [rec(f"AA{y}{i:03d}", y) for y in range(2000, 2012) for i in range(0, 8, 2)]
+    # Three bigger spike years, every accession scattered, so none has a batch to show.
+    noisy = [rec(f"KX{y}{i * 7:05d}", y) for y in (2019, 2020, 2021) for i in range(60)]
+    # One smaller spike year that is a single consecutive deposit.
+    real = [rec(f"PP{300 + i:06d}", 2022) for i in range(40)]
+    got = _narrate(quiet + noisy + real)
+    assert [s.year for s in got] == [2022]
+    assert got[0].batch_records == 40
+
+
+def test_a_grammar_token_does_not_crowd_out_the_tokens_that_say_something():
+    """Review finding 6, 2026-11-10. The grammar and unsourced-event filters ran after
+    `title_tokens` had already cut to `title_tokens_shown`, so a year whose highest-lift
+    tokens were grammar words lost its token sentence although real ones ranked below."""
+    records = _spike_records()
+    spike_ids = [r.record_id for r in records if r.year == 2022]
+    titles = {rid: "for the of and outbreak Nipah henipavirus Bangladesh" for rid in spike_ids}
+    titles |= {r.record_id: "unrelated survey" for r in records if r.year != 2022}
+    got = _narrate(records, titles=titles)
+    assert got, "the spike should survive"
+    tokens = [t.lower() for t in got[0].tokens]
+    assert "nipah" in tokens or "henipavirus" in tokens or "bangladesh" in tokens
+    assert not {"for", "the", "of", "and"} & set(tokens)
+    assert "outbreak" not in tokens

@@ -1764,12 +1764,33 @@ def test_failure_reasons_count_one_per_accession_and_only_for_fails(tmp_path):
 
 
 def test_failure_reasons_hold_back_a_thin_count_and_show_only_the_top(tmp_path):
-    rows = [("A", f"AB{i}.1", "fail", "first") for i in range(4)]
-    rows += [("A", f"AC{i}.1", "fail", "second") for i in range(3)]
-    rows += [("A", f"AD{i}.1", "fail", "third") for i in range(2)]
-    rows += [("A", "AE1.1", "fail", "thin")]
+    probe = "no probe site inside amplicon"
+    amb3, amb5 = (f"{n} undetermined record bases under the oligos" for n in (3, 5))
+    rows = [("A", f"AB{i}.1", "fail", probe) for i in range(4)]
+    rows += [("A", f"AC{i}.1", "fail", amb3) for i in range(3)]
+    rows += [("A", f"AD{i}.1", "fail", amb5) for i in range(2)]
+    rows += [("A", "AE1.1", "fail", probe + "; and a trailing detail")]
     got = site.failure_reasons(_reason_calls(tmp_path, rows), {"A"}, min_records=2, shown=2)
-    assert got == {"A": [("first", 4), ("second", 3)]}
+    assert got == {"A": [(probe, 4), (amb3, 3)]}
+
+
+def test_a_reason_the_mismatch_chart_can_draw_is_never_reported_as_one_it_cannot(tmp_path):
+    """Review finding 1, 2026-11-10. This block keyed off "the reason is non-empty", which
+    is true only under `scoring.engine: budget`, where `score.decide` leaves `reason` blank
+    for every penalty call. Under `engine: serial` -- implemented and documented, and
+    disagreeing on 182,185 of 912,111 calls -- `score.combine` puts "<roles> blocked" on an
+    ordinary penalty failure. Flipping the engine would have made every assay page announce
+    that those records have no position to draw, about exactly the records the chart draws."""
+    rows = [("A", f"AB{i}.1", "fail", "forward blocked") for i in range(9)]
+    rows += [("A", f"AC{i}.1", "fail", "forward, reverse blocked") for i in range(9)]
+    rows += [("A", f"AD{i}.1", "fail", "") for i in range(9)]
+    assert site.failure_reasons(_reason_calls(tmp_path, rows), {"A"}, min_records=2, shown=3) == {}
+    assert not site.has_no_position("forward blocked")
+    assert not site.has_no_position("probe weak")
+    assert not site.has_no_position("")
+    assert site.has_no_position("no probe site inside amplicon")
+    assert site.has_no_position("no probe site inside amplicon; 2 of 3 oligos found")
+    assert site.has_no_position("4 undetermined record bases under the oligos")
 
 
 def test_the_page_says_which_failures_have_no_position_to_draw():

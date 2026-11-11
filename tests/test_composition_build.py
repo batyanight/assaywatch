@@ -354,3 +354,27 @@ def test_repeated_failures_stop_asking(tmp_path):
     look = reference_lookup(transport, tmp_path / "c.json.gz", max_failures=2)
     assert [look(a) for a in ("A1", "A2", "A3")] == [None, None, None]
     assert calls == ["A1", "A2"]
+
+
+def test_a_direct_submission_does_not_hide_the_study_in_the_next_reference():
+    """Review finding 7, 2026-11-10. `first_reference` stopped at the second REFERENCE
+    block, so a record whose REFERENCE 1 is a Direct Submission and whose REFERENCE 2 is
+    the real paper read as naming no study, and the spike sentence dropped its
+    "from <study>" clause in exactly the case it exists for."""
+    from assaywatch.composition_build import first_reference
+
+    flat = (
+        "REFERENCE   1  (bases 1 to 1200)\n"
+        "  AUTHORS   Someone,A.\n"
+        "  TITLE     Direct Submission\n"
+        "  JOURNAL   Submitted (01-JAN-2022) Dept, 1 Road, Town\n"
+        "REFERENCE   2  (bases 1 to 1200)\n"
+        "  AUTHORS   Someone,A. and Other,B.\n"
+        "  TITLE     Monkeypox virus genomes from a 2022 outbreak\n"
+        "  JOURNAL   J Virol 96 (3), 1-9 (2022)\n"
+        "FEATURES             Location/Qualifiers\n"
+    )
+    assert first_reference(flat) == "Monkeypox virus genomes from a 2022 outbreak. J Virol 96 (3), 1-9 (2022)"
+    only_submission = flat.split("REFERENCE   2")[0] + "FEATURES             Location/Qualifiers\n"
+    assert first_reference(only_submission) is None
+    assert first_reference("LOCUS  AB123\nFEATURES\n") is None
