@@ -82,6 +82,10 @@ class Chemistry(StrEnum):
     hydrolysis_probe = "hydrolysis_probe"
     mgb = "mgb"
     lna = "lna"
+    # A labelled probe read off a blot after endpoint PCR. No fluorescence and no cleavage.
+    # It is scored with the probe penalties, which were set for hydrolysis probes, because
+    # nothing in this repository measures a blot's mismatch tolerance.
+    hybridization_probe = "hybridization_probe"
     # Recombinase polymerase amplification: primers only, but isothermal at
     # 37-42 C with a recombinase driving strand invasion, not thermal cycling.
     # Listed separately rather than filed under `conventional` because the
@@ -141,6 +145,10 @@ class Oligo(Strict):
     # from, and so that an unpublished modification is visible as one.
     modified_from: str | None = None
     modification_doi: str | None = None
+    # `modified_from` is what the paper prints and `seq` is our reading of what it meant,
+    # because the printed form fails every record. An inference, so the entry must also
+    # carry `oligo_sequence_uncertain`, which withholds its status.
+    print_error: bool = False
 
     @property
     def matching_seq(self) -> str:
@@ -177,6 +185,8 @@ class Oligo(Strict):
     def a_modification_needs_its_original(self) -> Oligo:
         if self.modification_doi is not None and self.modified_from is None:
             raise ValueError("modification_doi without modified_from: record the published sequence too")
+        if self.print_error and self.modified_from is None:
+            raise ValueError("print_error without modified_from: record the printed sequence too")
         if self.modified_from is not None and self.modified_from.replace("I", "N") == self.seq:
             raise ValueError("modified_from equals seq; that is not a modification")
         return self
@@ -711,11 +721,16 @@ class Assay(Strict):
     @model_validator(mode="after")
     def probe_matches_chemistry(self) -> Assay:
         has_probe = self.oligos.probe is not None
-        probe_chem = self.chemistry in {Chemistry.hydrolysis_probe, Chemistry.mgb, Chemistry.lna}
+        probe_chem = self.chemistry in {
+            Chemistry.hydrolysis_probe,
+            Chemistry.mgb,
+            Chemistry.lna,
+            Chemistry.hybridization_probe,
+        }
         if probe_chem and not has_probe:
             raise ValueError(f"chemistry {self.chemistry.value} declared but no probe given")
         if has_probe and not probe_chem:
-            raise ValueError("a probe is given but chemistry is primers-only; use hydrolysis_probe/mgb/lna")
+            raise ValueError("a probe is given but chemistry is primers-only; use a probe chemistry")
         return self
 
     @model_validator(mode="after")
@@ -776,6 +791,12 @@ class Assay(Strict):
             if getattr(oligo, "modified_from", None) is None:
                 continue
             doi = getattr(oligo, "modification_doi", None)
+            if (
+                doi is None
+                and oligo.print_error
+                and any(r.flag == ReviewFlag.oligo_sequence_uncertain for r in self.needs_review)
+            ):
+                continue
             if doi is None:
                 # The registry stores published sequences only. `modified_from`
                 # with no `modification_doi` is a sequence no paper prints: the

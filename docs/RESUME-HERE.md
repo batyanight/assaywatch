@@ -71,6 +71,11 @@ file from the last build sat in the session scratchpad and may be gone, so it ma
 **Also waiting: branch `next-run-prep`, local only,** with the Zimmermann correction, FT443 and the Li query. It
 stays unmerged until a live run, which the maintainer declined for now, and one extract test fails there until
 then. Its `ROADMAP.md` also carries a RefSeq item, which will conflict with this branch's when both merge.
+# Resume point, 2026-11-05 (next-run edits on branch `next-run-prep`, not merged)
+
+Read `docs/journal/2026-11-05-next-run-prep.md`. These edits take effect at the next live run, which the
+maintainer has not asked for yet. Until then `test_the_extract_still_describes_the_registry_it_was_taken_from`
+fails on this branch, so it isn't merged. *Chlamydia* assemblies were decided against.
 
 # Resume point, 2026-11-05 (review fixes on `main` once the PR merges)
 

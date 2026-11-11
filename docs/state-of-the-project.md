@@ -21,7 +21,7 @@ means.
 |---|---|
 | live entries | 218 — 179 `active`, 38 `draft`, 1 `deprecated` |
 | waiting in `pending/` | 10, every one for want of a verifiable DOI |
-| chemistry | 153 conventional, 39 hydrolysis probe, 21 MGB, 2 SYBR, 1 RPA |
+| chemistry | 152 conventional, 39 hydrolysis probe, 21 MGB, 2 SYBR, 1 RPA, 1 hybridization probe |
 
 ## What the evidence supports
 

@@ -8,6 +8,7 @@
         "hydrolysis_probe",
         "mgb",
         "lna",
+        "hybridization_probe",
         "rpa"
       ],
       "title": "Chemistry",
@@ -339,6 +340,11 @@
           "default": null,
           "title": "Orientation"
         },
+        "print_error": {
+          "default": false,
+          "title": "Print Error",
+          "type": "boolean"
+        },
         "seq": {
           "title": "Seq",
           "type": "string"
@@ -624,6 +630,11 @@
           ],
           "default": null,
           "title": "Orientation"
+        },
+        "print_error": {
+          "default": false,
+          "title": "Print Error",
+          "type": "boolean"
         },
         "quencher": {
           "anyOf": [

@@ -10,11 +10,13 @@ chemistry: conventional
 oligos:
   forward:
     name: BornaNestF
-    seq: GCCTTGTGTTTCTATCTTTC
+    seq: GCCTTGTGTTTCTATGTTTG
+    modified_from: GCCTTGTGTTTCTATCTTTC
+    print_error: true
   reverse:
     name: BornaNestR
     seq: ATTCTTTACCTGGGGACTCA
-amplicon_bp: null
+amplicon_bp: 441
 citation:
   claim: "Borna disease virus in naturally infected animals."
   doi: 10.1016/0166-0934(94)90098-1
@@ -35,7 +37,13 @@ source:
   nested_round: round2
   nested_family: Bornaviridae_N_Zimmermann_1994
   nested_parent: Bornaviridae_N_Zimmermann_1994_round1
-  notes_curator: 'DUPLICATE MERGED 2026-11-01. BORNA_VIRUS_N_gene held this same pair and is deleted. The two became identical
+  notes_curator: 'CORRECTED 2026-11-05 by maintainer decision of 2026-11-04. BornaNestF now scores GCCTTGTGTTTCTATGTTTG. The
+    paper prints GCCTTGTGTTTCTATCTTTC, kept in modified_from. The printed form has an exact site in 0 of 1,517 records in the
+    2026-10-25 archive, and differs from all 303 records with the site by two G to C changes in the last 5 bases, one terminal.
+    The design source M99375 reads GTTTG. This is an inference that the page misprints the primer, since nothing shows what the
+    authors synthesized, so the status stays withheld. Sorg 1995 and Kohno 1999 may reprint it and remain unchecked. AMPLICON
+    MEASURED 2026-11-05: 441 bp in all 248 records with exact sites for this pair, M99375 included, against a published 444.
+    Notes below that say the entry stores the printed form or has no size predate this. DUPLICATE MERGED 2026-11-01. BORNA_VIRUS_N_gene held this same pair and is deleted. The two became identical
     when that entry''s unpublished forward (GCCTTGTGTTTCTATGTTTG, the 260-record form) was removed for want of a publication
     printing it, leaving both storing what Zimmermann et al. 1994 prints. This entry keeps the id because it names the round.
     Its amplicon_bp 445 did NOT come across: nothing in that entry recorded where the number came from, and the nested product
@@ -73,10 +81,10 @@ source:
     they are not evidence of drift, because an assay that has never succeeded in this archive has no baseline to decline from.'
 needs_review:
 - flag: oligo_sequence_uncertain
-  note: the printed BornaNestF matches 0 of 1,516 records, differing from every one at the 3'-terminal base; whether the
-    1994 scan is right has not been settled, and no verdict publishes until it is
-- flag: amplicon_size_unresolved
-  note: no product size is declared
+  note: the forward primer is our correction, because the printed form matches 0 of 1,517 records and mismatches every
+    record with the site at its 3'-terminal base; nothing shows what the authors synthesized, so no verdict publishes
+- flag: amplicon_disagrees_with_paper
+  note: measured 441 bp; the paper states 444
 - flag: orientation_inferred
   note: inferred from the paper's labels. the archive yields 369 products and 1151 none under this orientation 
     (2026-10-27 run), so the inference stands

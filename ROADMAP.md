@@ -559,22 +559,23 @@ are. Each line says what would reopen it.
   of them read `low coverage`. These are
   genome-walking primers, so decide first whether they stay in the registry. If they do, scope
   them, reading `Serpentovirinae sp.` first, since that node may hold the same virus.
-- [ ] **Zimmermann round 2: score the corrected forward primer, at the next run.** Maintainer decision,
-  2026-11-04. Store `GCCTTGTGTTTCTATGTTTG`, show the printed `...CTTTC` beside it, keep the status
-  withheld with a note that the correction is ours, and warn that the printed primer mismatches every
-  record at the 3' end. Evidence: the page prints `CTT TC`; all 303 records with the site read
-  otherwise; the design source's own deposit M99375 reads `GTTTG`; the product is 441 bp against a
-  published 444. Inference, since nothing shows what the authors synthesized. Sorg 1995 and Kohno
-  1999 might reprint it and were not readable; check them. Set `amplicon_bp` from the measurement.
-- [ ] **Francisella tul4 Long 1993: add probe FT443, at the next run.** `TCGTAATGTTAGCTGTATCATCATT`,
-  read from the page, exact in all 1,021 products at product position 50, which is gene position 443.
-  The entry's "8 mismatches" does not hold up, so its `oligo_sequence_uncertain` flag comes off and
-  it stops being withheld. Correct the note. Adding a probe needs a rescreen.
-- [x] **Add 810, 813, 83554 and 83558 to `assemblies.taxa`, for the next run.** Not added, tested
-  2026-11-05 on `next-run-prep`: the query already reaches 379 of 493 genomes, so these would double
-  count them. As first written: Maintainer decision, 2026-11-04. About 490 genomes exist (981 counting GCF and GCA twice; 15 or so *C. pneumoniae*, not
-  the 30 recorded earlier), sampled at the existing 20 per year. First check that a genome already
-  reached through the "complete genome" query term is not counted twice. Verdicts may move.
+- [x] **Zimmermann round 2: score the corrected forward primer.** Entered 2026-11-05 and takes effect
+  at the next screen. The status stays withheld, and the printed form shows on the page. Measured 441 bp
+  in all 248 records with exact sites, against a published 444. Still open: Sorg 1995 and Kohno 1999
+  might reprint the primer and have not been read.
+- [x] **Francisella tul4 Long 1993: add probe FT443.** Entered 2026-11-05 and takes effect at the next
+  screen, as `hybridization_probe`, because the paper reads a labelled probe by dot blot. Scored with
+  penalties set for hydrolysis probes, which is an assumption and doesn't change this entry's calls.
+- [x] **Chlamydia assemblies: not added.** Maintainer decision, 2026-11-05. The `"complete genome"[Title]`
+  term already reaches 379 of 493 assemblies under 810, so sampling on top would count those twice. 114
+  stay missing, 42 of them *C. trachomatis*. `docs/journal/2026-11-05-next-run-prep.md`.
+- [x] **RefSeq and GenBank copies of one genome count as two records.** Fixed 2026-11-06 as
+  step 1 of the release plan, `NZ_` by accession and the curated prefixes by a stored map
+  (`docs/journal/2026-11-06-refseq-twins.md`), after this branch recorded it. As first
+  written: `NZ_CP017733` and `CP017733`
+  have different accessions, so nothing dedupes them. On the 2026-11-01 calls 17 of 219 assays hold such
+  pairs, 14 of them at 5% or more: *Mycoplasma* 16S 1,651 of 24,246, MTB IS1081 377 of 1,468, Messmer 127
+  of 1,668. Only `complete genome` style queries reach them. Verdict effect not measured.
 - [x] **Add *B. dendrobatidis* to `assemblies.taxa`, and give the Ghosh 2021 mtDNA entries a query?**
   Done 2026-11-04: neither. Tested in `docs/journal/2026-11-04-scope-reread.md`. A query would
   lose 30 of the 43 mitochondrial records, whose titles don't say so. At the current levels the
@@ -589,9 +590,9 @@ are. Each line says what would reopen it.
   names mislead. Left out: 117 with mammal or reptile hosts, 20 mixed, 109 mosquito-only, 295 with
   no host field, 23 unresolved. HaemNFI baseline stays near 88%; the whole node would have read 80%.
   The list goes stale as NCBI adds lineages, like the others.
-- [ ] **Apply at the next fetch: Leporipoxvirus into the Li 2010 IMV query.** Table 1 of the paper
-  settles it. A query edit changes the archive group, so it goes in with a new retrieval. Crocodilepox
-  for Li 2010 RPO147 is the same shape; check it first.
+- [x] **Leporipoxvirus into the Li 2010 IMV query.** Entered 2026-11-05 as `txid10270`, taking effect at
+  the next fetch. Crocodilepox needs no edit: `txid1285599` is already in the RPO147 query, and the
+  2026-11-04 journal line saying otherwise was wrong.
 - [x] **The narrowing proposals.** Decided 2026-11-04: Uccellini narrowed; Baek, Ahmed, Steyn, Nix,
   Scaramozzino, Quan and Li left as they are, with the paper's narrower claim on the page instead.
   Tested table in `docs/journal/2026-11-04-scope-reread.md`.
