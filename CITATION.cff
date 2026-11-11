@@ -44,6 +44,7 @@ repository-code: "https://github.com/batyanight/assaywatch"
 version: 0.3.0
 date-released: 2026-11-11
 doi: 10.5281/zenodo.23841793
+# This version, 0.3.0, is 10.5281/zenodo.24143615; the line above is the concept DOI, which resolves to the latest.
 license: MIT
 # `license:` above names the CODE licence, so this points at the code licence too.
 # It pointed at LICENSE-registry until 2026-10-30, which meant this file declared

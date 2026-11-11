@@ -15,10 +15,9 @@ Nothing yet.
 
 ## v0.3.0 — 2026-11-11
 
-Archived at Zenodo under the same concept DOI as v0.1.0 and v0.2.0,
-[10.5281/zenodo.23841793](https://doi.org/10.5281/zenodo.23841793); this version's own DOI
-is added here once Zenodo mints it from the GitHub release. The run these figures come from is
-`results/2026-11-10/`, committed as the site's data.
+Archived at Zenodo: [10.5281/zenodo.24143615](https://doi.org/10.5281/zenodo.24143615)
+(this version), under the same concept DOI as v0.1.0 and v0.2.0. The run these figures come
+from is `results/2026-11-10/`, committed as the site's data.
 
 - **A case row's `scope_taxid` had never been honoured, and now is.** The column says which
   lineage a validation paper actually tested, so a pan-family assay is scored on the clade
