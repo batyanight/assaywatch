@@ -194,7 +194,12 @@ SCOPE_MIN_RECORDS = 10
 
 
 def scope_verdict(
-    a, taxid: int, threshold: float, expect: str, min_records: int = SCOPE_MIN_RECORDS
+    a,
+    taxid: int,
+    threshold: float,
+    expect: str,
+    min_records: int = SCOPE_MIN_RECORDS,
+    taxonomy: Taxonomy | None = None,
 ) -> tuple[str | None, str]:
     """What the tool says about ONE named lineage of an assay, or None to use the pooled status.
 
@@ -216,6 +221,18 @@ def scope_verdict(
     error across every lineage it looked at. Here the lineage was named in advance, from the
     paper, before any share was computed. There is no family of tests, so
     no multiple-testing correction applies -- only the one test that was asked for.
+
+    A SCOPE ABOVE THE RANK RECORDS ARE FILED AT IS SUMMED OVER ITS CLADE (2026-11-10), when
+    `taxonomy` is given. GenBank files records at species or below, so a paper that reports
+    testing a genus or a subfamily -- "gammaherpesviruses of two species", "all three were
+    Mastadenovirus" -- names a taxid no lineage carries, and exact matching skipped every such
+    row: 9 of the 14 drafted `scope_taxid` reads, measured on the 2026-11-01 calls. The clade's
+    lineages are summed and tested as one, which is the population the paper's claim is about.
+    An exact lineage still wins, because it is the narrower answer; a clade with no descendant
+    among the lineages is still not honoured, rather than scored on an empty sum; and with no
+    `taxonomy` the old exact-match behaviour stands unchanged. `assaywatch.taxonomy` is the
+    same machinery `scope_taxids` uses, and its own docstring is why this is a fix rather than
+    a loosening: "exact matching is the bug this module exists to fix".
     """
     if expect == "partial":
         return None, "scope ignored: a `partial` expectation is about several lineages, not one"
@@ -223,22 +240,34 @@ def scope_verdict(
     if not stats:
         return None, "no per-lineage statistics for this assay (no taxids, or the lineage extra is absent)"
     match = next((s for s in stats if s.taxid == taxid), None)
-    if match is None:
-        return None, f"no per-lineage statistics for taxid {taxid} among {len(stats)} lineages"
-    if match.n_evaluable < min_records:
+    if match is not None:
+        where, n_detected, n_evaluable = f"lineage {taxid}", match.n_detected, match.n_evaluable
+    else:
+        # No lineage is filed at this taxid. Sum the ones filed beneath it, if we can tell.
+        under = (
+            [x for x in stats if x.taxid is not None and taxid in taxonomy.ancestors(x.taxid)]
+            if taxonomy is not None
+            else []
+        )
+        if not under:
+            return None, f"no per-lineage statistics for taxid {taxid} among {len(stats)} lineages"
+        where = f"clade {taxid} ({len(under)} lineages: {', '.join(str(x.taxid) for x in under)})"
+        n_detected = sum(x.n_detected for x in under)
+        n_evaluable = sum(x.n_evaluable for x in under)
+    if n_evaluable < min_records:
         return (
             "undecided",
-            f"lineage {taxid}: {match.n_evaluable} evaluable records, fewer than {min_records}",
+            f"{where}: {n_evaluable} evaluable records, fewer than {min_records}",
         )
     try:
         from scipy.stats import binom
     except ImportError:
         return None, "the per-lineage test needs scipy (the `lineage` extra); pooled verdict used"
-    p = float(binom.cdf(match.n_detected, match.n_evaluable, threshold))
+    p = float(binom.cdf(n_detected, n_evaluable, threshold))
     below = p < 0.05
     basis = (
-        f"lineage {taxid}: {match.n_detected} of {match.n_evaluable} detected "
-        f"({match.share:.1%}), binomial p = {p:.3g} against the {threshold:.0%} threshold"
+        f"{where}: {n_detected} of {n_evaluable} detected "
+        f"({n_detected / n_evaluable:.1%}), binomial p = {p:.3g} against the {threshold:.0%} threshold"
     )
     return ("fails" if below else "works"), basis
 
@@ -687,7 +716,9 @@ def main(argv: list[str] | None = None) -> int:
         scope = (c.get("scope_taxid") or "").strip()
         got_scoped = None
         if scope and a is not None:
-            got_scoped, basis = scope_verdict(a, int(scope), a.threshold, c["expect"], scope_min)
+            got_scoped, basis = scope_verdict(
+                a, int(scope), a.threshold, c["expect"], scope_min, taxonomy=evidence.taxonomy
+            )
             (scoped if got_scoped else scope_skipped).append(f"  {c['assay_id']} @ {c['as_of']}: {basis}")
         if got_scoped == "undecided":
             verdict = "undecided"
