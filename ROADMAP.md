@@ -45,7 +45,7 @@ where they already sit; this section is the order and the rules.
 | C1b output | priced 2026-11-06 and stopped; a journal entry, and nothing shipped |
 | Stall rule | blockers hold the freeze; droppable items wait for the next release with a recorded reason |
 | Merging | a PR merges when green, stopping only for interfaces, the live run and publishing |
-| Merge target | **`next-release`, not `main`.** `site.yml` deploys on any push to `main` touching `website/`, the theme, `site*.py` or the registry, so merging to `main` would publish piecemeal. `main` takes one merge, at the publish go |
+| Merge target | **Released 2026-11-11; `main` again.** During the plan: **`next-release`, not `main`.** `site.yml` deploys on any push to `main` touching `website/`, the theme, `site*.py` or the registry, so merging to `main` would publish piecemeal. `main` takes one merge, at the publish go |
 
 **Blockers:** steps 0-5, 6a, 12-15. **Droppable:** 6b (the stable and undecided papers), 7-11. A
 droppable step that changes retrieval or a verdict lands before step 12 or waits; a site-only one
@@ -209,7 +209,15 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   Extract and render; `website/index.md` counts; three pages by eye; `pytest -m slow`. Expected from
   the fixes alone: the two vcpA assays and `Orthobunyavirus_S_Briese_2007_BUNS_5_U_6` read
   `insufficient data`. A surprise here is a stop, not a note.
-- [ ] **15. Publish, on the maintainer's go.** `next-release` into `main`, CHANGELOG, tag `v0.3.0`,
+- [x] **15. Published 2026-11-11, on the maintainer's go.** `next-release` into `main` at `138ce37`, 68
+  commits, no conflicts; tag `v0.3.0` on that commit; GitHub release
+  https://github.com/batyanight/assaywatch/releases/tag/v0.3.0 with the CHANGELOG section as its body;
+  Zenodo minted 10.5281/zenodo.24143615 under the concept DOI, recorded in CHANGELOG and
+  CITATION.cff; Pages deployed by `site.yml` run 43075456130 and the live home page reads
+  "Registry status, 2026-11-10 run"; `com.assaywatch.weekly` enabled and bootstrapped again. What was
+  left is on the post-release list above. **This closes the release plan: the merge target is `main`
+  again**, and the next work is PR #14's twelve items in their order, then Architecture 6b-6e, then
+  the post-release list. As planned: `next-release` into `main`, CHANGELOG, tag `v0.3.0`,
   Zenodo, confirm Pages deployed. Then re-enable the weekly job, and move what's left to the
   post-release list.
 
