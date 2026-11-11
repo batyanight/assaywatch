@@ -164,7 +164,20 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 
 ### The frozen run (blockers)
 
-- [ ] **12. Freeze.** Merge `next-run-prep` into `next-release`, resolving its conflicts (tested 2026-11-09: `ROADMAP.md`,
+- [x] **12. Freeze. DONE 2026-11-10.** `next-run-prep` is merged: the Zimmermann corrected primer, the
+  Francisella FT443 probe and the Chlamydia assembly decision are on `next-release`, and from that commit
+  nothing under `assaywatch/`, `config.yaml`, `registry/` or `Snakefile` changes until step 14.
+  **It is knowingly red, as planned:** `test_the_extract_still_describes_the_registry_it_was_taken_from`
+  fails because FT443 makes the Francisella entry a `hybridization_probe` and the committed extract
+  predates it. 2,240 tests pass; that one is step 14's to turn green.
+  **A fourth conflict the 2026-11-09 test did not predict:** `registry/Francisella_tularensis_tul4_Long_1993.yaml`,
+  resolved to this branch's probe and cleared flag, keeping the 2026-11-10 size correction it predates.
+  **And one the merge did not flag at all:** Lozano's two entries and Li 2010 IMV were corrected on both
+  branches five days apart, and git merged both corrections silently because they sit in different parts
+  of one note, so each entry said the same thing twice. Folded into one. Where they differed the older was
+  wrong: it listed the Lozano alignment set as ending "Oliveros, Sabia", and Fig. 2's lanes are JUN-MC2,
+  JUN-XJ, MAC, TAC, OLV, PIC, LCM-WE, LCM-Arm, LAS-Jos, LAS-Nig and MOP, so Machupo is in and Sabia is not.
+  As planned: Merge `next-run-prep` into `next-release`, resolving its conflicts (tested 2026-11-09: `ROADMAP.md`,
   `docs/INDEX.md` and `docs/RESUME-HERE.md` all conflict; `page-narrative` merges clean).
   Its one extract test fails until a run exists, so this one merges knowingly red, and step 14 has
   to turn it green. Rerun step 4. Nothing under `assaywatch/`, `config.yaml`, `registry/` or
