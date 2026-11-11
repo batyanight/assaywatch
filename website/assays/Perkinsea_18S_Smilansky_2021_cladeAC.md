@@ -103,6 +103,12 @@ Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short
 bar is a position that matters.
 
 
+Some records fail with no position to draw: the record has no site for an oligo, so the
+chart above can't show them. One count per record, across everything screened, before
+the scope filter:
+
+- no probe site inside amplicon: 81 records
+
 ## Verdict
 
 **no recent data** — no deposits within the window
@@ -120,7 +126,7 @@ Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.
 
 Trend across deposit years: by record falling (p = 1.48e-42, 5 years); by footprint falling (p = 0.181). Reported for context; it is not an input to the verdict.
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -203,7 +209,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Perkinsea_18S_Smilansky_2021_cladeAC%3A%20&body=Entry%3A%20Perkinsea_18S_Smilansky_2021_cladeAC%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Perkinsea_18S_Smilansky_2021_cladeAC/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Perkinsea_18S_Smilansky_2021_cladeAC%3A%20&body=Entry%3A%20Perkinsea_18S_Smilansky_2021_cladeAC%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Perkinsea_18S_Smilansky_2021_cladeAC/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Perkinsea_18S_Smilansky_2021_cladeAC.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Perkinsea_18S_Smilansky_2021_cladeAC.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

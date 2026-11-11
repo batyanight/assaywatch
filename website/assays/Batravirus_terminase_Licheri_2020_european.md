@@ -57,13 +57,13 @@ Every value behind the call, so you can redo it by hand:
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
 | recent window (24 months, from Nov 2024) | 0 | 0 | — | 0.0% – 100.0% |
-| baseline (everything earlier) | 4 | 4 | 100.0% | 51.0% – 100.0% |
+| baseline (everything earlier) | 2 | 2 | 100.0% | 34.2% – 100.0% |
 
 Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.0%**.
 
 *no evaluable records deposited since Nov 2024*
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -76,7 +76,7 @@ This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Ta
 
 <a class="aw-download" href="../Batravirus_terminase_Licheri_2020_european.scope.txt" download>Download 3 taxids as a text file</a>
 
-4 screened records fell outside the declared scope.
+2 screened records fell outside the declared scope.
 
 Retrieval query:
 
@@ -90,12 +90,12 @@ Disclosures on this entry: `scope_narrower_than_taxid`.
 
 ## Predicted detection by deposit year
 
-**all 4 evaluable records**, deposited between 2017 and 2019, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
+**all 2 evaluable records**, deposited between 2017 and 2018, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
 
 
 ## Records reaching the statistics
 
-4 records were screened for this assay and **4 (100%)** were evaluable, meaning both primers landed in the right orientation and size range. 0 produced no amplicon at all.
+2 records were screened for this assay and **2 (100%)** were evaluable, meaning both primers landed in the right orientation and size range. 0 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
@@ -110,13 +110,13 @@ assay changing. The dashed line on the chart above recomputes each year on the w
 period's mix: where the two lines part, what got sequenced changed, not what the assay
 detects.
 
-*too few windows to cluster: every record is unplaced; 4 of 4 records unplaced (100%).*
+*too few windows to cluster: every record is unplaced; 2 of 2 records unplaced (100%).*
 
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2017 to 2019."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2017 — unplaced: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2018 — unplaced: 1 of 1 records (100%), 1 detected</title><rect x="362.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2019 — unplaced: 1 of 1 records (100%), 1 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><text class="aw-tick" x="44.0" y="117">2017</text><text class="aw-tick" x="375.0" y="117">2018</text><text class="aw-tick" x="706.0" y="117">2019</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2017 to 2018."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2017 — unplaced: 1 of 1 records (100%), 1 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2018 — unplaced: 1 of 1 records (100%), 1 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><text class="aw-tick" x="44.0" y="117">2017</text><text class="aw-tick" x="706.0" y="117">2018</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
 
 | Lineage | Records | Share | New since design | Species | Also in the titles |
 |---|---|---|---|---|---|
-| unplaced | 4 | 100% |  | Batravirus ranidallo3 2, Bufonid herpesvirus 1 2 | -- |
+| unplaced | 2 | 100% |  | Batravirus ranidallo3 1, Bufonid herpesvirus 1 1 | -- |
 
 Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2006 100%, 2017 100%, 2018 50%, 2019 100%, 2021 0%, 2025 0% (best year 100%). A low share is a fact about the query, not about the taxon.
 
@@ -134,7 +134,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Batravirus_terminase_Licheri_2020_european%3A%20&body=Entry%3A%20Batravirus_terminase_Licheri_2020_european%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Batravirus_terminase_Licheri_2020_european/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Batravirus_terminase_Licheri_2020_european%3A%20&body=Entry%3A%20Batravirus_terminase_Licheri_2020_european%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Batravirus_terminase_Licheri_2020_european/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Batravirus_terminase_Licheri_2020_european.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Batravirus_terminase_Licheri_2020_european.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

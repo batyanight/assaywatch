@@ -57,13 +57,13 @@ Every value behind the call, so you can redo it by hand:
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
 | recent window (24 months, from Nov 2024) | 3 | 3 | 100.0% | 43.9% – 100.0% |
-| baseline (everything earlier) | 11 | 11 | 100.0% | 74.1% – 100.0% |
+| baseline (everything earlier) | 10 | 10 | 100.0% | 72.2% – 100.0% |
 
-Change from baseline, Newcombe interval: **-56.1% to 25.9%**. Threshold: **90.0%**.
+Change from baseline, Newcombe interval: **-56.1% to 27.8%**. Threshold: **90.0%**.
 
 *3 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (44%-100%), too wide to act on*
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -84,12 +84,12 @@ A retrieval query is a claim about which records the assay is tested against, an
 
 ## Predicted detection by deposit year
 
-**all 14 evaluable records**, deposited between 1993 and 2024, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
+**all 13 evaluable records**, deposited between 1993 and 2024, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
 
 
 ## Records reaching the statistics
 
-46 records were screened for this assay and **14 (30%)** were evaluable, meaning both primers landed in the right orientation and size range. 32 produced no amplicon at all.
+45 records were screened for this assay and **13 (29%)** were evaluable, meaning both primers landed in the right orientation and size range. 32 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
@@ -109,12 +109,12 @@ assay changing. The dashed line on the chart above recomputes each year on the w
 period's mix: where the two lines part, what got sequenced changed, not what the assay
 detects.
 
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 1993 to 2024."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>1993 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>1995 — C. pneumoniae: 2 of 2 records (100%), 2 detected</title><rect x="73.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>1997 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="116.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>1999 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="159.1" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2000 — other: 1 of 1 records (100%), 1 detected</title><rect x="180.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2003 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="244.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2004 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="265.9" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2006 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="308.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2008 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="351.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2009 — other: 1 of 1 records (100%), 1 detected</title><rect x="372.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2024 — C. pneumoniae: 5 of 5 records (100%), 5 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">1993</text><text class="aw-tick" x="129.4" y="117">1997</text><text class="aw-tick" x="214.8" y="117">2001</text><text class="aw-tick" x="300.3" y="117">2005</text><text class="aw-tick" x="385.7" y="117">2009</text><text class="aw-tick" x="471.1" y="117">2013</text><text class="aw-tick" x="556.5" y="117">2017</text><text class="aw-tick" x="641.9" y="117">2021</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 1993 to 2024."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>1993 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>1995 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="73.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>1997 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="116.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>1999 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="159.1" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2000 — other: 1 of 1 records (100%), 1 detected</title><rect x="180.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2003 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="244.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2004 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="265.9" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2006 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="308.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2008 — C. pneumoniae: 1 of 1 records (100%), 1 detected</title><rect x="351.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2009 — other: 1 of 1 records (100%), 1 detected</title><rect x="372.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2024 — C. pneumoniae: 3 of 3 records (100%), 3 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">1993</text><text class="aw-tick" x="129.4" y="117">1997</text><text class="aw-tick" x="214.8" y="117">2001</text><text class="aw-tick" x="300.3" y="117">2005</text><text class="aw-tick" x="385.7" y="117">2009</text><text class="aw-tick" x="471.1" y="117">2013</text><text class="aw-tick" x="556.5" y="117">2017</text><text class="aw-tick" x="641.9" y="117">2021</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
 
 | Lineage | Records | Share | New since design | Species | Also in the titles |
 |---|---|---|---|---|---|
-| other | 2 | 12% |  | Chlamydia pneumoniae 2 | Chlamydophila, AR39, LPCoLN |
-| C. pneumoniae | 14 | 88% |  | Chlamydia pneumoniae 14 | Chlamydia, TW-183 |
+| other | 2 | 15% |  | Chlamydia pneumoniae 2 | AR39, LPCoLN |
+| C. pneumoniae | 11 | 85% |  | Chlamydia pneumoniae 11 | Chlamydia |
 
 Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2018 0%, 2020 14%, 2021 0%, 2022 24%, 2023 0%, 2024 42%, 2025 40%, 2026 0% (best year 100%). A low share is a fact about the query, not about the taxon.
 
@@ -135,7 +135,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Chlamydia_pneumoniae_16S_Messmer_1997_round2%3A%20&body=Entry%3A%20Chlamydia_pneumoniae_16S_Messmer_1997_round2%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Chlamydia_pneumoniae_16S_Messmer_1997_round2/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Chlamydia_pneumoniae_16S_Messmer_1997_round2%3A%20&body=Entry%3A%20Chlamydia_pneumoniae_16S_Messmer_1997_round2%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Chlamydia_pneumoniae_16S_Messmer_1997_round2/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Chlamydia_pneumoniae_16S_Messmer_1997_round2.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Chlamydia_pneumoniae_16S_Messmer_1997_round2.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

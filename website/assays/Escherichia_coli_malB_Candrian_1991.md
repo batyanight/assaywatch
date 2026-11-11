@@ -11,6 +11,8 @@
 
 **Escherichia coli — malB promoter region (Candrian 1991)**
 
+Conventional PCR of a 595 bp malB-region fragment, read by gel, EcoRI digestion and hybridization. Designed to identify E. coli, pathogenic or not, because biochemical typing is unreliable.
+
 | | |
 |---|---|
 | Target | Escherichia coli (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=562" title="Escherichia coli">taxid 562</a>) |
@@ -60,16 +62,16 @@ Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 28 | 45 | 62.2% | 47.6% – 74.9% |
-| baseline (everything earlier) | 206 | 281 | 73.3% | 67.8% – 78.1% |
+| recent window (24 months, from Nov 2024) | 27 | 44 | 61.4% | 46.6% – 74.3% |
+| baseline (everything earlier) | 207 | 282 | 73.4% | 68.0% – 78.2% |
 
-Change from baseline, Newcombe interval: **-26.5% to 2.7%**. Threshold: **90.0%**.
+Change from baseline, Newcombe interval: **-27.5% to 2.0%**. Threshold: **90.0%**.
 
-*pooled share 62.2% has low coverage, but lineage unresolved (45 records) detects 62.2% (47.6%-74.9%), down from 73.2% on 280 earlier records; lineage verdict overrides to declining*
+*pooled share 61.4% has low coverage, but lineage unresolved (44 records) detects 61.4% (46.6%-74.3%), down from 73.3% on 281 earlier records; lineage verdict overrides to declining*
 
 Trend across deposit years: by record falling (p = 0.00206, 24 years); by footprint falling (p = 0.159). Reported for context; it is not an input to the verdict.
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -93,7 +95,7 @@ Disclosures on this entry: `orientation_inferred`.
 
 ## By lineage
 
-Only one lineage has enough records to report here: **unresolved** (28 of 45 detected, 62.2%, 95% interval 47.6–74.9%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
+Only one lineage has enough records to report here: **unresolved** (27 of 44 detected, 61.4%, 95% interval 46.6–74.3%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
 
 ## Predicted detection by deposit year
 
@@ -113,8 +115,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 | why a record was not evaluable | records |
 |---|---|
-| `no_site` | 73 |
-| `truncated` | 2 |
+| `no_site` | 75 |
 
 ## What was deposited, by lineage
 
@@ -136,7 +137,7 @@ detects.
 Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 0%, 2020 0%, 2021 0%, 2022 0%, 2023 0%, 2024 0%, 2025 0%, 2026 0% (best year 0%). A low share is a fact about the query, not about the taxon.
 
 Between the baseline and the recent window the detected share went
-73.3% to 62.2%, a change of -0.111. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **-0.111 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
+73.4% to 61.4%, a change of -0.120. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **-0.120 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
 
 
 ## Curation record
@@ -152,7 +153,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Escherichia_coli_malB_Candrian_1991%3A%20&body=Entry%3A%20Escherichia_coli_malB_Candrian_1991%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Escherichia_coli_malB_Candrian_1991/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Escherichia_coli_malB_Candrian_1991%3A%20&body=Entry%3A%20Escherichia_coli_malB_Candrian_1991%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Escherichia_coli_malB_Candrian_1991/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Escherichia_coli_malB_Candrian_1991.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Escherichia_coli_malB_Candrian_1991.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

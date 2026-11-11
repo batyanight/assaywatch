@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 200 bp |
 | Registry status | active |
-| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 
@@ -46,24 +46,26 @@ as the fall in detection between records that differ there and records that do n
 Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
 bar is a position that matters.
 
-<p class="aw-empty">No position carried a mismatch in enough records to report.</p>
+<p class="aw-empty">No position carried a mismatch in enough records to report. 1 of the 5 records in the recent and baseline windows were not detected. Their mismatches are either spread too thinly to report at any one position, or the record has no site for an oligo (for example no probe site inside the amplicon), which leaves no position to draw.</p>
 
 ## Verdict
 
-**no recent data** — no deposits within the window
+**insufficient data** — too few evaluable records to support an estimate; reported, never flagged
 
 Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 0 | 0 | — | 0.0% – 100.0% |
-| baseline (everything earlier) | 8 | 8 | 100.0% | 67.6% – 100.0% |
+| recent window (24 months, from Nov 2024) | 0 | 1 | 0.0% | 0.0% – 79.3% |
+| baseline (everything earlier) | 4 | 4 | 100.0% | 51.0% – 100.0% |
 
-Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.0%**.
+Change from baseline, Newcombe interval: **-100.0% to -6.7%**. Threshold: **90.0%**.
 
-*no evaluable records deposited since Nov 2024*
+*1 evaluable records since Nov 2024, below the minimum of 15; the detected share is 0% (0%-79%), too wide to act on*
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+Trend across deposit years: by record falling (p = 0.109, 4 years); by footprint falling (p = 0.109). Reported for context; it is not an input to the verdict.
+
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -88,12 +90,17 @@ Disclosures on this entry: `scope_wider_than_paper_tested`.
 
 ## Predicted detection by deposit year
 
-**all 8 evaluable records**, deposited between 2006 and 2019, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2006 to 2025, against a 90 percent threshold."><rect class="aw-window" x="706.0" y="12.0" width="0.0" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 427.3,20.2 462.1,20.2 706.0,183.8"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-insufficient-data" points="44.0,20.2 427.3,20.2 462.1,20.2 706.0,183.8"/><g class="aw-point aw-insufficient-data"><title>2006: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2017: 1 of 1 detected (100.0%)</title><circle cx="427.3" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2018: 1 of 1 detected (100.0%)</title><circle cx="462.1" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2025: 0 of 1 detected (0.0%) — recent window</title><circle cx="706.0" cy="183.8" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">2006</text><text class="aw-tick" x="148.5" y="208">2009</text><text class="aw-tick" x="253.1" y="208">2012</text><text class="aw-tick" x="357.6" y="208">2015</text><text class="aw-tick" x="462.1" y="208">2018</text><text class="aw-tick" x="566.6" y="208">2021</text><text class="aw-tick" x="671.2" y="208">2024</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
 
 ## Records reaching the statistics
 
-8 records were screened for this assay and **8 (100%)** were evaluable, meaning both primers landed in the right orientation and size range. 0 produced no amplicon at all.
+5 records were screened for this assay and **5 (100%)** were evaluable, meaning both primers landed in the right orientation and size range. 0 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
@@ -108,13 +115,14 @@ assay changing. The dashed line on the chart above recomputes each year on the w
 period's mix: where the two lines part, what got sequenced changed, not what the assay
 detects.
 
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2006 to 2019."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2006 — other: 4 of 4 records (100%), 4 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2017 — other: 2 of 2 records (100%), 2 detected</title><rect x="591.2" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2018 — other: 1 of 1 records (100%), 1 detected</title><rect x="642.1" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2019 — other: 1 of 1 records (100%), 1 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><text class="aw-tick" x="44.0" y="117">2006</text><text class="aw-tick" x="145.8" y="117">2008</text><text class="aw-tick" x="247.7" y="117">2010</text><text class="aw-tick" x="349.5" y="117">2012</text><text class="aw-tick" x="451.4" y="117">2014</text><text class="aw-tick" x="553.2" y="117">2016</text><text class="aw-tick" x="655.1" y="117">2018</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2006 to 2025."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2006 — other: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2017 — other: 1 of 1 records (100%), 1 detected</title><rect x="414.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2018 — other: 1 of 1 records (100%), 1 detected</title><rect x="449.1" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2025 — other: 1 of 1 records (100%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><text class="aw-tick" x="44.0" y="117">2006</text><text class="aw-tick" x="148.5" y="117">2009</text><text class="aw-tick" x="253.1" y="117">2012</text><text class="aw-tick" x="357.6" y="117">2015</text><text class="aw-tick" x="462.1" y="117">2018</text><text class="aw-tick" x="566.6" y="117">2021</text><text class="aw-tick" x="671.2" y="117">2024</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
 
 | Lineage | Records | Share | New since design | Species | Also in the titles |
 |---|---|---|---|---|---|
-| other | 8 | 100% |  | Batravirus ranidallo1 2, Batravirus ranidallo2 2, Batravirus ranidallo3 2 | -- |
+| other | 5 | 100% |  | Batravirus ranidallo1 1, Batravirus ranidallo2 1, Batravirus ranidallo3 1 | -- |
 
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2006 100%, 2017 100%, 2018 50%, 2019 100%, 2021 0%, 2025 0% (best year 100%). A low share is a fact about the query, not about the taxon.
+Between the baseline and the recent window the detected share went
+100.0% to 0.0%, a change of -1.000. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **-1.000 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
 
 
 ## Curation record
@@ -130,7 +138,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Batravirus_terminase_Licheri_2020_pan%3A%20&body=Entry%3A%20Batravirus_terminase_Licheri_2020_pan%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Batravirus_terminase_Licheri_2020_pan/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Batravirus_terminase_Licheri_2020_pan%3A%20&body=Entry%3A%20Batravirus_terminase_Licheri_2020_pan%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Batravirus_terminase_Licheri_2020_pan/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Batravirus_terminase_Licheri_2020_pan.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Batravirus_terminase_Licheri_2020_pan.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

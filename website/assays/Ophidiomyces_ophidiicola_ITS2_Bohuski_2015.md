@@ -66,7 +66,7 @@ Change from baseline, Newcombe interval: **-69.4% to -7.4%**. Threshold: **90.0%
 
 Trend across deposit years: by record falling (p = 0.00964, 8 years); by footprint falling (p = 0.105). Reported for context; it is not an input to the verdict.
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -145,7 +145,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Ophidiomyces_ophidiicola_ITS2_Bohuski_2015%3A%20&body=Entry%3A%20Ophidiomyces_ophidiicola_ITS2_Bohuski_2015%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Ophidiomyces_ophidiicola_ITS2_Bohuski_2015/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Ophidiomyces_ophidiicola_ITS2_Bohuski_2015%3A%20&body=Entry%3A%20Ophidiomyces_ophidiicola_ITS2_Bohuski_2015%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Ophidiomyces_ophidiicola_ITS2_Bohuski_2015/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Ophidiomyces_ophidiicola_ITS2_Bohuski_2015.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Ophidiomyces_ophidiicola_ITS2_Bohuski_2015.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

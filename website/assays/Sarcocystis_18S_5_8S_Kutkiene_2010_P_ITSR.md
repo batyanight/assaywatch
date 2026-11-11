@@ -99,7 +99,7 @@ Change from baseline, Newcombe interval: **-43.9% to -5.3%**. Threshold: **90.0%
 
 Trend across deposit years: by record falling (p = 0.00152, 11 years); by footprint falling (p = 0.0598). Reported for context; it is not an input to the verdict.
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -122,14 +122,14 @@ and 100% of three thousand are very different claims.
 
 ## Records reaching the statistics
 
-30,875 records were screened for this assay and **169 (1%)** were evaluable, meaning both primers landed in the right orientation and size range. 30,706 produced no amplicon at all.
+30,934 records were screened for this assay and **169 (1%)** were evaluable, meaning both primers landed in the right orientation and size range. 30,765 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|
-| `no_site` | 29,169 |
-| `truncated` | 1,365 |
+| `no_site` | 29,217 |
+| `truncated` | 1,376 |
 | `chance_anchor` | 137 |
 | `chance_only` | 35 |
 
@@ -183,7 +183,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR%3A%20&body=Entry%3A%20Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR%3A%20&body=Entry%3A%20Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

@@ -11,6 +11,8 @@
 
 **West Nile virus — E (envelope) (Lanciotti 2001)**
 
+Two primers for NASBA (isothermal RNA amplification) of a 162 bp piece of the West Nile virus envelope gene, each with a non-templated tail (T7 promoter on the reverse, a capture sequence on the forward). Designed with the NASBA kit manual's guidelines so a molecular beacon or ECL probe can read the product in under an hour.
+
 | | |
 |---|---|
 | Target | West Nile virus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11082">taxid 11082</a>) |
@@ -63,7 +65,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=West_Nile_virus_E_Lanciotti_2001%3A%20&body=Entry%3A%20West_Nile_virus_E_Lanciotti_2001%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/West_Nile_virus_E_Lanciotti_2001/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=West_Nile_virus_E_Lanciotti_2001%3A%20&body=Entry%3A%20West_Nile_virus_E_Lanciotti_2001%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/West_Nile_virus_E_Lanciotti_2001/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/West_Nile_virus_E_Lanciotti_2001.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/West_Nile_virus_E_Lanciotti_2001.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

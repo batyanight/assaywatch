@@ -64,7 +64,7 @@ Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.
 
 *no evaluable records deposited since Nov 2024*
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -90,13 +90,9 @@ A retrieval query is a claim about which records the assay is tested against, an
 
 ## Records reaching the statistics
 
-196 records were screened for this assay and **11 (6%)** were evaluable, meaning both primers landed in the right orientation and size range. 185 produced no amplicon at all.
+11 records were screened for this assay and **11 (100%)** were evaluable, meaning both primers landed in the right orientation and size range. 0 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
-
-| why a record was not evaluable | records |
-|---|---|
-| `no_site` | 185 |
 
 ## What was deposited, by lineage
 
@@ -115,8 +111,6 @@ detects.
 |---|---|---|---|---|---|
 | O. ophidiicola | 11 | 100% |  | Ophidiomyces ophidiicola 11 | -- |
 
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2016 100%, 2017 21%, 2020 100%, 2021 33%, 2022 0%, 2023 12%, 2025 96%, 2026 83% (best year 100%). A low share is a fact about the query, not about the taxon.
-
 
 ## Curation record
 
@@ -131,7 +125,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Ophidiomyces_ophidiicola_IGS_Bohuski_2015%3A%20&body=Entry%3A%20Ophidiomyces_ophidiicola_IGS_Bohuski_2015%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Ophidiomyces_ophidiicola_IGS_Bohuski_2015/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Ophidiomyces_ophidiicola_IGS_Bohuski_2015%3A%20&body=Entry%3A%20Ophidiomyces_ophidiicola_IGS_Bohuski_2015%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Ophidiomyces_ophidiicola_IGS_Bohuski_2015/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Ophidiomyces_ophidiicola_IGS_Bohuski_2015.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Ophidiomyces_ophidiicola_IGS_Bohuski_2015.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

@@ -16,7 +16,7 @@
 | Target | Bornaviridae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=178830">taxid 178830</a>) |
 | Gene | N (nucleoprotein) |
 | Chemistry | conventional |
-| Amplicon | — |
+| Amplicon | 441 bp |
 | Registry status | draft |
 | Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
@@ -28,15 +28,14 @@
     tables below that do not depend on a verdict. The verdict is withheld on
     purpose, rather than shown with a caveat attached.
 
-    - **`oligo_sequence_uncertain`** — the printed BornaNestF matches 0 of 1,516 records, differing from every one at the 3'-terminal base; whether the 1994 scan is right has not been settled, and no verdict publishes until it is
-    - **`amplicon_size_unresolved`** — no product size is declared
+    - **`oligo_sequence_uncertain`** — the forward primer is our correction, because the printed form matches 0 of 1,517 records and mismatches every record with the site at its 3'-terminal base; nothing shows what the authors synthesized, so no verdict publishes
 
 
 ## Oligos
 
 | role | name | sequence (5'→3') | length |
 |---|---|---|---|
-| forward | BornaNestF | `GCCTTGTGTTTCTATCTTTC` | 20 nt |
+| forward | BornaNestF | `GCCTTGTGTTTCTATGTTTG` | 20 nt |
 | reverse | BornaNestR | `ATTCTTTACCTGGGGACTCA` | 20 nt |
 
 The paper prints BornaNestF as `GCCTTGTGTTTCTATCTTTC`. The sequence above is our correction, not the paper's, and it is why this page has no status.
@@ -54,15 +53,15 @@ The protocol declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/
 
 <a class="aw-download" href="../Bornaviridae_N_Zimmermann_1994_round2.scope.txt" download>Download 2 taxids as a text file</a>
 
-45 screened records fell outside the declared scope.
+114 screened records fell outside the declared scope.
 
-Disclosures on this entry: `nested_protocol`, `oligo_sequence_uncertain`, `amplicon_size_unresolved`, `orientation_inferred`.
+Disclosures on this entry: `nested_protocol`, `oligo_sequence_uncertain`, `amplicon_disagrees_with_paper`, `orientation_inferred`.
 
 <p class="aw-rounds-note">See each round of primers as an individual set, run directly on the protocol's own 165 recent records (round 1 gates the protocol figure above):</p>
 <table class="aw-rounds"><thead><tr><th>round</th><th>assay</th><th class="num">detected alone</th></tr></thead>
 <tbody>
 <tr><td>round 1</td><td><a href="../../assays/Bornaviridae_N_Zimmermann_1994_round1/"><span class="aw-id">Bornaviridae_N_Zimmermann_1994_round1</span></a></td><td class="num">100.0%</td></tr>
-<tr><td>round 2</td><td><a href="../../assays/Bornaviridae_N_Zimmermann_1994_round2/"><span class="aw-id">Bornaviridae_N_Zimmermann_1994_round2</span></a></td><td class="num">0.0%</td></tr>
+<tr><td>round 2</td><td><a href="../../assays/Bornaviridae_N_Zimmermann_1994_round2/"><span class="aw-id">Bornaviridae_N_Zimmermann_1994_round2</span></a></td><td class="num">100.0%</td></tr>
 </tbody></table>
 
 
@@ -79,7 +78,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Bornaviridae_N_Zimmermann_1994_round2%3A%20&body=Entry%3A%20Bornaviridae_N_Zimmermann_1994_round2%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Bornaviridae_N_Zimmermann_1994_round2/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Bornaviridae_N_Zimmermann_1994_round2%3A%20&body=Entry%3A%20Bornaviridae_N_Zimmermann_1994_round2%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Bornaviridae_N_Zimmermann_1994_round2/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Bornaviridae_N_Zimmermann_1994_round2.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Bornaviridae_N_Zimmermann_1994_round2.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

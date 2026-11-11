@@ -9,6 +9,8 @@
 
 <p class="aw-assay-line"><span class="aw-id">Escherichia_coli_LT_Victor_1991</span></p>
 
+**Note:** Almost nothing recent is scored here, and that is a fact about what gets deposited rather than about the assay. E. coli is among the most sequenced organisms there is, but the heat-labile enterotoxin genes are carried on a plasmid by one pathotype, and standalone gene records for them have nearly stopped appearing, so this assay has too few evaluable records in the recent window for a verdict. The recent records it does have come from whole genomes, which this project samples at 20 a year for each of a handful of heavily sequenced bacteria, and a genome counts here only if that strain happens to carry the plasmid. Filtering genome retrieval by pathotype would give this assay a real denominator; that is planned and not yet built.
+
 **Escherichia coli — LT (heat-labile enterotoxin) (Victor 1991)**
 
 | | |
@@ -69,7 +71,7 @@ Change from baseline, Newcombe interval: **-75.7% to 18.3%**. Threshold: **90.0%
 
 Trend across deposit years: by record rising (p = 0.312, 11 years); by footprint rising (p = 0.0817). Reported for context; it is not an input to the verdict.
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -149,7 +151,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Escherichia_coli_LT_Victor_1991%3A%20&body=Entry%3A%20Escherichia_coli_LT_Victor_1991%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Escherichia_coli_LT_Victor_1991/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Escherichia_coli_LT_Victor_1991%3A%20&body=Entry%3A%20Escherichia_coli_LT_Victor_1991%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Escherichia_coli_LT_Victor_1991/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Escherichia_coli_LT_Victor_1991.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Escherichia_coli_LT_Victor_1991.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

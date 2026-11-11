@@ -52,7 +52,7 @@ as the fall in detection between records that differ there and records that do n
 Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
 bar is a position that matters.
 
-<p class="aw-empty">No position carried a mismatch in enough records to report. 2 of the 1,074 records in the recent and baseline windows were not detected. Their mismatches are either spread too thinly to report at any one position, or the record has no site for an oligo (for example no probe site inside the amplicon), which leaves no position to draw.</p>
+<p class="aw-empty">No position carried a mismatch in enough records to report. 2 of the 1,061 records in the recent and baseline windows were not detected. Their mismatches are either spread too thinly to report at any one position, or the record has no site for an oligo (for example no probe site inside the amplicon), which leaves no position to draw.</p>
 
 ## Oligos
 
@@ -95,7 +95,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Mycobacterium_tuberculosis_complex_IS1081_Hermes_2018%3A%20&body=Entry%3A%20Mycobacterium_tuberculosis_complex_IS1081_Hermes_2018%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Mycobacterium_tuberculosis_complex_IS1081_Hermes_2018/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Mycobacterium_tuberculosis_complex_IS1081_Hermes_2018%3A%20&body=Entry%3A%20Mycobacterium_tuberculosis_complex_IS1081_Hermes_2018%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Mycobacterium_tuberculosis_complex_IS1081_Hermes_2018/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Mycobacterium_tuberculosis_complex_IS1081_Hermes_2018.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Mycobacterium_tuberculosis_complex_IS1081_Hermes_2018.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

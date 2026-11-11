@@ -57,13 +57,13 @@ Every value behind the call, so you can redo it by hand:
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
 | recent window (24 months, from Nov 2024) | 2 | 2 | 100.0% | 34.2% – 100.0% |
-| baseline (everything earlier) | 7 | 7 | 100.0% | 64.6% – 100.0% |
+| baseline (everything earlier) | 5 | 5 | 100.0% | 56.6% – 100.0% |
 
-Change from baseline, Newcombe interval: **-65.8% to 35.4%**. Threshold: **90.0%**.
+Change from baseline, Newcombe interval: **-65.8% to 43.4%**. Threshold: **90.0%**.
 
 *2 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on*
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -86,12 +86,12 @@ A retrieval query is a claim about which records the assay is tested against, an
 
 ## Predicted detection by deposit year
 
-**all 9 evaluable records**, deposited between 2008 and 2026, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
+**all 7 evaluable records**, deposited between 2008 and 2026, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
 
 
 ## Records reaching the statistics
 
-9 records were screened for this assay and **9 (100%)** were evaluable, meaning both primers landed in the right orientation and size range. 0 produced no amplicon at all.
+7 records were screened for this assay and **7 (100%)** were evaluable, meaning both primers landed in the right orientation and size range. 0 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
@@ -106,14 +106,14 @@ assay changing. The dashed line on the chart above recomputes each year on the w
 period's mix: where the two lines part, what got sequenced changed, not what the assay
 detects.
 
-*1 of 15 records unplaced (7%).*
+*1 of 13 records unplaced (8%).*
 
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2008 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2008 — other: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2014 — other: 1 of 1 records (100%), 1 detected</title><rect x="251.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2015 — other: 6 of 6 records (100%), 6 detected</title><rect x="288.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2017 — unplaced: 1 of 1 records (100%), 0 detected</title><rect x="362.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2020 — other: 1 of 1 records (100%), 1 detected</title><rect x="472.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2022 — other: 1 of 1 records (100%), 1 detected</title><rect x="545.9" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2023 — other: 1 of 1 records (100%), 1 detected</title><rect x="582.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2026 — other: 2 of 2 records (100%), 2 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><text class="aw-tick" x="44.0" y="117">2008</text><text class="aw-tick" x="154.3" y="117">2011</text><text class="aw-tick" x="264.7" y="117">2014</text><text class="aw-tick" x="375.0" y="117">2017</text><text class="aw-tick" x="485.3" y="117">2020</text><text class="aw-tick" x="595.7" y="117">2023</text><text class="aw-tick" x="706.0" y="117">2026</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2008 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2008 — other: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2014 — other: 1 of 1 records (100%), 1 detected</title><rect x="251.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2015 — other: 5 of 5 records (100%), 5 detected</title><rect x="288.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2017 — unplaced: 1 of 1 records (100%), 0 detected</title><rect x="362.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2020 — other: 1 of 1 records (100%), 1 detected</title><rect x="472.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2022 — other: 1 of 1 records (100%), 1 detected</title><rect x="545.9" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2026 — other: 2 of 2 records (100%), 2 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><text class="aw-tick" x="44.0" y="117">2008</text><text class="aw-tick" x="154.3" y="117">2011</text><text class="aw-tick" x="264.7" y="117">2014</text><text class="aw-tick" x="375.0" y="117">2017</text><text class="aw-tick" x="485.3" y="117">2020</text><text class="aw-tick" x="595.7" y="117">2023</text><text class="aw-tick" x="706.0" y="117">2026</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
 
 | Lineage | Records | Share | New since design | Species | Also in the titles |
 |---|---|---|---|---|---|
-| unplaced | 1 | 7% |  | Elephant endotheliotropic herpesvirus 4 1 | No.12 |
-| other | 14 | 93% |  | Elephant endotheliotropic herpesvirus 4 6, Elephant endotheliotropic herpesvirus 3 4, Proboscivirus elephantidbeta4 3 | American, North, U38, Proboscivirus, elephantidbeta4 |
+| unplaced | 1 | 8% |  | Elephant endotheliotropic herpesvirus 4 1 | No.12 |
+| other | 12 | 92% |  | Elephant endotheliotropic herpesvirus 4 5, Proboscivirus elephantidbeta3 4, Proboscivirus elephantidbeta4 3 | American, North, U38, Proboscivirus, elephantidbeta4 |
 
 Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 0%, 2020 1%, 2021 0%, 2022 2%, 2023 4%, 2024 0%, 2025 0%, 2026 7% (best year 50%). A low share is a fact about the query, not about the taxon.
 
@@ -142,7 +142,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round3%3A%20&body=Entry%3A%20Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round3%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round3/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round3%3A%20&body=Entry%3A%20Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round3%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round3/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round3.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round3.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

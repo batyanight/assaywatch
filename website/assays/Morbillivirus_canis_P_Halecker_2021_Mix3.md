@@ -36,44 +36,44 @@ the reason above, so it is not a verdict.
 ## Mismatch distribution
 
 <svg class="aw-track" viewBox="0 0 482 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">CDV4.1-F</text><rect class="aw-zone" x="359.4" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.4" y1="44.0" x2="434.4" y2="44.0"/><text class="aw-base" x="111.9" y="57">C</text><text class="aw-base" x="126.9" y="57">T</text><g class="aw-bar-weak"><title>forward position 20 from the 3&#x27; end, base G
-38 of 605 records differ here (6.3%)
+38 of 604 records differ here (6.3%)
 detected when it differs: 95% of 38
-detected when it does not: 93% of 567
+detected when it does not: 93% of 566
 substitutions: G&gt;A in 38
 outside the 3′ window</title><rect x="135.4" y="35.5" width="13.0" height="8.5"/></g><text class="aw-base" x="141.9" y="57">G</text><text class="aw-base" x="156.9" y="57">T</text><text class="aw-base" x="171.9" y="57">C</text><text class="aw-base" x="186.9" y="57">R</text><g class="aw-bar-strong"><title>forward position 16 from the 3&#x27; end, base G
-41 of 605 records differ here (6.8%)
+41 of 604 records differ here (6.8%)
 detected when it differs: 59% of 41
-detected when it does not: 96% of 564
+detected when it does not: 96% of 563
 substitutions: G&gt;A in 41
 outside the 3′ window</title><rect x="195.4" y="35.1" width="13.0" height="8.9"/></g><text class="aw-base" x="201.9" y="57">G</text><text class="aw-base" x="216.9" y="57">T</text><g class="aw-bar-weak"><title>forward position 14 from the 3&#x27; end, base A
-29 of 605 records differ here (4.8%)
+29 of 604 records differ here (4.8%)
 detected when it differs: 93% of 29
-detected when it does not: 93% of 576
+detected when it does not: 93% of 575
 substitutions: A&gt;G in 29
-outside the 3′ window</title><rect x="225.4" y="36.6" width="13.0" height="7.4"/></g><text class="aw-base" x="231.9" y="57">A</text><g class="aw-bar-strong"><title>forward position 13 from the 3&#x27; end, base A
-30 of 605 records differ here (5.0%)
+outside the 3′ window</title><rect x="225.4" y="36.5" width="13.0" height="7.5"/></g><text class="aw-base" x="231.9" y="57">A</text><g class="aw-bar-strong"><title>forward position 13 from the 3&#x27; end, base A
+30 of 604 records differ here (5.0%)
 detected when it differs: 47% of 30
-detected when it does not: 96% of 575
+detected when it does not: 96% of 574
 substitutions: A&gt;G in 30
 outside the 3′ window</title><rect x="240.4" y="36.4" width="13.0" height="7.6"/></g><text class="aw-base" x="246.9" y="57">A</text><text class="aw-base" x="261.9" y="57">T</text><text class="aw-base" x="276.9" y="57">C</text><text class="aw-base" x="291.9" y="57">G</text><text class="aw-base" x="306.9" y="57">A</text><text class="aw-base" x="321.9" y="57">G</text><text class="aw-base" x="336.9" y="57">R</text><text class="aw-base" x="351.9" y="57">A</text><g class="aw-bar-strong"><title>forward position 5 from the 3&#x27; end, base T
-44 of 605 records differ here (7.3%)
+44 of 604 records differ here (7.3%)
 detected when it differs: 57% of 44
-detected when it does not: 96% of 561
+detected when it does not: 96% of 560
 substitutions: T&gt;C in 43, T&gt;G in 1
 inside the 3′ window</title><rect x="360.4" y="34.8" width="13.0" height="9.2"/></g><text class="aw-base" x="366.9" y="57">T</text><text class="aw-base" x="381.9" y="57">T</text><text class="aw-base" x="396.9" y="57">C</text><text class="aw-base" x="411.9" y="57">G</text><text class="aw-base" x="426.9" y="57">A</text><text class="aw-tick" x="426.9" y="71">1</text><text class="aw-tick" x="366.9" y="71">5</text><text class="aw-tick" x="291.9" y="71">10</text><text class="aw-tick" x="216.9" y="71">15</text><text class="aw-tick" x="141.9" y="71">20</text><text class="aw-tick" x="111.9" y="71">22</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="438" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">CDV3-R</text><rect class="aw-zone" x="374.4" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.4" y1="126.0" x2="449.4" y2="126.0"/><g class="aw-bar-weak"><title>reverse position 23 from the 3&#x27; end, base G
-65 of 605 records differ here (10.7%)
+65 of 604 records differ here (10.8%)
 detected when it differs: 97% of 65
-detected when it does not: 93% of 540
+detected when it does not: 93% of 539
 substitutions: G&gt;A in 65
-outside the 3′ window</title><rect x="105.4" y="114.9" width="13.0" height="11.1"/></g><text class="aw-base" x="111.9" y="139">G</text><text class="aw-base" x="126.9" y="139">C</text><text class="aw-base" x="141.9" y="139">C</text><g class="aw-bar-mid"><title>reverse position 20 from the 3&#x27; end, base G
-44 of 605 records differ here (7.3%)
+outside the 3′ window</title><rect x="105.4" y="114.8" width="13.0" height="11.2"/></g><text class="aw-base" x="111.9" y="139">G</text><text class="aw-base" x="126.9" y="139">C</text><text class="aw-base" x="141.9" y="139">C</text><g class="aw-bar-mid"><title>reverse position 20 from the 3&#x27; end, base G
+44 of 604 records differ here (7.3%)
 detected when it differs: 82% of 44
-detected when it does not: 94% of 561
+detected when it does not: 94% of 560
 substitutions: G&gt;A in 43, G&gt;T in 1
 outside the 3′ window</title><rect x="150.4" y="116.8" width="13.0" height="9.2"/></g><text class="aw-base" x="156.9" y="139">G</text><text class="aw-base" x="171.9" y="139">A</text><text class="aw-base" x="186.9" y="139">A</text><text class="aw-base" x="201.9" y="139">A</text><text class="aw-base" x="216.9" y="139">G</text><text class="aw-base" x="231.9" y="139">A</text><text class="aw-base" x="246.9" y="139">A</text><text class="aw-base" x="261.9" y="139">T</text><text class="aw-base" x="276.9" y="139">A</text><text class="aw-base" x="291.9" y="139">T</text><text class="aw-base" x="306.9" y="139">C</text><text class="aw-base" x="321.9" y="139">C</text><text class="aw-base" x="336.9" y="139">C</text><text class="aw-base" x="351.9" y="139">C</text><text class="aw-base" x="366.9" y="139">A</text><text class="aw-base" x="381.9" y="139">G</text><text class="aw-base" x="396.9" y="139">T</text><text class="aw-base" x="411.9" y="139">T</text><text class="aw-base" x="426.9" y="139">A</text><text class="aw-base" x="441.9" y="139">G</text><text class="aw-tick" x="441.9" y="153">1</text><text class="aw-tick" x="381.9" y="153">5</text><text class="aw-tick" x="306.9" y="153">10</text><text class="aw-tick" x="231.9" y="153">15</text><text class="aw-tick" x="156.9" y="153">20</text><text class="aw-tick" x="111.9" y="153">23</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="453" y="139">3′</text><text class="aw-track-label" x="74" y="216">probe</text><text class="aw-track-name" x="74" y="228">CD3.1-FAMas</text><rect class="aw-zone" x="224.4" y="174.0" width="120.0" height="52.0"/><line class="aw-axis" x1="104.4" y1="208.0" x2="464.4" y2="208.0"/><text class="aw-base" x="111.9" y="221">A</text><text class="aw-base" x="126.9" y="221">T</text><text class="aw-base" x="141.9" y="221">C</text><text class="aw-base" x="156.9" y="221">T</text><text class="aw-base" x="171.9" y="221">T</text><text class="aw-base" x="186.9" y="221">C</text><text class="aw-base" x="201.9" y="221">G</text><text class="aw-base" x="216.9" y="221">C</text><g class="aw-bar-strong"><title>probe position 16 from the 3&#x27; end, base C
-20 of 605 records differ here (3.3%)
+20 of 604 records differ here (3.3%)
 detected when it differs: 0% of 20
-detected when it does not: 96% of 585
+detected when it does not: 96% of 584
 substitutions: C&gt;T in 20
 in the central third</title><rect x="225.4" y="201.8" width="13.0" height="6.2"/></g><text class="aw-base" x="231.9" y="221">C</text><text class="aw-base" x="246.9" y="221">A</text><text class="aw-base" x="261.9" y="221">G</text><text class="aw-base" x="276.9" y="221">A</text><text class="aw-base" x="291.9" y="221">R</text><text class="aw-base" x="306.9" y="221">T</text><text class="aw-base" x="321.9" y="221">C</text><text class="aw-base" x="336.9" y="221">Y</text><text class="aw-base" x="351.9" y="221">T</text><text class="aw-base" x="366.9" y="221">C</text><text class="aw-base" x="381.9" y="221">A</text><text class="aw-base" x="396.9" y="221">G</text><text class="aw-base" x="411.9" y="221">T</text><text class="aw-base" x="426.9" y="221">G</text><text class="aw-base" x="441.9" y="221">C</text><text class="aw-base" x="456.9" y="221">T</text><text class="aw-tick" x="456.9" y="235">1</text><text class="aw-tick" x="396.9" y="235">5</text><text class="aw-tick" x="321.9" y="235">10</text><text class="aw-tick" x="246.9" y="235">15</text><text class="aw-tick" x="171.9" y="235">20</text><text class="aw-tick" x="111.9" y="235">24</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="468" y="221">3′</text></svg>
 
@@ -126,7 +126,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Morbillivirus_canis_P_Halecker_2021_Mix3%3A%20&body=Entry%3A%20Morbillivirus_canis_P_Halecker_2021_Mix3%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Morbillivirus_canis_P_Halecker_2021_Mix3/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Morbillivirus_canis_P_Halecker_2021_Mix3%3A%20&body=Entry%3A%20Morbillivirus_canis_P_Halecker_2021_Mix3%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Morbillivirus_canis_P_Halecker_2021_Mix3/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Morbillivirus_canis_P_Halecker_2021_Mix3.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Morbillivirus_canis_P_Halecker_2021_Mix3.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

@@ -36,34 +36,34 @@ the reason above, so it is not a verdict.
 ## Mismatch distribution
 
 <svg class="aw-track" viewBox="0 0 649 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="136" y="52">forward</text><text class="aw-track-name" x="136" y="64">Ortho(SimbuF152)</text><rect class="aw-zone" x="556.4" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="166.4" y1="44.0" x2="631.4" y2="44.0"/><text class="aw-base" x="173.9" y="57">T</text><text class="aw-base" x="188.9" y="57">A</text><text class="aw-base" x="203.9" y="57">G</text><text class="aw-base" x="218.9" y="57">A</text><text class="aw-base" x="233.9" y="57">G</text><text class="aw-base" x="248.9" y="57">T</text><text class="aw-base" x="263.9" y="57">C</text><text class="aw-base" x="278.9" y="57">T</text><text class="aw-base" x="293.9" y="57">T</text><text class="aw-base" x="308.9" y="57">C</text><text class="aw-base" x="323.9" y="57">T</text><text class="aw-base" x="338.9" y="57">T</text><text class="aw-base" x="353.9" y="57">C</text><text class="aw-base" x="368.9" y="57">C</text><text class="aw-base" x="383.9" y="57">T</text><text class="aw-base" x="398.9" y="57">C</text><text class="aw-base" x="413.9" y="57">A</text><text class="aw-base" x="428.9" y="57">A</text><text class="aw-base" x="443.9" y="57">Y</text><text class="aw-base" x="458.9" y="57">C</text><text class="aw-base" x="473.9" y="57">A</text><text class="aw-base" x="488.9" y="57">G</text><text class="aw-base" x="503.9" y="57">A</text><text class="aw-base" x="518.9" y="57">A</text><text class="aw-base" x="533.9" y="57">G</text><text class="aw-base" x="548.9" y="57">A</text><text class="aw-base" x="563.9" y="57">A</text><text class="aw-base" x="578.9" y="57">G</text><text class="aw-base" x="593.9" y="57">G</text><text class="aw-base" x="608.9" y="57">C</text><text class="aw-base" x="623.9" y="57">C</text><text class="aw-tick" x="623.9" y="71">1</text><text class="aw-tick" x="563.9" y="71">5</text><text class="aw-tick" x="488.9" y="71">10</text><text class="aw-tick" x="413.9" y="71">15</text><text class="aw-tick" x="338.9" y="71">20</text><text class="aw-tick" x="263.9" y="71">25</text><text class="aw-tick" x="188.9" y="71">30</text><text class="aw-tick" x="173.9" y="71">31</text><text class="aw-end" x="162" y="57">5′</text><text class="aw-end aw-end-3" x="635" y="57">3′</text><text class="aw-track-label" x="136" y="134">reverse</text><text class="aw-track-name" x="136" y="146">Ortho(SimbuR304)</text><rect class="aw-zone" x="511.4" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="166.4" y1="126.0" x2="586.4" y2="126.0"/><text class="aw-base" x="173.9" y="139">G</text><text class="aw-base" x="188.9" y="139">T</text><g class="aw-bar-weak"><title>reverse position 26 from the 3&#x27; end, base Y
-335 of 335 records differ here (100.0%)
-detected when it differs: 0% of 335
+336 of 336 records differ here (100.0%)
+detected when it differs: 0% of 336
 detected when it does not: 0% of 0
-substitutions: Y&gt;A in 259, Y&gt;G in 76
+substitutions: Y&gt;A in 261, Y&gt;G in 75
 outside the 3′ window</title><rect x="197.4" y="92.0" width="13.0" height="34.0"/></g><text class="aw-base" x="203.9" y="139">Y</text><text class="aw-base" x="218.9" y="139">A</text><g class="aw-bar-weak"><title>reverse position 24 from the 3&#x27; end, base M
-265 of 335 records differ here (79.1%)
-detected when it differs: 0% of 265
+266 of 336 records differ here (79.2%)
+detected when it differs: 0% of 266
 detected when it does not: 0% of 70
-substitutions: M&gt;T in 194, M&gt;G in 71
-outside the 3′ window</title><rect x="227.4" y="95.8" width="13.0" height="30.2"/></g><text class="aw-base" x="233.9" y="139">M</text><text class="aw-base" x="248.9" y="139">G</text><text class="aw-base" x="263.9" y="139">G</text><text class="aw-base" x="278.9" y="139">C</text><text class="aw-base" x="293.9" y="139">A</text><g class="aw-bar-strong"><title>reverse position 19 from the 3&#x27; end, base M
-334 of 335 records differ here (99.7%)
-detected when it differs: 0% of 334
+substitutions: M&gt;T in 196, M&gt;G in 70
+outside the 3′ window</title><rect x="227.4" y="95.7" width="13.0" height="30.3"/></g><text class="aw-base" x="233.9" y="139">M</text><text class="aw-base" x="248.9" y="139">G</text><text class="aw-base" x="263.9" y="139">G</text><text class="aw-base" x="278.9" y="139">C</text><text class="aw-base" x="293.9" y="139">A</text><g class="aw-bar-strong"><title>reverse position 19 from the 3&#x27; end, base M
+335 of 336 records differ here (99.7%)
+detected when it differs: 0% of 335
 detected when it does not: 100% of 1
-substitutions: M&gt;T in 196, M&gt;G in 138
+substitutions: M&gt;T in 198, M&gt;G in 137
 outside the 3′ window</title><rect x="302.4" y="92.1" width="13.0" height="33.9"/></g><text class="aw-base" x="308.9" y="139">M</text><text class="aw-base" x="323.9" y="139">T</text><text class="aw-base" x="338.9" y="139">G</text><text class="aw-base" x="353.9" y="139">T</text><text class="aw-base" x="368.9" y="139">C</text><text class="aw-base" x="383.9" y="139">T</text><text class="aw-base" x="398.9" y="139">G</text><g class="aw-bar-weak"><title>reverse position 12 from the 3&#x27; end, base G
-70 of 335 records differ here (20.9%)
+70 of 336 records differ here (20.8%)
 detected when it differs: 0% of 70
-detected when it does not: 0% of 265
+detected when it does not: 0% of 266
 substitutions: G&gt;A in 70
 outside the 3′ window</title><rect x="407.4" y="110.5" width="13.0" height="15.5"/></g><text class="aw-base" x="413.9" y="139">G</text><text class="aw-base" x="428.9" y="139">C</text><text class="aw-base" x="443.9" y="139">A</text><text class="aw-base" x="458.9" y="139">C</text><g class="aw-bar-weak"><title>reverse position 8 from the 3&#x27; end, base A
-72 of 335 records differ here (21.5%)
+72 of 336 records differ here (21.4%)
 detected when it differs: 0% of 72
-detected when it does not: 0% of 263
+detected when it does not: 0% of 264
 substitutions: A&gt;T in 41, A&gt;C in 31
-outside the 3′ window</title><rect x="467.4" y="110.2" width="13.0" height="15.8"/></g><text class="aw-base" x="473.9" y="139">A</text><text class="aw-base" x="488.9" y="139">G</text><text class="aw-base" x="503.9" y="139">G</text><g class="aw-bar-weak"><title>reverse position 5 from the 3&#x27; end, base A
-20 of 335 records differ here (6.0%)
+outside the 3′ window</title><rect x="467.4" y="110.3" width="13.0" height="15.7"/></g><text class="aw-base" x="473.9" y="139">A</text><text class="aw-base" x="488.9" y="139">G</text><text class="aw-base" x="503.9" y="139">G</text><g class="aw-bar-weak"><title>reverse position 5 from the 3&#x27; end, base A
+20 of 336 records differ here (6.0%)
 detected when it differs: 0% of 20
-detected when it does not: 0% of 315
+detected when it does not: 0% of 316
 substitutions: A&gt;G in 20
 inside the 3′ window</title><rect x="512.4" y="117.7" width="13.0" height="8.3"/></g><text class="aw-base" x="518.9" y="139">A</text><text class="aw-base" x="533.9" y="139">T</text><text class="aw-base" x="548.9" y="139">T</text><text class="aw-base" x="563.9" y="139">T</text><text class="aw-base" x="578.9" y="139">G</text><text class="aw-tick" x="578.9" y="153">1</text><text class="aw-tick" x="518.9" y="153">5</text><text class="aw-tick" x="443.9" y="153">10</text><text class="aw-tick" x="368.9" y="153">15</text><text class="aw-tick" x="293.9" y="153">20</text><text class="aw-tick" x="218.9" y="153">25</text><text class="aw-tick" x="173.9" y="153">28</text><text class="aw-end" x="162" y="139">5′</text><text class="aw-end aw-end-3" x="590" y="139">3′</text><text class="aw-track-label" x="136" y="216">probe</text><text class="aw-track-name" x="136" y="228">Ortho(Simbu-probe252)</text><rect class="aw-zone" x="256.4" y="174.0" width="105.0" height="52.0"/><line class="aw-axis" x1="166.4" y1="208.0" x2="451.4" y2="208.0"/><text class="aw-base" x="173.9" y="221">T</text><text class="aw-base" x="188.9" y="221">G</text><text class="aw-base" x="203.9" y="221">G</text><text class="aw-base" x="218.9" y="221">T</text><text class="aw-base" x="233.9" y="221">T</text><text class="aw-base" x="248.9" y="221">A</text><text class="aw-base" x="263.9" y="221">A</text><text class="aw-base" x="278.9" y="221">T</text><text class="aw-base" x="293.9" y="221">A</text><text class="aw-base" x="308.9" y="221">A</text><text class="aw-base" x="323.9" y="221">C</text><text class="aw-base" x="338.9" y="221">C</text><text class="aw-base" x="353.9" y="221">A</text><text class="aw-base" x="368.9" y="221">T</text><text class="aw-base" x="383.9" y="221">T</text><text class="aw-base" x="398.9" y="221">T</text><text class="aw-base" x="413.9" y="221">T</text><text class="aw-base" x="428.9" y="221">C</text><text class="aw-base" x="443.9" y="221">C</text><text class="aw-tick" x="443.9" y="235">1</text><text class="aw-tick" x="383.9" y="235">5</text><text class="aw-tick" x="308.9" y="235">10</text><text class="aw-tick" x="233.9" y="235">15</text><text class="aw-tick" x="173.9" y="235">19</text><text class="aw-end" x="162" y="221">5′</text><text class="aw-end aw-end-3" x="455" y="221">3′</text></svg>
 
@@ -124,7 +124,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Orthobunyavirus_S_Steyn_2020%3A%20&body=Entry%3A%20Orthobunyavirus_S_Steyn_2020%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Orthobunyavirus_S_Steyn_2020/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Orthobunyavirus_S_Steyn_2020%3A%20&body=Entry%3A%20Orthobunyavirus_S_Steyn_2020%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Orthobunyavirus_S_Steyn_2020/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Orthobunyavirus_S_Steyn_2020.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Orthobunyavirus_S_Steyn_2020.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

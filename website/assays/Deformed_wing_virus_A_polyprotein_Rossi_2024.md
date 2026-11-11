@@ -11,6 +11,8 @@
 
 **Deformed wing virus A — polyprotein (Rossi 2024)**
 
+One-step RT-qPCR with a hydrolysis (MGB or BHQ) probe, redesigned from earlier honeybee virus tests so the primers and probe match more published sequences of the virus. It was built for duplex use (ABPV/BQCV, DWVA/DWVB, CBPV/SBV) with an exogenous extraction control. Polyprotein gene; forward primer and probe new, reverse primer from Kevill et al.
+
 | | |
 |---|---|
 | Target | Deformed wing virus A (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=198112">taxid 198112</a>) |
@@ -30,17 +32,107 @@
 
 ## Mismatch distribution
 
-<svg class="aw-track" viewBox="0 0 437 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">DWVAF</text><rect class="aw-zone" x="344.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="419.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">C</text><text class="aw-base" x="126.5" y="57">T</text><text class="aw-base" x="141.5" y="57">T</text><text class="aw-base" x="156.5" y="57">T</text><text class="aw-base" x="171.5" y="57">G</text><text class="aw-base" x="186.5" y="57">T</text><text class="aw-base" x="201.5" y="57">C</text><text class="aw-base" x="216.5" y="57">T</text><text class="aw-base" x="231.5" y="57">T</text><text class="aw-base" x="246.5" y="57">C</text><text class="aw-base" x="261.5" y="57">A</text><text class="aw-base" x="276.5" y="57">T</text><text class="aw-base" x="291.5" y="57">T</text><text class="aw-base" x="306.5" y="57">A</text><text class="aw-base" x="321.5" y="57">A</text><text class="aw-base" x="336.5" y="57">A</text><text class="aw-base" x="351.5" y="57">G</text><text class="aw-base" x="366.5" y="57">C</text><text class="aw-base" x="381.5" y="57">C</text><text class="aw-base" x="396.5" y="57">A</text><text class="aw-base" x="411.5" y="57">C</text><text class="aw-tick" x="411.5" y="71">1</text><text class="aw-tick" x="351.5" y="71">5</text><text class="aw-tick" x="276.5" y="71">10</text><text class="aw-tick" x="201.5" y="71">15</text><text class="aw-tick" x="126.5" y="71">20</text><text class="aw-tick" x="111.5" y="71">21</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="423" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">DWVAR</text><rect class="aw-zone" x="344.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="419.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">C</text><text class="aw-base" x="126.5" y="139">T</text><text class="aw-base" x="141.5" y="139">C</text><text class="aw-base" x="156.5" y="139">A</text><text class="aw-base" x="171.5" y="139">T</text><text class="aw-base" x="186.5" y="139">T</text><text class="aw-base" x="201.5" y="139">A</text><text class="aw-base" x="216.5" y="139">A</text><text class="aw-base" x="231.5" y="139">C</text><text class="aw-base" x="246.5" y="139">T</text><text class="aw-base" x="261.5" y="139">G</text><text class="aw-base" x="276.5" y="139">T</text><text class="aw-base" x="291.5" y="139">G</text><text class="aw-base" x="306.5" y="139">T</text><g class="aw-bar-strong"><title>reverse position 7 from the 3&#x27; end, base C
-29 of 87 records differ here (33.3%)
-detected when it differs: 21% of 29
-detected when it does not: 90% of 58
-substitutions: C&gt;T in 29
-outside the 3′ window</title><rect x="315.0" y="106.4" width="13.0" height="19.6"/></g><text class="aw-base" x="321.5" y="139">C</text><text class="aw-base" x="336.5" y="139">G</text><text class="aw-base" x="351.5" y="139">T</text><g class="aw-bar-strong"><title>reverse position 4 from the 3&#x27; end, base T
-25 of 87 records differ here (28.7%)
-detected when it differs: 16% of 25
-detected when it does not: 87% of 62
-substitutions: T&gt;C in 25
-inside the 3′ window</title><rect x="360.0" y="107.8" width="13.0" height="18.2"/></g><text class="aw-base" x="366.5" y="139">T</text><text class="aw-base" x="381.5" y="139">G</text><text class="aw-base" x="396.5" y="139">A</text><text class="aw-base" x="411.5" y="139">T</text><text class="aw-tick" x="411.5" y="153">1</text><text class="aw-tick" x="351.5" y="153">5</text><text class="aw-tick" x="276.5" y="153">10</text><text class="aw-tick" x="201.5" y="153">15</text><text class="aw-tick" x="126.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">21</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="423" y="139">3′</text><text class="aw-track-label" x="74" y="216">probe</text><text class="aw-track-name" x="74" y="228">DWVAP</text><rect class="aw-zone" x="179.0" y="174.0" width="90.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="208.0" x2="344.0" y2="208.0"/><text class="aw-base" x="111.5" y="221">T</text><text class="aw-base" x="126.5" y="221">G</text><text class="aw-base" x="141.5" y="221">C</text><text class="aw-base" x="156.5" y="221">G</text><text class="aw-base" x="171.5" y="221">T</text><text class="aw-base" x="186.5" y="221">G</text><text class="aw-base" x="201.5" y="221">G</text><text class="aw-base" x="216.5" y="221">A</text><text class="aw-base" x="231.5" y="221">A</text><text class="aw-base" x="246.5" y="221">T</text><text class="aw-base" x="261.5" y="221">G</text><text class="aw-base" x="276.5" y="221">C</text><text class="aw-base" x="291.5" y="221">G</text><text class="aw-base" x="306.5" y="221">T</text><text class="aw-base" x="321.5" y="221">C</text><text class="aw-base" x="336.5" y="221">C</text><text class="aw-tick" x="336.5" y="235">1</text><text class="aw-tick" x="276.5" y="235">5</text><text class="aw-tick" x="201.5" y="235">10</text><text class="aw-tick" x="126.5" y="235">15</text><text class="aw-tick" x="111.5" y="235">16</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="348" y="221">3′</text></svg>
+<svg class="aw-track" viewBox="0 0 437 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">DWVAF</text><rect class="aw-zone" x="344.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="419.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">C</text><text class="aw-base" x="126.5" y="57">T</text><text class="aw-base" x="141.5" y="57">T</text><text class="aw-base" x="156.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 17 from the 3&#x27; end, base G
+281 of 874 records differ here (32.2%)
+detected when it differs: 10% of 281
+detected when it does not: 71% of 593
+substitutions: G&gt;A in 281
+outside the 3′ window</title><rect x="165.0" y="24.7" width="13.0" height="19.3"/></g><text class="aw-base" x="171.5" y="57">G</text><text class="aw-base" x="186.5" y="57">T</text><text class="aw-base" x="201.5" y="57">C</text><text class="aw-base" x="216.5" y="57">T</text><text class="aw-base" x="231.5" y="57">T</text><text class="aw-base" x="246.5" y="57">C</text><text class="aw-base" x="261.5" y="57">A</text><text class="aw-base" x="276.5" y="57">T</text><text class="aw-base" x="291.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 8 from the 3&#x27; end, base A
+44 of 874 records differ here (5.0%)
+detected when it differs: 11% of 44
+detected when it does not: 53% of 830
+substitutions: A&gt;C in 26, A&gt;G in 18
+outside the 3′ window</title><rect x="300.0" y="36.4" width="13.0" height="7.6"/></g><text class="aw-base" x="306.5" y="57">A</text><text class="aw-base" x="321.5" y="57">A</text><text class="aw-base" x="336.5" y="57">A</text><g class="aw-bar-strong"><title>forward position 5 from the 3&#x27; end, base G
+296 of 874 records differ here (33.9%)
+detected when it differs: 1% of 296
+detected when it does not: 77% of 578
+substitutions: G&gt;A in 296
+inside the 3′ window</title><rect x="345.0" y="24.2" width="13.0" height="19.8"/></g><text class="aw-base" x="351.5" y="57">G</text><text class="aw-base" x="366.5" y="57">C</text><text class="aw-base" x="381.5" y="57">C</text><g class="aw-bar-strong"><title>forward position 2 from the 3&#x27; end, base A
+274 of 874 records differ here (31.4%)
+detected when it differs: 0% of 274
+detected when it does not: 75% of 600
+substitutions: A&gt;G in 263, A&gt;T in 9, A&gt;C in 2
+inside the 3′ window</title><rect x="390.0" y="25.0" width="13.0" height="19.0"/></g><text class="aw-base" x="396.5" y="57">A</text><text class="aw-base" x="411.5" y="57">C</text><text class="aw-tick" x="411.5" y="71">1</text><text class="aw-tick" x="351.5" y="71">5</text><text class="aw-tick" x="276.5" y="71">10</text><text class="aw-tick" x="201.5" y="71">15</text><text class="aw-tick" x="126.5" y="71">20</text><text class="aw-tick" x="111.5" y="71">21</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="423" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">DWVAR</text><rect class="aw-zone" x="344.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="419.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">C</text><text class="aw-base" x="126.5" y="139">T</text><g class="aw-bar-strong"><title>reverse position 19 from the 3&#x27; end, base C
+26 of 874 records differ here (3.0%)
+detected when it differs: 0% of 26
+detected when it does not: 53% of 848
+substitutions: C&gt;G in 26
+outside the 3′ window</title><rect x="135.0" y="120.1" width="13.0" height="5.9"/></g><text class="aw-base" x="141.5" y="139">C</text><text class="aw-base" x="156.5" y="139">A</text><text class="aw-base" x="171.5" y="139">T</text><g class="aw-bar-strong"><title>reverse position 16 from the 3&#x27; end, base T
+29 of 874 records differ here (3.3%)
+detected when it differs: 3% of 29
+detected when it does not: 53% of 845
+substitutions: T&gt;G in 26, T&gt;C in 3
+outside the 3′ window</title><rect x="180.0" y="119.8" width="13.0" height="6.2"/></g><text class="aw-base" x="186.5" y="139">T</text><text class="aw-base" x="201.5" y="139">A</text><text class="aw-base" x="216.5" y="139">A</text><text class="aw-base" x="231.5" y="139">C</text><text class="aw-base" x="246.5" y="139">T</text><text class="aw-base" x="261.5" y="139">G</text><g class="aw-bar-strong"><title>reverse position 10 from the 3&#x27; end, base T
+351 of 874 records differ here (40.2%)
+detected when it differs: 9% of 351
+detected when it does not: 80% of 523
+substitutions: T&gt;A in 248, T&gt;G in 89, T&gt;C in 14
+outside the 3′ window</title><rect x="270.0" y="104.5" width="13.0" height="21.5"/></g><text class="aw-base" x="276.5" y="139">T</text><text class="aw-base" x="291.5" y="139">G</text><text class="aw-base" x="306.5" y="139">T</text><g class="aw-bar-strong"><title>reverse position 7 from the 3&#x27; end, base C
+367 of 874 records differ here (42.0%)
+detected when it differs: 3% of 367
+detected when it does not: 86% of 507
+substitutions: C&gt;T in 339, C&gt;G in 27, C&gt;A in 1
+outside the 3′ window</title><rect x="315.0" y="104.0" width="13.0" height="22.0"/></g><text class="aw-base" x="321.5" y="139">C</text><text class="aw-base" x="336.5" y="139">G</text><text class="aw-base" x="351.5" y="139">T</text><g class="aw-bar-strong"><title>reverse position 4 from the 3&#x27; end, base T
+102 of 874 records differ here (11.7%)
+detected when it differs: 16% of 102
+detected when it does not: 56% of 772
+substitutions: T&gt;C in 101, T&gt;A in 1
+inside the 3′ window</title><rect x="360.0" y="114.4" width="13.0" height="11.6"/></g><text class="aw-base" x="366.5" y="139">T</text><text class="aw-base" x="381.5" y="139">G</text><g class="aw-bar-strong"><title>reverse position 2 from the 3&#x27; end, base A
+245 of 874 records differ here (28.0%)
+detected when it differs: 0% of 245
+detected when it does not: 71% of 629
+substitutions: A&gt;T in 245
+inside the 3′ window</title><rect x="390.0" y="108.0" width="13.0" height="18.0"/></g><text class="aw-base" x="396.5" y="139">A</text><g class="aw-bar-strong"><title>reverse position 1 from the 3&#x27; end, base T
+313 of 874 records differ here (35.8%)
+detected when it differs: 2% of 313
+detected when it does not: 79% of 561
+substitutions: T&gt;C in 313
+inside the 3′ window</title><rect x="405.0" y="105.7" width="13.0" height="20.3"/></g><text class="aw-base" x="411.5" y="139">T</text><text class="aw-tick" x="411.5" y="153">1</text><text class="aw-tick" x="351.5" y="153">5</text><text class="aw-tick" x="276.5" y="153">10</text><text class="aw-tick" x="201.5" y="153">15</text><text class="aw-tick" x="126.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">21</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="423" y="139">3′</text><text class="aw-track-label" x="74" y="216">probe</text><text class="aw-track-name" x="74" y="228">DWVAP</text><rect class="aw-zone" x="179.0" y="174.0" width="90.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="208.0" x2="344.0" y2="208.0"/><text class="aw-base" x="111.5" y="221">T</text><g class="aw-bar-strong"><title>probe position 15 from the 3&#x27; end, base G
+20 of 874 records differ here (2.3%)
+detected when it differs: 0% of 20
+detected when it does not: 53% of 854
+substitutions: G&gt;A in 20
+outside the central third</title><rect x="120.0" y="202.9" width="13.0" height="5.1"/></g><text class="aw-base" x="126.5" y="221">G</text><g class="aw-bar-strong"><title>probe position 14 from the 3&#x27; end, base C
+247 of 874 records differ here (28.3%)
+detected when it differs: 0% of 247
+detected when it does not: 71% of 627
+substitutions: C&gt;A in 246, C&gt;T in 1
+outside the central third</title><rect x="135.0" y="189.9" width="13.0" height="18.1"/></g><text class="aw-base" x="141.5" y="221">C</text><text class="aw-base" x="156.5" y="221">G</text><g class="aw-bar-strong"><title>probe position 12 from the 3&#x27; end, base T
+259 of 874 records differ here (29.6%)
+detected when it differs: 3% of 259
+detected when it does not: 72% of 615
+substitutions: T&gt;A in 249, T&gt;C in 9, T&gt;G in 1
+outside the central third</title><rect x="165.0" y="189.5" width="13.0" height="18.5"/></g><text class="aw-base" x="171.5" y="221">T</text><g class="aw-bar-strong"><title>probe position 11 from the 3&#x27; end, base G
+26 of 874 records differ here (3.0%)
+detected when it differs: 0% of 26
+detected when it does not: 53% of 848
+substitutions: G&gt;A in 26
+in the central third</title><rect x="180.0" y="202.1" width="13.0" height="5.9"/></g><text class="aw-base" x="186.5" y="221">G</text><g class="aw-bar-strong"><title>probe position 10 from the 3&#x27; end, base G
+27 of 874 records differ here (3.1%)
+detected when it differs: 0% of 27
+detected when it does not: 53% of 847
+substitutions: G&gt;C in 27
+in the central third</title><rect x="195.0" y="202.0" width="13.0" height="6.0"/></g><text class="aw-base" x="201.5" y="221">G</text><g class="aw-bar-strong"><title>probe position 9 from the 3&#x27; end, base A
+274 of 874 records differ here (31.4%)
+detected when it differs: 0% of 274
+detected when it does not: 75% of 600
+substitutions: A&gt;G in 257, A&gt;C in 13, A&gt;T in 4
+in the central third</title><rect x="210.0" y="189.0" width="13.0" height="19.0"/></g><text class="aw-base" x="216.5" y="221">A</text><g class="aw-bar-strong"><title>probe position 8 from the 3&#x27; end, base A
+27 of 874 records differ here (3.1%)
+detected when it differs: 0% of 27
+detected when it does not: 53% of 847
+substitutions: A&gt;C in 26, A&gt;G in 1
+in the central third</title><rect x="225.0" y="202.0" width="13.0" height="6.0"/></g><text class="aw-base" x="231.5" y="221">A</text><text class="aw-base" x="246.5" y="221">T</text><text class="aw-base" x="261.5" y="221">G</text><g class="aw-bar-strong"><title>probe position 5 from the 3&#x27; end, base C
+245 of 874 records differ here (28.0%)
+detected when it differs: 0% of 245
+detected when it does not: 71% of 629
+substitutions: C&gt;A in 244, C&gt;T in 1
+outside the central third</title><rect x="270.0" y="190.0" width="13.0" height="18.0"/></g><text class="aw-base" x="276.5" y="221">C</text><text class="aw-base" x="291.5" y="221">G</text><g class="aw-bar-strong"><title>probe position 3 from the 3&#x27; end, base T
+261 of 874 records differ here (29.9%)
+detected when it differs: 1% of 261
+detected when it does not: 73% of 613
+substitutions: T&gt;A in 250, T&gt;C in 10, T&gt;G in 1
+outside the central third</title><rect x="300.0" y="189.4" width="13.0" height="18.6"/></g><text class="aw-base" x="306.5" y="221">T</text><text class="aw-base" x="321.5" y="221">C</text><text class="aw-base" x="336.5" y="221">C</text><text class="aw-tick" x="336.5" y="235">1</text><text class="aw-tick" x="276.5" y="235">5</text><text class="aw-tick" x="201.5" y="235">10</text><text class="aw-tick" x="126.5" y="235">15</text><text class="aw-tick" x="111.5" y="235">16</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="348" y="221">3′</text></svg>
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
 penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
@@ -66,16 +158,16 @@ Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 23 | 47 | 48.9% | 35.3% – 62.8% |
-| baseline (everything earlier) | 35 | 40 | 87.5% | 73.9% – 94.5% |
+| recent window (24 months, from Nov 2024) | 25 | 51 | 49.0% | 35.9% – 62.3% |
+| baseline (everything earlier) | 40 | 45 | 88.9% | 76.5% – 95.2% |
 
-Change from baseline, Newcombe interval: **-53.9% to -19.2%**. Threshold: **90.0%**.
+Change from baseline, Newcombe interval: **-54.4% to -21.7%**. Threshold: **90.0%**.
 
-*detected share 48.9% (35%-63%) since Nov 2024, upper bound below the 90% threshold; change from baseline -54% to -19% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 88%)*
+*detected share 49.0% (36%-62%) since Nov 2024, upper bound below the 90% threshold; change from baseline -54% to -22% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 89%)*
 
-Trend across deposit years: by record falling (p = 0.00812, 5 years); by footprint falling (p = 0.0323). Reported for context; it is not an input to the verdict.
+Trend across deposit years: by record falling (p = 0.0145, 8 years); by footprint falling (p = 0.03). Reported for context; it is not an input to the verdict.
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -88,12 +180,14 @@ This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Ta
 
 <a class="aw-download" href="../Deformed_wing_virus_A_polyprotein_Rossi_2024.scope.txt" download>Download 2 taxids as a text file</a>
 
+5,618 screened records fell outside the declared scope.
+
 Disclosures on this entry: `oligos_from_secondary_source`, `scope_narrower_than_taxid`, `scope_wider_than_paper_tested`.
 
 
 ## By lineage
 
-Only one lineage has enough records to report here: **Iflavirus aladeformis (3047792)** (23 of 47 detected, 48.9%, 95% interval 35.3–62.8%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
+Only one lineage has enough records to report here: **Iflavirus aladeformis (3047792)** (25 of 51 detected, 49.0%, 95% interval 35.9–62.3%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
 
 ## Predicted detection by deposit year
 
@@ -102,19 +196,19 @@ deposit. The shaded band marks the recent window and the dashed line the thresho
 Bigger markers mean more records behind the point, because 100% of three records
 and 100% of three thousand are very different claims.
 
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2022 to 2026, against a 90 percent threshold."><rect class="aw-window" x="375.0" y="12.0" width="331.0" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,47.5 209.5,40.6 375.0,20.2 540.5,144.9 706.0,70.5"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-low-coverage" points="44.0,47.5 209.5,40.6 375.0,20.2 540.5,144.9 706.0,70.5"/><g class="aw-point aw-low-coverage"><title>2022: 5 of 6 detected (83.3%)</title><circle cx="44.0" cy="47.5" r="3.0"/></g><g class="aw-point aw-low-coverage"><title>2023: 28 of 32 detected (87.5%)</title><circle cx="209.5" cy="40.6" r="4.0"/></g><g class="aw-point aw-low-coverage"><title>2024: 2 of 2 detected (100.0%) — recent window</title><circle cx="375.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2025: 5 of 21 detected (23.8%) — recent window</title><circle cx="540.5" cy="144.9" r="3.7"/></g><g class="aw-point aw-low-coverage"><title>2026: 18 of 26 detected (69.2%) — recent window</title><circle cx="706.0" cy="70.5" r="3.9"/></g><text class="aw-tick" x="44.0" y="208">2022</text><text class="aw-tick" x="209.5" y="208">2023</text><text class="aw-tick" x="375.0" y="208">2024</text><text class="aw-tick" x="540.5" y="208">2025</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2004 to 2026, against a 90 percent threshold."><rect class="aw-window" x="645.8" y="12.0" width="60.2" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 314.8,20.2 375.0,20.2 585.6,47.5 615.7,40.6 645.8,20.2 675.9,144.9 706.0,74.7"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-low-coverage" points="44.0,20.2 314.8,20.2 375.0,20.2 585.6,47.5 615.7,40.6 645.8,20.2 675.9,144.9 706.0,74.7"/><g class="aw-point aw-low-coverage"><title>2004: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2013: 1 of 1 detected (100.0%)</title><circle cx="314.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2015: 2 of 2 detected (100.0%)</title><circle cx="375.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2022: 5 of 6 detected (83.3%)</title><circle cx="585.6" cy="47.5" r="3.0"/></g><g class="aw-point aw-low-coverage"><title>2023: 28 of 32 detected (87.5%)</title><circle cx="615.7" cy="40.6" r="4.0"/></g><g class="aw-point aw-low-coverage"><title>2024: 3 of 3 detected (100.0%) — recent window</title><circle cx="645.8" cy="20.2" r="2.6"/></g><g class="aw-point aw-low-coverage"><title>2025: 5 of 21 detected (23.8%) — recent window</title><circle cx="675.9" cy="144.9" r="3.7"/></g><g class="aw-point aw-low-coverage"><title>2026: 20 of 30 detected (66.7%) — recent window</title><circle cx="706.0" cy="74.7" r="4.0"/></g><text class="aw-tick" x="44.0" y="208">2004</text><text class="aw-tick" x="134.3" y="208">2007</text><text class="aw-tick" x="224.5" y="208">2010</text><text class="aw-tick" x="314.8" y="208">2013</text><text class="aw-tick" x="405.1" y="208">2016</text><text class="aw-tick" x="495.4" y="208">2019</text><text class="aw-tick" x="585.6" y="208">2022</text><text class="aw-tick" x="675.9" y="208">2025</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
 
 ## Records reaching the statistics
 
-245 records were screened for this assay and **87 (36%)** were evaluable, meaning both primers landed in the right orientation and size range. 158 produced no amplicon at all.
+312 records were screened for this assay and **96 (31%)** were evaluable, meaning both primers landed in the right orientation and size range. 216 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|
-| `no_site` | 142 |
-| `truncated` | 16 |
+| `no_site` | 198 |
+| `truncated` | 18 |
 
 ## What was deposited, by lineage
 
@@ -127,16 +221,18 @@ assay changing. The dashed line on the chart above recomputes each year on the w
 period's mix: where the two lines part, what got sequenced changed, not what the assay
 detects.
 
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2022 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2022 — I. aladeformis: 6 of 6 records (100%), 5 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2023 — I. aladeformis: 32 of 32 records (100%), 28 detected</title><rect x="196.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2024 — I. aladeformis: 2 of 2 records (100%), 2 detected</title><rect x="362.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2025 — I. aladeformis: 21 of 21 records (100%), 5 detected</title><rect x="527.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2026 — I. aladeformis: 26 of 26 records (100%), 18 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2022</text><text class="aw-tick" x="209.5" y="117">2023</text><text class="aw-tick" x="375.0" y="117">2024</text><text class="aw-tick" x="540.5" y="117">2025</text><text class="aw-tick" x="706.0" y="117">2026</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2004 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2004 — I. aladeformis: 1 of 1 records (100%), 1 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2013 — I. aladeformis: 1 of 1 records (100%), 1 detected</title><rect x="301.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2015 — I. aladeformis: 2 of 2 records (100%), 2 detected</title><rect x="362.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2022 — I. aladeformis: 6 of 6 records (100%), 5 detected</title><rect x="572.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2023 — I. aladeformis: 32 of 32 records (100%), 28 detected</title><rect x="602.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2024 — I. aladeformis: 3 of 3 records (100%), 3 detected</title><rect x="632.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2025 — I. aladeformis: 21 of 21 records (100%), 5 detected</title><rect x="662.9" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2026 — I. aladeformis: 30 of 30 records (100%), 20 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2004</text><text class="aw-tick" x="134.3" y="117">2007</text><text class="aw-tick" x="224.5" y="117">2010</text><text class="aw-tick" x="314.8" y="117">2013</text><text class="aw-tick" x="405.1" y="117">2016</text><text class="aw-tick" x="495.4" y="117">2019</text><text class="aw-tick" x="585.6" y="117">2022</text><text class="aw-tick" x="675.9" y="117">2025</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+2023's 32 records may reflect one study: 23 are consecutive accessions (OR361515 to OR361537).
+
+2026's 30 records may reflect one study: 19 are consecutive accessions (PZ806872 to PZ806890).
 
 | Lineage | Records | Share | New since design | Species | Also in the titles |
 |---|---|---|---|---|---|
-| I. aladeformis | 87 | 100% |  | Iflavirus aladeformis 87 | -- |
-
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2022 100%, 2023 100%, 2024 100%, 2025 100%, 2026 100% (best year 100%). A low share is a fact about the query, not about the taxon.
+| I. aladeformis | 96 | 100% |  | Iflavirus aladeformis 96 | -- |
 
 Between the baseline and the recent window the detected share went
-87.5% to 48.9%, a change of -0.386. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **-0.386 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
+88.9% to 49.0%, a change of -0.399. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **-0.399 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
 
 
 ## Curation record
@@ -152,7 +248,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Deformed_wing_virus_A_polyprotein_Rossi_2024%3A%20&body=Entry%3A%20Deformed_wing_virus_A_polyprotein_Rossi_2024%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Deformed_wing_virus_A_polyprotein_Rossi_2024/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Deformed_wing_virus_A_polyprotein_Rossi_2024%3A%20&body=Entry%3A%20Deformed_wing_virus_A_polyprotein_Rossi_2024%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Deformed_wing_virus_A_polyprotein_Rossi_2024/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Deformed_wing_virus_A_polyprotein_Rossi_2024.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Deformed_wing_virus_A_polyprotein_Rossi_2024.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

@@ -193,7 +193,18 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 - [ ] **13. Live run, on the maintainer's go.** `caffeinate -i snakemake --cores 4 ...` from
   `next-release`, mains power, lid open: ~50 minutes plus a rescreen of the changed queries and ~4 h
   of composition (13 GB declared).
-- [ ] **14. Check it.** `report_diff` against 2026-11-01, with every status move attributed to a
+- [x] **14. Check it. DONE 2026-11-11**, `docs/journal/2026-11-11-frozen-run-check.md`. The run is
+  `results/2026-11-10/`: 664 of 664 steps, 4 h 8 min, after a first attempt that NCBI's "Search
+  Backend failed" ended at 32 minutes. Ten status moves, every one attributed: seven to the fixes
+  (the two vcpA and BUNS_5_U_6 exactly as predicted, the two Uccellini, both Hellgren), two to step
+  6a's DWV-B scope, and **one to new data: Barrett 1993's P-gene primers miss all 43 genomes of
+  the 2024-2025 European PPRV incursion**, deposited as one batch on 2026-10-31 (PZ271096-PZ271138),
+  so `Morbillivirus_P_Barrett_1993_Grosh_F` reads `declining` on a lineage override while its pooled
+  share stays 96.8%. Invariant 0 mismatches over 6,078 assay-years; the knowingly-red extract test
+  is green; 2,241 tests and the slow suite pass; three pages read by eye. The gate ran for real for
+  the first time: 120 flags, none a stop, read one by one in the journal. `website/index.md`'s
+  status table was wrong for 2026-11-01 already and is corrected to the 2026-11-10 `run.json`.
+  **No surprise that is a stop.** As planned: `report_diff` against 2026-11-01, with every status move attributed to a
   step above. Invariant: composition cells sum to the graph, 0 mismatches. The gate, read in full.
   Extract and render; `website/index.md` counts; three pages by eye; `pytest -m slow`. Expected from
   the fixes alone: the two vcpA assays and `Orthobunyavirus_S_Briese_2007_BUNS_5_U_6` read
@@ -253,7 +264,16 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 
 ### Post-release list
 
-Not in this release, each still detailed where it sits: S5/C2 and its 40-negatives gate; the
+Not in this release, each still detailed where it sits. **Added at step 14, 2026-11-11:** rebuild
+`drift.scope_taxonomy`, which lacks six taxids NCBI created after it was built (1336684, 3904487,
+3904488, 3904489, 3904934, 3467847; 42 records matched exactly on the 2026-11-10 run), and re-run
+the report stages it hashes; watch the two scopes that gained a species parent (Uccellini's
+`1986118` under `3240428`, DWV-B's `232800` under `3047792`), neither of which holds a window record
+yet; warm the six spike references the cache lacked (`results/2026-11-10/references-missing.txt`);
+decide which status-count basis the site quotes, `run.json`'s or `report.md`'s, since the two differ
+by construction and the home page table had matched neither; the average-linkage trial (step 11b);
+and whether the Barrett P-gene set is in use for PPRV anywhere, since on the 2025 European genomes
+it would read negative. Then: S5/C2 and its 40-negatives gate; the
 drift-mechanism search's remaining sources; S3b's identity pricing and the mid-window boundary;
 finishing the collection-date backfill; filtering G2R's denominator by clade; test across scope; test for submission error; sources beyond GenBank (MalAvi, GISAID, PR2/SILVA,
 UNITE); the `printed.py` quencher fix; `target.exclusivity_taxids`; the reread's deferred scope moves (Clewley to HIV-1/HIV-2, Muller to E. bieneusi, Pallister's narrower scope, raccoonpox out of Meyer) and retiring one of each duplicate pair (Gao `_2`, Barrett `MorbF`), `docs/journal/2026-11-10-scope-reread-rest.md`; the conditions proposals and

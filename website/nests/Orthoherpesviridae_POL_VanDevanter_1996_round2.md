@@ -84,11 +84,11 @@ A retrieval query is a claim about which records the assay is tested against, an
 
 Disclosures on this entry: `amplicon_measured_not_published`, `pairing_is_curator_reading`, `duplicate_entry_unresolved`, `orientation_inferred`.
 
-<p class="aw-rounds-note">See each round of primers as an individual set, run directly on the protocol's own 334 recent records (round 1 gates the protocol figure above):</p>
+<p class="aw-rounds-note">See each round of primers as an individual set, run directly on the protocol's own 330 recent records (round 1 gates the protocol figure above):</p>
 <table class="aw-rounds"><thead><tr><th>round</th><th>assay</th><th class="num">detected alone</th></tr></thead>
 <tbody>
 <tr><td>round 1</td><td><a href="../../assays/Orthoherpesviridae_POL_VanDevanter_1996_round1/"><span class="aw-id">Orthoherpesviridae_POL_VanDevanter_1996_round1</span></a></td><td class="num">99.1%</td></tr>
-<tr><td>round 2</td><td><a href="../../assays/Orthoherpesviridae_POL_VanDevanter_1996_round2/"><span class="aw-id">Orthoherpesviridae_POL_VanDevanter_1996_round2</span></a></td><td class="num">85.9%</td></tr>
+<tr><td>round 2</td><td><a href="../../assays/Orthoherpesviridae_POL_VanDevanter_1996_round2/"><span class="aw-id">Orthoherpesviridae_POL_VanDevanter_1996_round2</span></a></td><td class="num">86.7%</td></tr>
 </tbody></table>
 
 
@@ -105,7 +105,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Orthoherpesviridae_POL_VanDevanter_1996_round2%3A%20&body=Entry%3A%20Orthoherpesviridae_POL_VanDevanter_1996_round2%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Orthoherpesviridae_POL_VanDevanter_1996_round2/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Orthoherpesviridae_POL_VanDevanter_1996_round2%3A%20&body=Entry%3A%20Orthoherpesviridae_POL_VanDevanter_1996_round2%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Orthoherpesviridae_POL_VanDevanter_1996_round2/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Orthoherpesviridae_POL_VanDevanter_1996_round2.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Orthoherpesviridae_POL_VanDevanter_1996_round2.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

@@ -35,17 +35,17 @@ rather than derived from data. [Validation](validation.md) has the full confusio
 matrix, including three held-out sets, all of which did worse than the set used
 for tuning.
 
-## Registry status, 2026-11-01 run
+## Registry status, 2026-11-10 run
 
 | status | assays | definition |
 |---|---|---|
-| stable | 75 | recent detection does not fall below 90% |
-| declining | 42 | below 90% and measurably lower than an earlier baseline that exceeded it |
-| low coverage | 29 | below 90% with no measurable decline: used beyond what it was designed for, or it never covered the target |
-| insufficient data | 32 | too few evaluable records to estimate anything |
-| no recent data | 18 | no deposits within the window |
-| watch | 5 | below 90% with an interval that still spans it |
-| no status | 14 | a verdict would mislead for this entry; each page says why |
+| stable | 70 | recent detection does not fall below 90% |
+| declining | 41 | below 90% and measurably lower than an earlier baseline that exceeded it |
+| low coverage | 27 | below 90% with no measurable decline: used beyond what it was designed for, or it never covered the target |
+| insufficient data | 36 | too few evaluable records to estimate anything |
+| no recent data | 17 | no deposits within the window |
+| watch | 6 | below 90% with an interval that still spans it |
+| no status | 18 | a verdict would mislead for this entry; each page says why |
 
 The difference between `declining` and `low coverage` matters. A pan-family
 consensus PCR screened against a whole genus will look poor without anything having
