@@ -30,6 +30,10 @@ citation:
   doi_verified: true
   oligos_designed_here: null
   claim: Black queen cell virus, capsid gene.
+  description: One-step RT-qPCR with a hydrolysis (MGB or BHQ) probe, redesigned from earlier honeybee virus tests so 
+    the primers and probe match more published sequences of the virus. It was built for duplex use (ABPV/BQCV, 
+    DWVA/DWVB, CBPV/SBV) with an exogenous extraction control. Capsid gene, shortened from Chantawannakul et al. to fit 
+    the shared 54 C annealing step.
 conditions:
   annealing_c: 54.0
   cycles: 50

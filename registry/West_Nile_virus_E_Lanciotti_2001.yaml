@@ -21,6 +21,9 @@ citation:
   doi_verified: true
   reference: Lanciotti RS, Kerst AJ. 2001. J Clin Microbiol 39:4506-4513
   claim: West Nile virus, envelope gene, as a NASBA primer pair.
+  description: Two primers for NASBA (isothermal RNA amplification) of a 162 bp piece of the West Nile virus envelope 
+    gene, each with a non-templated tail (T7 promoter on the reverse, a capture sequence on the forward). Designed with 
+    the NASBA kit manual's guidelines so a molecular beacon or ECL probe can read the product in under an hour.
 conditions:
   cycles: null
 use_context:

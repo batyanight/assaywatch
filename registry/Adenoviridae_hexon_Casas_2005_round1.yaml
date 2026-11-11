@@ -21,6 +21,8 @@ citation:
   doi_verified: true
   reference: Casas I et al. 2005. J Clin Microbiol 43:6176-6182 (ADHEX primers)
   claim: Human adenoviruses, hexon gene, as the first-round PCR.
+  description: Conventional PCR with two degenerate primers (ADHEX1F, ADHEX1R) on the hexon gene, giving a 475 bp 
+    product that is sequenced for species and serotype.
 conditions:
   mg_mm: 4.0
   cycles: 30

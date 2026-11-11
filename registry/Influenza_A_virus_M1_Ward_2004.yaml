@@ -28,6 +28,9 @@ citation:
   reference: Ward CL et al. 2004. J Clin Virol 29:179-188
   oligos_designed_here: true
   claim: Influenza A virus matrix (M1) gene, for quantifying viral load.
+  description: Two-step RT-qPCR with a FAM/TAMRA hydrolysis probe in the M1 gene of influenza A, giving a 104 bp product
+    as published. Designed to measure viral load in clinical samples where plaque and culture assays are slow and less 
+    sensitive.
 conditions:
   annealing_c: 60
   cycles: 40

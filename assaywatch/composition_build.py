@@ -291,6 +291,12 @@ def reference_lookup(
     `retrieve.AskLimit` does for the counts. `transport=None` is offline: the cache only.
     One base is asked for, since the references come with any slice and a whole assembly's
     flatfile is megabytes.
+
+    The returned callable carries `.misses`, the accessions it was asked for and could not
+    answer. Offline that is every cache miss, and it is the whole point: a frozen run reads
+    the cache only (maintainer's decision, 2026-11-10), so the one risk of that choice is a
+    spike silently losing its study clause. `.misses` turns it into something step 14 can
+    read and act on.
     """
     from assaywatch.retrieve import AskLimit
 
@@ -303,10 +309,13 @@ def reference_lookup(
             store = {}  # A corrupt cache is a cold cache.
     limit = AskLimit(max_failures)
 
+    misses: set[str] = set()
+
     def look(accession: str) -> str | None:
         if accession in store:
             return store[accession] or None
         if transport is None or limit.tripped:
+            misses.add(accession)
             return None
         try:
             text = transport(
@@ -333,6 +342,7 @@ def reference_lookup(
         os.replace(partial, cache)
         return store[accession] or None
 
+    look.misses = misses  # type: ignore[attr-defined]
     return look
 
 
@@ -478,6 +488,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--run-date", default=None)
     ap.add_argument("--out", type=Path, required=True, help="where composition.tsv/.json go")
     ap.add_argument(
+        "--references",
+        choices=("cache", "fetch"),
+        default="cache",
+        help="cache: read .references.json.gz only, make no network call (the default, and "
+        "what a frozen run uses). fetch: ask NCBI for the ones it lacks and write them back, "
+        "which is the pass that warms the cache. Needs --email.",
+    )
+    ap.add_argument(
         "--coverage",
         type=Path,
         help="coverage.json from `assaywatch retrieve --year-counts`: the retrieval-coverage series",
@@ -493,8 +511,15 @@ def main(argv: list[str] | None = None) -> int:
     coverage = None
     if args.coverage is not None and args.coverage.exists():
         coverage = json.loads(args.coverage.read_text())
+    # OFFLINE BY DEFAULT (maintainer's decision, 2026-11-10). `--email` alone used to turn
+    # the reference fetch on, which meant the frozen run would have made its stage's first
+    # ever network calls while it ran, for a display field. The fetch is now its own flag,
+    # so warming the cache is a separate pass that can be retried and inspected, and the run
+    # reads what that pass left. `--references fetch` is that pass.
     transport = None
-    if args.email:
+    if args.references == "fetch":
+        if not args.email:
+            ap.error("--references fetch needs --email, which NCBI requires for E-utilities")
         from assaywatch.credentials import ncbi_api_key
         from assaywatch.retrieve import http_transport
 
@@ -513,6 +538,16 @@ def main(argv: list[str] | None = None) -> int:
         coverage=coverage,
         reference_of=reference_of,
     )
+    missed = sorted(getattr(reference_of, "misses", ()) or ())
+    if missed:
+        where = args.out / "references-missing.txt"
+        where.parent.mkdir(parents=True, exist_ok=True)
+        where.write_text("\n".join(missed) + "\n")
+        print(
+            f"{len(missed)} spike batches have no cached REFERENCE, so their sentences omit "
+            f"the study: {where}. Warm the cache with `--references fetch --email ...`.",
+            file=sys.stderr,
+        )
     tsv, js = write(run, args.out)
     placed = sum(1 for a in run.assays.values() if any(c.id >= 0 for c in a.clusters))
     print(

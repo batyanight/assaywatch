@@ -22,6 +22,8 @@ citation:
   doi_verified: true
   reference: Anthony SJ et al. 2013. mBio 4:e00598-13 (universal hantavirus S-segment primers UHantaF1/UHantaR1)
   claim: Hantaviruses, S segment, as a consensus screen.
+  description: Conventional RT-PCR with degenerate primers on the hantavirus S segment (about 250 bp, 52 C annealing). 
+    It was adapted from an earlier hantavirus primer set so a bat survey could pick up diverse hantaviruses.
 conditions:
   annealing_c: 52.0
 use_context:

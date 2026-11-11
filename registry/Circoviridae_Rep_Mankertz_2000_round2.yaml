@@ -21,6 +21,8 @@ citation:
   doi_verified: true
   reference: Mankertz A et al. 2000. Arch Virol 145:2469-2479 (nested round)
   claim: Vertebrate circoviruses, rep gene, as the nested second round.
+  description: Nested conventional consensus PCR with degenerate primers in the rep gene of circoviruses. Designed to 
+    find circoviruses in animals without a known sequence, and used to find a virus in pigeons. ; round 2 (inner) pair.
 conditions:
   annealing_c: 49
 use_context:

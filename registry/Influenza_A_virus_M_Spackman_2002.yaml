@@ -33,6 +33,8 @@ citation:
     field validation, doi 10.1637/0005-2086-47.S3.1079
   oligos_designed_here: false
   claim: Type A influenza viruses, matrix gene.
+  description: One-step real-time RT-PCR with a FAM hydrolysis probe on the influenza A matrix gene (about 100 bp, 60 C 
+    annealing). It was designed to detect any type A influenza virus in avian swabs ahead of subtyping.
 conditions:
   mg_mm: 3.75
   annealing_c: 60

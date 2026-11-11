@@ -24,6 +24,9 @@ citation:
   reference: Sánchez-Seco MP et al. 2001. J Virol Methods 95:153-161 (Alpha1/Alpha2 nsP4 nested PCR)
   oligos_designed_here: true
   claim: Alphaviruses, nsP4 gene, as the first round of a nested pair.
+  description: Nested conventional RT-PCR with degenerate, inosine-containing primers in the nsP4 gene, followed by 
+    sequencing. Designed as a genus-wide screen that can also catch alphaviruses not yet described. ; round 1 (outer 
+    pair, Alpha1+/Alpha1-).
 conditions:
   annealing_c: 52
   cycles: 40

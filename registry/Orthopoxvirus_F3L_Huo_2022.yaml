@@ -31,6 +31,10 @@ citation:
   doi_verified: true
   oligos_designed_here: true
   claim: Orthopoxviruses other than monkeypox virus, F3L gene.
+  description: Multiplex real-time PCR with hydrolysis probes, built so that one primer pair and several probes tell 
+    monkeypox clades or the 2022 B.1 lineage apart and flag other orthopoxviruses. Designed after the 2022 outbreak to 
+    detect and differentiate clades. HEX probe in F3L that matches orthopoxviruses other than monkeypox, used as a 
+    counterpart to the two monkeypox clade probes.
 conditions:
   cycles: 45
 use_context:

@@ -14,6 +14,7 @@ clade stays put -- the case the whole stage exists to tell apart (step 7).
 
 from __future__ import annotations
 
+import contextlib
 import gzip
 import json
 import random
@@ -378,3 +379,58 @@ def test_a_direct_submission_does_not_hide_the_study_in_the_next_reference():
     only_submission = flat.split("REFERENCE   2")[0] + "FEATURES             Location/Qualifiers\n"
     assert first_reference(only_submission) is None
     assert first_reference("LOCUS  AB123\nFEATURES\n") is None
+
+
+def test_the_reference_lookup_reports_what_it_could_not_answer_offline():
+    """Maintainer's decision, 2026-11-10: a frozen run reads the reference cache and makes
+    no network call. The one risk of that is a spike quietly losing its study clause, so an
+    offline lookup records every accession it was asked for and could not answer, and the
+    CLI writes them to `references-missing.txt` for step 14 to read."""
+    from assaywatch.composition_build import reference_lookup
+
+    look = reference_lookup(None, Path("does-not-exist.json.gz"), max_failures=5)
+    assert look("PP000001.1") is None
+    assert look("PP000002.1") is None
+    assert look("PP000001.1") is None  # asked twice, named once
+    assert look.misses == {"PP000001.1", "PP000002.1"}
+
+
+def test_the_composition_cli_defaults_to_the_cache_and_refuses_a_fetch_with_no_email():
+    """`--email` alone used to turn the fetch on, so the frozen run would have made this
+    stage's first network calls while it ran. Fetching is its own flag now."""
+    import contextlib
+    import io
+    from pathlib import Path as P
+
+    from assaywatch import composition_build
+
+    # Asking to fetch without an address is refused, not silently downgraded.
+    with contextlib.redirect_stderr(io.StringIO()) as err, pytest.raises(SystemExit):
+        composition_build.main(["calls.tsv.gz", "--out", "out", "--references", "fetch"])
+    assert "--email" in err.getvalue()
+
+    # And the default really is the cache: with --email but no --references, no transport
+    # is built, which is what `reference_lookup` is handed.
+    seen = {}
+
+    def spy(transport, cache, *, max_failures):
+        seen["transport"] = transport
+        return lambda _acc: None
+
+    # The run dies on the missing calls file, which is AFTER the transport decision this
+    # test is about; naming the exception keeps that deliberate rather than blind.
+    with contextlib.redirect_stderr(io.StringIO()), pytest.raises((OSError, SystemExit)):
+        with _patched(composition_build, "reference_lookup", spy):
+            composition_build.main(["missing-calls.tsv.gz", "--out", "out", "--email", "you@example.org"])
+    assert seen.get("transport", "unset") is None
+    assert P  # the import is used by the fixture helpers above
+
+
+@contextlib.contextmanager
+def _patched(module, name, value):
+    old = getattr(module, name)
+    setattr(module, name, value)
+    try:
+        yield
+    finally:
+        setattr(module, name, old)

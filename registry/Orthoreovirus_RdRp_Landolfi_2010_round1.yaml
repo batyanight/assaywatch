@@ -21,6 +21,8 @@ citation:
   doi_verified: true
   reference: Landolfi JA et al. 2010. J Vet Diagn Invest 22:37-43
   claim: Orthoreovirus RNA polymerase gene, as the first round of a two-round test.
+  description: Degenerate conventional RT-PCR, 2090F x 2334R, aimed at the polymerase gene of orthoreoviruses; it is the
+    original protocol's second round, used here as the first round to reach a shorter product in fixed tissue.
 use_context:
 - wildlife
 - veterinary

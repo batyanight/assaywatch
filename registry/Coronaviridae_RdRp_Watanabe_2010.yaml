@@ -28,6 +28,9 @@ citation:
   reference: Watanabe S et al. 2010. Emerg Infect Dis 16:1217-1223 (pan-CoV RdRp consensus pair, made degenerate by the 
     PREDICT panel)
   claim: Coronaviruses, RdRp gene, as a consensus screen.
+  description: Conventional one-step-then-PCR (35 cycles, 50 C annealing) consensus primers against a conserved region 
+    of the RNA-dependent RNA polymerase gene of coronaviruses. They were used in earlier surveys and applied here to 
+    screen bat intestine for coronavirus RNA.
 conditions:
   annealing_c: 50
   primer_nm: 200

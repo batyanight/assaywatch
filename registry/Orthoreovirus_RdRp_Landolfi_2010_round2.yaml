@@ -21,6 +21,8 @@ citation:
   doi_verified: true
   reference: Landolfi JA et al. 2010. J Vet Diagn Invest 22:37-43
   claim: Orthoreovirus RNA polymerase gene, as the semi-nested second round.
+  description: Degenerate conventional PCR, 2090F x 2200R, a semi-nested second round on the first-round product, built 
+    to detect reovirus in fixed snake tissue.
 use_context:
 - wildlife
 - veterinary

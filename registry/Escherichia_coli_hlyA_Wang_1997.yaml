@@ -42,6 +42,12 @@ source:
     are confirmed through a citing paper's table rather than against Wang's own; oligos_designed_here left unset, because
     a 13-species compilation may have taken some primer sets from earlier papers. CORRECTED 2026-11-10: the paper names and
     tests O157:H7 only (one strain); retargeting would leave 0 recent records, so the scope stays with a disclosure."
+  page_note: Almost nothing recent is scored here, and that is a fact about what gets deposited rather than about the 
+    assay. The enterohaemolysin gene is carried on a plasmid by one E. coli pathotype, and standalone gene records for 
+    it have nearly stopped appearing, so this assay has too few evaluable records in the recent window for a verdict. 
+    The recent records come from whole genomes, sampled at 20 a year, and a genome counts only if that strain carries 
+    the plasmid. Filtering genome retrieval by pathotype would give this assay a real denominator; that is planned and 
+    not yet built.
 needs_review:
 - flag: orientation_inferred
   note: the archive yields 162 products and 485 none under this orientation (2026-10-27 run), so the inference stands

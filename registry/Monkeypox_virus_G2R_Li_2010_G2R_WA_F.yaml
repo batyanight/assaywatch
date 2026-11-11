@@ -30,6 +30,9 @@ citation:
   doi_verified: true
   oligos_designed_here: true
   claim: West African clade of monkeypox virus, G2R gene.
+  description: Real-time PCR with a FAM/BHQ1 hydrolysis probe for monkeypox virus, built to run on several instruments 
+    and master mixes. One of three assays that together detect monkeypox virus and tell West African from Congo Basin 
+    strains. West African clade assay in G2R; annealing raised to 62 C to separate it from Congo Basin strains.
 conditions:
   annealing_c: 62.0
 use_context:
@@ -87,3 +90,10 @@ source:
     with an 82 bp product, 2,643 are clade I by this project''s F3L calls and 5 are clade II; among clade II records detection
     is 9,656 of 9,661. So this status mostly reflects clade I records the assay isn''t meant to detect (inference: NCBI has
     no clade nodes).'
+  page_note: "This assay is meant to miss clade I, and the chart above cannot show that. It targets the West African clade,
+    and the clade I genome carries a three-base deletion under the probe, shown in the paper's own Figure 1. A record with
+    that deletion still gives a product, so this is not a missing primer site: the probe simply has nowhere to sit, which
+    is why so many records here fail with 'no probe site inside amplicon' and draw no bar. Most of them are clade I by this
+    project's own F3L calls. Against the clade it was designed for the assay is intact, detecting almost every evaluable clade
+    II record. The headline share on this page is therefore diluted by records the assay was never meant to detect. Narrowing
+    the denominator by clade is a change to how a verdict is made, so it waits."

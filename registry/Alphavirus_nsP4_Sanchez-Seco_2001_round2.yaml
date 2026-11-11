@@ -23,6 +23,9 @@ citation:
   doi_verified: true
   reference: Sánchez-Seco MP et al. 2001. J Virol Methods 95:153-161 (Alpha1/Alpha2 nsP4 nested PCR)
   claim: Alphaviruses, nsP4 gene, as the nested second round.
+  description: Nested conventional RT-PCR with degenerate, inosine-containing primers in the nsP4 gene, followed by 
+    sequencing. Designed as a genus-wide screen that can also catch alphaviruses not yet described. ; round 2 (inner 
+    pair, Alpha2+/Alpha2-).
 conditions:
   cycles: 40
   mg_mm: 2.5

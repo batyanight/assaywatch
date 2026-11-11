@@ -51,19 +51,26 @@ source:
     and the amplicon this entry stores - and lists "Victor et al. (1991)" in its own Reference column, where its newly designed
     assays instead read "This study". The same pair, attributed to Wang 1997, appears in Table 1 of 10.1371/journal.pone.0101456
     (PMC4077799). So the sequences are Wang''s and the Victor attribution is one Wang made. NOT RE-CITED HERE: moving the
-    DOI would also make the id''s Victor_1991 wrong, which is a rename, and the precedent set for Henipavirus_nipahense_N_Chua_2000 and Chordopoxvirinae_POL_McAloose_2016
-    was to keep the upstream citation and flag the indirectness. A maintainer decision. RESOLVED 2026-10-23, and the citation
-    is NOT repointed. The two pairs sit on the same two eltA sites, shifted a few bases, so Wang''s "Victor et al. (1991)"
-    credit records real design lineage rather than a mistake, and Victor remains this assay''s origin. Measured against 146
-    GenBank eltA records: genome GGAATATA-GAGACCGGTATTACAGAAATC-TGAATATA, where the stored EcoLT-1 matches exactly in 122
-    records while Victor''s LT51 starts three bases further 3'' and carries one mismatch at its own 5'' position 3 (CCC against
-    the template CCG), so it matches none of them exactly. At the reverse site LT31 matches 123 records and the stored EcoLT-2,
-    which extends three bases 5'' of LT31''s core, carries one mismatch at its 5'' position 2 (GAG against the template GTG)
-    and so matches none exactly - about 19 bases from its 3'' end, which is close to free under a 3''-weighted penalty. Neither
-    pair is wrong; both are ordinary era and strain variation around one conserved site. So the published sequences are recorded
-    as modified_from with Wang as the modification_doi, which is the keep-both rule, and the id stays Escherichia_coli_LT_Victor_1991.
-    The oligos_from_secondary_source and citation_is_indirect flags stay: the sequences are still read from Wang''s table,
-    not from Victor''s.'
+    DOI would also make the id''s Victor_1991 wrong, which is a rename, and the precedent set for Henipavirus_nipahense_N_Chua_2000
+    and Chordopoxvirinae_POL_McAloose_2016 was to keep the upstream citation and flag the indirectness. A maintainer decision.
+    RESOLVED 2026-10-23, and the citation is NOT repointed. The two pairs sit on the same two eltA sites, shifted a few bases,
+    so Wang''s "Victor et al. (1991)" credit records real design lineage rather than a mistake, and Victor remains this assay''s
+    origin. Measured against 146 GenBank eltA records: genome GGAATATA-GAGACCGGTATTACAGAAATC-TGAATATA, where the stored EcoLT-1
+    matches exactly in 122 records while Victor''s LT51 starts three bases further 3'' and carries one mismatch at its own
+    5'' position 3 (CCC against the template CCG), so it matches none of them exactly. At the reverse site LT31 matches 123
+    records and the stored EcoLT-2, which extends three bases 5'' of LT31''s core, carries one mismatch at its 5'' position
+    2 (GAG against the template GTG) and so matches none exactly - about 19 bases from its 3'' end, which is close to free
+    under a 3''-weighted penalty. Neither pair is wrong; both are ordinary era and strain variation around one conserved site.
+    So the published sequences are recorded as modified_from with Wang as the modification_doi, which is the keep-both rule,
+    and the id stays Escherichia_coli_LT_Victor_1991. The oligos_from_secondary_source and citation_is_indirect flags stay:
+    the sequences are still read from Wang''s table, not from Victor''s.'
+  page_note: Almost nothing recent is scored here, and that is a fact about what gets deposited rather than about the 
+    assay. E. coli is among the most sequenced organisms there is, but the heat-labile enterotoxin genes are carried on 
+    a plasmid by one pathotype, and standalone gene records for them have nearly stopped appearing, so this assay has 
+    too few evaluable records in the recent window for a verdict. The recent records it does have come from whole 
+    genomes, which this project samples at 20 a year for each of a handful of heavily sequenced bacteria, and a genome 
+    counts here only if that strain happens to carry the plasmid. Filtering genome retrieval by pathotype would give 
+    this assay a real denominator; that is planned and not yet built.
 needs_review:
 - flag: oligos_from_secondary_source
   note: EcoLT-1/EcoLT-2 are printed in Wang 1997 (10.1046/j.1365-2672.1997.00300.x), not in the cited Victor 1991

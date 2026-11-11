@@ -836,10 +836,18 @@ rule composition:
     resources:
         mem_mb=13000,
         runtime=300,
+    # `--references cache` IS DELIBERATE AND IS THE DEFAULT (maintainer's decision,
+    # 2026-11-10): this stage makes no network call while a run is in flight. The spike
+    # sentences' GenBank REFERENCEs come from `.references.json.gz`, warmed beforehand by
+    # `assaywatch composition ... --references fetch --email ...`, which can be retried and
+    # read without putting a ~5 h run at NCBI's mercy. Anything the cache lacks is written
+    # to `references-missing.txt` beside the outputs, so a dropped study clause is visible
+    # rather than silent. It is spelled out here so it cannot be turned on by accident.
     shell:
         "assaywatch composition {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
-        "--config {CONFIG_EFFECTIVE} --coverage {input.coverage} --email {EMAIL}"
+        "--config {CONFIG_EFFECTIVE} --coverage {input.coverage} --email {EMAIL} "
+        "--references cache"
 
 
 rule report:

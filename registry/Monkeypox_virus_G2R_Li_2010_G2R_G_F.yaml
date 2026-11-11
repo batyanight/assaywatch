@@ -30,6 +30,10 @@ citation:
   doi_verified: true
   oligos_designed_here: true
   claim: Monkeypox virus, G2R gene, across clades.
+  description: Real-time PCR with a FAM/BHQ1 hydrolysis probe for monkeypox virus, built to run on several instruments 
+    and master mixes. One of three assays that together detect monkeypox virus and tell West African from Congo Basin 
+    strains. Generic assay in the G2R (TNF receptor) gene, located in the inverted terminal repeat; amplicon not stated 
+    in the paper (90 bp measured).
 conditions:
   annealing_c: 60.0
 use_context:

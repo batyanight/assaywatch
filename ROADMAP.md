@@ -2130,6 +2130,16 @@ centre/outer 2.0 / 1.0, `detect_max` 1.0, `reduced_max` 3.0,
 `min_records_for_drift` 15, `min_records_for_coverage` 10, `min_decline` 0.05);
 `degeneracy.tiers` (8 / 128 / 4096); `assemblies.per_year` 20.
 
+**Eight more were added 2026-11-10 with steps 10 and 11c, and they are listed here by
+decision rather than left out because they reach no verdict.** None hashes into a screen
+and none can move a status; what they decide is what a PAGE asserts, and the standard that
+put the list above in public is about a number set by eye, not about where it lands.
+`site` (`failure_reasons_min_records` 10, `failure_reasons_shown` 3, `spike_min_fold` 5.0,
+`spike_min_records` 30, `spike_evidence_min_records` 10, `spike_batch_min_share` 0.5,
+`spike_token_min_share` 0.5, `spikes_shown` 3). The two that matter most are
+`spike_min_fold` and `spike_min_records`, which together decide whether a deposit year gets
+a sentence at all; `config.yaml` carries the reasoning, or the admission of none, for each.
+
 One of those is no longer only eyeballed. `drift.min_decline` 0.05 has regulatory
 precedent: FDA's *Policy for Evaluating Impact of Viral Mutations on COVID-19 Tests
 (Revised)* (January 2023, docket FDA-2020-D-0987) tells molecular test developers to

@@ -23,6 +23,9 @@ citation:
     virology 151, 423-438, doi:Doi 10.1007/s00705-005-0679-6 (2006).
   doi_verified: true
   claim: Subfamily-wide poxvirus detection in the DNA polymerase gene.
+  description: Conventional PCR with degenerate or inosine-containing primers in a conserved poxvirus gene, built from 
+    three divergent terrestrial poxviruses so as to reach unrelated, undescribed ones. Used to find poxviruses in marine
+    mammal skin lesions. Polymerase (543 bp) pair, FP-DNApol and RP-DNApol; the forward carries an inosine.
 conditions:
   cycles: 39
   annealing_c: 45

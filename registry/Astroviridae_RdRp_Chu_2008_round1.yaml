@@ -29,6 +29,8 @@ citation:
   doi_verified: true
   oligos_designed_here: true
   claim: Astroviruses, RdRp gene, as the first round of a heminested pair.
+  description: Degenerate conventional RT-PCR with a mix of two forward primers and one reverse primer on the RdRp gene,
+    made to screen bat swabs for astroviruses.
 conditions:
   annealing_c: 50
   cycles: 30

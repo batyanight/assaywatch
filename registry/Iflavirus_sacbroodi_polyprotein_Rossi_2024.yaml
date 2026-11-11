@@ -30,6 +30,10 @@ citation:
   doi_verified: true
   oligos_designed_here: null
   claim: Sacbrood virus, polyprotein gene.
+  description: One-step RT-qPCR with a hydrolysis (MGB or BHQ) probe, redesigned from earlier honeybee virus tests so 
+    the primers and probe match more published sequences of the virus. It was built for duplex use (ABPV/BQCV, 
+    DWVA/DWVB, CBPV/SBV) with an exogenous extraction control. Polyprotein gene; forward primer and probe taken from an 
+    earlier test, reverse primer new.
 conditions:
   annealing_c: 54.0
   cycles: 50
