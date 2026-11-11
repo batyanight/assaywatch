@@ -595,7 +595,13 @@ def main(argv: list[str] | None = None) -> int:
         transport = http_transport(args.email, ncbi_api_key() or None)
     reference_of = reference_lookup(
         transport,
-        Path(cfg.get("retrieved_dir", "data/retrieved")) / ".references.json.gz",
+        # BESIDE THE ARCHIVES THIS INVOCATION ACTUALLY READ, not beside the ones
+        # `retrieved_dir` names. The two agree in a Snakemake run, which takes both from
+        # that key, and they do NOT agree when `--retrieved` points elsewhere -- a worktree
+        # warming the cache for the main checkout, say, which wrote it to the worktree and
+        # left the run's lookup cold. The cache is keyed by accession and belongs to the
+        # archive set, so it follows it.
+        args.retrieved / ".references.json.gz",
         max_failures=int((cfg.get("composition") or {}).get("coverage_max_failures", 5)),
     )
     if args.references == "prefetch":
