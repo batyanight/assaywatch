@@ -1,3 +1,24 @@
+# Resume point, 2026-11-10 (the pre-freeze work is merged; `page-narrative` waits on the maintainer)
+
+**Read `ROADMAP.md`, "Release plan: v0.3.0".** `next-release` now holds PRs #14, #15, #16 and #17, so steps
+0-9 and 11a are done and the only blockers left are 12, 13, 14 and 15.
+
+**STOPPED HERE, for the maintainer:** `page-narrative` (steps 10 and 11c) is rebuilt on `next-release`,
+pushed, every gate green, and NOT merged. The review packet is
+`local/release-work-2026-11-06/page-narrative-review-packet.md`, with the 46 drafted descriptions in
+`descriptions-for-review.tsv` and the three page notes in `page-notes-draft.md` beside it. It needs four
+interfaces approved, a decision on eight display-only placeholders, and a word on whether the frozen run
+should fetch GenBank REFERENCEs. No registry entry carries `citation.description` or `source.page_note` yet.
+
+**What moved today** (`docs/journal/2026-11-10-pre-freeze-reads.md` and `-document-audit.md`): the
+case-row `scope_taxid` column had never been honoured on real data and is fixed, with the clade sum the
+roadmap asked about; 15 validation rows applied, and no tier-2 figure moves; three curator notes corrected
+against their papers; ten amplicon sizes settled and one left open; Li 1995 answered as not a nest; and
+the document audit lists six documents wanting a decision.
+
+**Next, in order:** the maintainer's review of `page-narrative`, then step 11b (average linkage, once,
+journaled), then step 12's freeze, then the live run on the maintainer's go. Publishing waits for step 14.
+
 # Resume point, 2026-11-09 (audit of the planning documents; nothing in the release moved)
 
 **Read `ROADMAP.md`, "Release plan: v0.3.0".** Where things actually stand, corrected against GitHub and the
