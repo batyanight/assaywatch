@@ -380,6 +380,74 @@ def _archive(retrieved: Path, assay: Any, wanted: set[str]) -> tuple[dict[str, s
     return seqs, titles
 
 
+def prefetch_references(
+    calls_path: Path,
+    registry: Path,
+    retrieved: Path,
+    cfg: Mapping[str, Any],
+    *,
+    reference_of: Callable[[str], str | None],
+    run_date: str | None = None,
+) -> int:
+    """Warm the REFERENCE cache for every spike batch, without clustering. Returns the count.
+
+    Why this exists (maintainer's decision, 2026-11-10). A frozen run reads the cache and
+    makes no network call, so the cache has to be warmed first -- and warming it by running
+    the whole stage would cost a second four-hour clustering pass for a display field.
+    Nothing about a spike needs a cluster: the years come from per-year record counts and
+    the batch from consecutive accessions, both of which are in `graph_records`. So this
+    shares `build`'s preamble, gives every record one label so the cells are per-year
+    totals, and stops there.
+
+    `spikes_shown` is raised, because this is asking "which batches could a run want a
+    reference for", not "which three does a page show": the real run has titles and
+    collection dates and may keep a different three.
+    """
+    from assaywatch.drift import graph_records
+    from assaywatch.report import assessment_inputs, load_calls_as_reported, read_dates
+    from assaywatch.validate import iter_files, load_assay
+
+    opts = dataclasses.replace(Options.from_config(cfg), spikes_shown=10_000)
+    assays = {}
+    for path in iter_files(registry):
+        a = load_assay(path)
+        if a.status.value != "deprecated":
+            assays[a.id] = a
+    calls = load_calls_as_reported(calls_path, assays, cfg)
+    inputs = assessment_inputs(calls, assays, retrieved, cfg)
+    dates = read_dates(retrieved)
+    run_date = run_date or calls_path.parent.name
+    try:
+        today = date.fromisoformat(run_date[:10])
+    except ValueError:
+        today = None
+    records = graph_records(calls, dates, cfg, today=today, inputs=inputs)
+    del calls, inputs
+
+    asked = 0
+    for assay_id, rows in records.items():
+        if not rows:
+            continue
+        comp = AssayComposition(
+            assay_id,
+            opts.cut,
+            0,
+            0,
+            (),
+            tuple(cells_from(rows, {r.record_id: 0 for r in rows})),
+            {},
+            {},
+            None,
+            (),
+            "",
+        )
+        for spike in lineage_narrative(
+            comp, rows, titles={}, collected={}, reference_of=reference_of, opts=opts
+        ):
+            asked += bool(spike.batch_first)
+    return asked
+
+
 def build(
     calls_path: Path,
     registry: Path,
@@ -489,11 +557,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", type=Path, required=True, help="where composition.tsv/.json go")
     ap.add_argument(
         "--references",
-        choices=("cache", "fetch"),
+        choices=("cache", "fetch", "prefetch"),
         default="cache",
         help="cache: read .references.json.gz only, make no network call (the default, and "
-        "what a frozen run uses). fetch: ask NCBI for the ones it lacks and write them back, "
-        "which is the pass that warms the cache. Needs --email.",
+        "what a frozen run uses). fetch: ask NCBI for the ones it lacks while building, and "
+        "write them back. prefetch: warm the cache and STOP, without clustering, which is "
+        "the cheap way to make a later run's `cache` complete. Both need --email.",
     )
     ap.add_argument(
         "--coverage",
@@ -517,9 +586,9 @@ def main(argv: list[str] | None = None) -> int:
     # so warming the cache is a separate pass that can be retried and inspected, and the run
     # reads what that pass left. `--references fetch` is that pass.
     transport = None
-    if args.references == "fetch":
+    if args.references in ("fetch", "prefetch"):
         if not args.email:
-            ap.error("--references fetch needs --email, which NCBI requires for E-utilities")
+            ap.error(f"--references {args.references} needs --email, which NCBI requires for E-utilities")
         from assaywatch.credentials import ncbi_api_key
         from assaywatch.retrieve import http_transport
 
@@ -529,6 +598,18 @@ def main(argv: list[str] | None = None) -> int:
         Path(cfg.get("retrieved_dir", "data/retrieved")) / ".references.json.gz",
         max_failures=int((cfg.get("composition") or {}).get("coverage_max_failures", 5)),
     )
+    if args.references == "prefetch":
+        asked = prefetch_references(
+            args.calls,
+            args.registry,
+            args.retrieved,
+            cfg,
+            reference_of=reference_of,
+            run_date=args.run_date,
+        )
+        print(f"{asked} spike batches looked up; cache warmed. Nothing else was built.")
+        return 0
+
     run = build(
         args.calls,
         args.registry,
