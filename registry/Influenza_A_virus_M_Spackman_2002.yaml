@@ -23,7 +23,7 @@ oligos:
     seq: TCAGGCCCCCTCAAAGCCGA
     reporter: FAM
     quencher: MGB-NFQ
-amplicon_bp: 100
+amplicon_bp: 101
 citation:
   doi: 10.1128/JCM.40.9.3256-3260.2002
   design_year: 2002
@@ -58,7 +58,15 @@ source:
     (C->A, A->G) alongside three widenings, which is a redesign rather than a relaxation. So the stored reverse is not Spackman''s
     primer in any useful sense and the checker reports it as absent from the paper. oligos_designed_here is False. That is
     context a reader needs before trusting either, and it is an argument for the hemagglutinin assay gap noted in docs/journal/2026-10-04-literature-audit.md,
-    since a matrix assay cannot see subtype at all.'
+    since a matrix assay cannot see subtype at all. SIZE READ AND SETTLED 2026-11-10 (ROADMAP, "Sizes to read, from the verifier''s
+    table"). One rule over all eleven entries on that list: amplicon_bp takes the measured modal product length where one
+    mode holds a clear majority, and the measured median where none does, with amplicon_multimodal in the second case; the
+    flag says whether the CITED paper publishes a size (amplicon_disagrees_with_paper) or does not (amplicon_measured_not_published);
+    and a value is only moved where the new +/-25% window still admits every product measured, so a correction cannot silently
+    delete calls. Measured on the 2026-11-01 calls. Spackman: 100 -> 101, off by one and unanimous over 92,224 products.'
 needs_review:
 - flag: oligos_modified
   note: the reverse primer is redesigned, not Spackman's
+- flag: amplicon_measured_not_published
+  note: measured 101 bp in all 92,224 products, with no second length anywhere; the paper publishes no product size for 
+    the matrix set. Replaces a stored 100. 2026-11-10.
