@@ -173,7 +173,22 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 
 ### Asked for 2026-11-06
 
-- [ ] **Audit the whole repository for documents the audience doesn't need.** Maintainer request. Go through every
+- [x] **Audit the whole repository for documents the audience doesn't need. DONE 2026-11-10**,
+  `docs/journal/2026-11-10-document-audit.md`. Nothing moved or removed: the deliverable is the list.
+  All 151 journals triaged and kept, with no credential, no named employer, no pasted PDF text and no
+  duplicate among them. **Six want a decision**, each with a recommendation in the journal:
+  (1) `docs/2026-10-06-lab-leads.tsv` names research groups in a `lab_named_by_search` column, against
+  the scope rule that no lab is ever a source -- recommend dropping the column;
+  (2) `docs/RESUME-HERE.md` is 294 KB of 27 stacked resume points, 1 of them live -- recommend keeping
+  the newest three and archiving the rest to a journal;
+  (3) `papers/papers-still-needed.md` and `papers/papers-still-needed-2026-10-24.md` are superseded by a
+  fetch list whose first line says it is empty -- recommend `local/`;
+  (4) `docs/INDEX.md` has two rows describing the one `example-run-2026-11-01/report.md` as two different
+  runs, which is a defect, not a preference;
+  (5) `ROADMAP.md` line 1923 prints `/Users/batya/assaywatch`, the only absolute home path in any tracked
+  file -- recommend rewording to "the repository root";
+  (6) `journal/2026-10-06-lab-leads.md` prints a public institutional address -- recommend keeping.
+  As asked: Maintainer request. Go through every
   tracked document, decide who it's for, and list what to keep, move to `local/` or remove, for the maintainer's decision.
 
 ### Sizes to read, from the verifier's table
