@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Neill JD, Seal BS 1995. Development of PCR primers for specific amplification of two distinct regions of the genomes of San Miguel sea-lion and vesicular exanthema of swine viruses. Mol Cell Probes 9:33-37
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Caliciviridae_RdRp_Neill_1995</span></p>
+<p class="aw-assay-line"><span class="aw-id">Caliciviridae_RdRp_Neill_1995</span></p>
 
 **Caliciviridae — RNA-dependent RNA polymerase (Neill 1995)**
 
@@ -18,8 +18,18 @@
 | Chemistry | conventional |
 | Amplicon | 520 bp |
 | Registry status | draft |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | Pol1 | `GCCTTCTGGTATGCCACTAACATCC` | 25 nt |
+| reverse | Pol2 | `GACGAGCGGTATGATCTTGTTGGTG` | 25 nt |
 
 ## Mismatch distribution
+
+<svg class="aw-track" viewBox="0 0 497 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">Pol1</text><rect class="aw-zone" x="404.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="479.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">G</text><text class="aw-base" x="126.5" y="57">C</text><text class="aw-base" x="141.5" y="57">C</text><text class="aw-base" x="156.5" y="57">T</text><text class="aw-base" x="171.5" y="57">T</text><text class="aw-base" x="186.5" y="57">C</text><text class="aw-base" x="201.5" y="57">T</text><text class="aw-base" x="216.5" y="57">G</text><text class="aw-base" x="231.5" y="57">G</text><text class="aw-base" x="246.5" y="57">T</text><text class="aw-base" x="261.5" y="57">A</text><text class="aw-base" x="276.5" y="57">T</text><text class="aw-base" x="291.5" y="57">G</text><text class="aw-base" x="306.5" y="57">C</text><text class="aw-base" x="321.5" y="57">C</text><text class="aw-base" x="336.5" y="57">A</text><text class="aw-base" x="351.5" y="57">C</text><text class="aw-base" x="366.5" y="57">T</text><text class="aw-base" x="381.5" y="57">A</text><text class="aw-base" x="396.5" y="57">A</text><text class="aw-base" x="411.5" y="57">C</text><text class="aw-base" x="426.5" y="57">A</text><text class="aw-base" x="441.5" y="57">T</text><text class="aw-base" x="456.5" y="57">C</text><text class="aw-base" x="471.5" y="57">C</text><text class="aw-tick" x="471.5" y="71">1</text><text class="aw-tick" x="411.5" y="71">5</text><text class="aw-tick" x="336.5" y="71">10</text><text class="aw-tick" x="261.5" y="71">15</text><text class="aw-tick" x="186.5" y="71">20</text><text class="aw-tick" x="111.5" y="71">25</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="483" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">Pol2</text><rect class="aw-zone" x="404.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="479.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">G</text><text class="aw-base" x="126.5" y="139">A</text><text class="aw-base" x="141.5" y="139">C</text><text class="aw-base" x="156.5" y="139">G</text><text class="aw-base" x="171.5" y="139">A</text><text class="aw-base" x="186.5" y="139">G</text><text class="aw-base" x="201.5" y="139">C</text><text class="aw-base" x="216.5" y="139">G</text><text class="aw-base" x="231.5" y="139">G</text><text class="aw-base" x="246.5" y="139">T</text><text class="aw-base" x="261.5" y="139">A</text><text class="aw-base" x="276.5" y="139">T</text><text class="aw-base" x="291.5" y="139">G</text><text class="aw-base" x="306.5" y="139">A</text><text class="aw-base" x="321.5" y="139">T</text><text class="aw-base" x="336.5" y="139">C</text><text class="aw-base" x="351.5" y="139">T</text><text class="aw-base" x="366.5" y="139">T</text><text class="aw-base" x="381.5" y="139">G</text><text class="aw-base" x="396.5" y="139">T</text><text class="aw-base" x="411.5" y="139">T</text><text class="aw-base" x="426.5" y="139">G</text><text class="aw-base" x="441.5" y="139">G</text><text class="aw-base" x="456.5" y="139">T</text><text class="aw-base" x="471.5" y="139">G</text><text class="aw-tick" x="471.5" y="153">1</text><text class="aw-tick" x="411.5" y="153">5</text><text class="aw-tick" x="336.5" y="153">10</text><text class="aw-tick" x="261.5" y="153">15</text><text class="aw-tick" x="186.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">25</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="483" y="139">3′</text></svg>
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
 penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
@@ -36,46 +46,7 @@ as the fall in detection between records that differ there and records that do n
 Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
 bar is a position that matters.
 
-<svg class="aw-track" viewBox="0 0 497 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">Pol1</text><rect class="aw-zone" x="404.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="479.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">G</text><text class="aw-base" x="126.5" y="57">C</text><text class="aw-base" x="141.5" y="57">C</text><text class="aw-base" x="156.5" y="57">T</text><text class="aw-base" x="171.5" y="57">T</text><text class="aw-base" x="186.5" y="57">C</text><text class="aw-base" x="201.5" y="57">T</text><text class="aw-base" x="216.5" y="57">G</text><text class="aw-base" x="231.5" y="57">G</text><text class="aw-base" x="246.5" y="57">T</text><text class="aw-base" x="261.5" y="57">A</text><text class="aw-base" x="276.5" y="57">T</text><text class="aw-base" x="291.5" y="57">G</text><text class="aw-base" x="306.5" y="57">C</text><text class="aw-base" x="321.5" y="57">C</text><text class="aw-base" x="336.5" y="57">A</text><text class="aw-base" x="351.5" y="57">C</text><text class="aw-base" x="366.5" y="57">T</text><text class="aw-base" x="381.5" y="57">A</text><text class="aw-base" x="396.5" y="57">A</text><text class="aw-base" x="411.5" y="57">C</text><text class="aw-base" x="426.5" y="57">A</text><text class="aw-base" x="441.5" y="57">T</text><text class="aw-base" x="456.5" y="57">C</text><text class="aw-base" x="471.5" y="57">C</text><text class="aw-tick" x="471.5" y="71">1</text><text class="aw-tick" x="411.5" y="71">5</text><text class="aw-tick" x="336.5" y="71">10</text><text class="aw-tick" x="261.5" y="71">15</text><text class="aw-tick" x="186.5" y="71">20</text><text class="aw-tick" x="111.5" y="71">25</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="483" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">Pol2</text><rect class="aw-zone" x="404.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="479.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">G</text><text class="aw-base" x="126.5" y="139">A</text><text class="aw-base" x="141.5" y="139">C</text><text class="aw-base" x="156.5" y="139">G</text><text class="aw-base" x="171.5" y="139">A</text><text class="aw-base" x="186.5" y="139">G</text><text class="aw-base" x="201.5" y="139">C</text><text class="aw-base" x="216.5" y="139">G</text><text class="aw-base" x="231.5" y="139">G</text><text class="aw-base" x="246.5" y="139">T</text><text class="aw-base" x="261.5" y="139">A</text><text class="aw-base" x="276.5" y="139">T</text><text class="aw-base" x="291.5" y="139">G</text><text class="aw-base" x="306.5" y="139">A</text><text class="aw-base" x="321.5" y="139">T</text><text class="aw-base" x="336.5" y="139">C</text><text class="aw-base" x="351.5" y="139">T</text><text class="aw-base" x="366.5" y="139">T</text><text class="aw-base" x="381.5" y="139">G</text><text class="aw-base" x="396.5" y="139">T</text><text class="aw-base" x="411.5" y="139">T</text><text class="aw-base" x="426.5" y="139">G</text><text class="aw-base" x="441.5" y="139">G</text><text class="aw-base" x="456.5" y="139">T</text><text class="aw-base" x="471.5" y="139">G</text><text class="aw-tick" x="471.5" y="153">1</text><text class="aw-tick" x="411.5" y="153">5</text><text class="aw-tick" x="336.5" y="153">10</text><text class="aw-tick" x="261.5" y="153">15</text><text class="aw-tick" x="186.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">25</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="483" y="139">3′</text></svg>
 <p class="aw-empty">No position carried a mismatch in enough records to report. 15 of the 25 records in the recent and baseline windows were not detected. Their mismatches are either spread too thinly to report at any one position, or the record has no site for an oligo (for example no probe site inside the amplicon), which leaves no position to draw.</p>
-
-## Predicted detection by deposit year
-
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
-
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1994 to 2014, against a 90 percent threshold."><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-line aw-no-recent-data" points="44.0,20.2 77.1,20.2 143.3,183.8 176.4,183.8 242.6,183.8 341.9,183.8 474.3,165.6 639.8,183.8 706.0,183.8"/><g class="aw-point aw-no-recent-data"><title>1994: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>1995: 7 of 7 detected (100.0%)</title><circle cx="77.1" cy="20.2" r="3.0"/></g><g class="aw-point aw-no-recent-data"><title>1997: 0 of 2 detected (0.0%)</title><circle cx="143.3" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>1998: 0 of 1 detected (0.0%)</title><circle cx="176.4" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2000: 0 of 1 detected (0.0%)</title><circle cx="242.6" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2003: 0 of 1 detected (0.0%)</title><circle cx="341.9" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2007: 1 of 9 detected (11.1%)</title><circle cx="474.3" cy="165.6" r="3.2"/></g><g class="aw-point aw-no-recent-data"><title>2012: 0 of 1 detected (0.0%)</title><circle cx="639.8" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2014: 0 of 1 detected (0.0%)</title><circle cx="706.0" cy="183.8" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">1994</text><text class="aw-tick" x="143.3" y="208">1997</text><text class="aw-tick" x="242.6" y="208">2000</text><text class="aw-tick" x="341.9" y="208">2003</text><text class="aw-tick" x="441.2" y="208">2006</text><text class="aw-tick" x="540.5" y="208">2009</text><text class="aw-tick" x="639.8" y="208">2012</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
-
-## What was deposited, by lineage
-
-Lineages here are sequence groups, not species or taxids. Each is a group of records
-that look alike over the amplicon and its flanks with the oligo sites masked, cut at
-0.05 Mash distance. Records can link one species to the next, so a group
-can hold several; a percent in its name is the share of its top species. The groups
-come from sequence this assay does not measure, so the mix below can move without the
-assay changing. The dashed line on the chart above recomputes each year on the whole
-period's mix: where the two lines part, what got sequenced changed, not what the assay
-detects.
-
-*7 of 25 diverged, with no site to cluster on.*
-
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 1994 to 2014."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>1994 — other: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1995 — other: 7 of 7 records (100%), 7 detected</title><rect x="64.1" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1997 — other: 2 of 2 records (100%), 0 detected</title><rect x="130.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1998 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="163.4" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2000 — other: 1 of 1 records (100%), 0 detected</title><rect x="229.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2003 — other: 1 of 1 records (100%), 0 detected</title><rect x="328.9" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2007 — diverged (no site): 4 of 9 records (44%), 0 detected</title><rect x="461.3" y="10.0" width="26.0" height="40.9" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2007 — other: 5 of 9 records (56%), 1 detected</title><rect x="461.3" y="50.9" width="26.0" height="51.1" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2012 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="626.8" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2014 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><text class="aw-tick" x="44.0" y="117">1994</text><text class="aw-tick" x="143.3" y="117">1997</text><text class="aw-tick" x="242.6" y="117">2000</text><text class="aw-tick" x="341.9" y="117">2003</text><text class="aw-tick" x="441.2" y="117">2006</text><text class="aw-tick" x="540.5" y="117">2009</text><text class="aw-tick" x="639.8" y="117">2012</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
-
-| Lineage | Records | Share | New since design | Species | Also in the titles |
-|---|---|---|---|---|---|
-| diverged (no site) | 7 | 28% |  | Vesivirus exanthema 7 | of, swine, Vesicular |
-| other | 18 | 72% |  | Vesivirus exanthema 18 | RNA-dependent, lion, Miguel, San, sea |
-
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 100%, 2020 98%, 2021 99%, 2022 100%, 2023 100%, 2024 100%, 2025 100%, 2026 99% (best year 100%). A low share is a fact about the query, not about the taxon.
-
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | Pol1 | `GCCTTCTGGTATGCCACTAACATCC` | 25 nt |
-| reverse | Pol2 | `GACGAGCGGTATGATCTTGTTGGTG` | 25 nt |
 
 ## Verdict
 
@@ -111,6 +82,15 @@ This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Ta
 
 Disclosures on this entry: `thin_evidence`.
 
+## Predicted detection by deposit year
+
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1994 to 2014, against a 90 percent threshold."><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-line aw-no-recent-data" points="44.0,20.2 77.1,20.2 143.3,183.8 176.4,183.8 242.6,183.8 341.9,183.8 474.3,165.6 639.8,183.8 706.0,183.8"/><g class="aw-point aw-no-recent-data"><title>1994: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>1995: 7 of 7 detected (100.0%)</title><circle cx="77.1" cy="20.2" r="3.0"/></g><g class="aw-point aw-no-recent-data"><title>1997: 0 of 2 detected (0.0%)</title><circle cx="143.3" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>1998: 0 of 1 detected (0.0%)</title><circle cx="176.4" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2000: 0 of 1 detected (0.0%)</title><circle cx="242.6" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2003: 0 of 1 detected (0.0%)</title><circle cx="341.9" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2007: 1 of 9 detected (11.1%)</title><circle cx="474.3" cy="165.6" r="3.2"/></g><g class="aw-point aw-no-recent-data"><title>2012: 0 of 1 detected (0.0%)</title><circle cx="639.8" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2014: 0 of 1 detected (0.0%)</title><circle cx="706.0" cy="183.8" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">1994</text><text class="aw-tick" x="143.3" y="208">1997</text><text class="aw-tick" x="242.6" y="208">2000</text><text class="aw-tick" x="341.9" y="208">2003</text><text class="aw-tick" x="441.2" y="208">2006</text><text class="aw-tick" x="540.5" y="208">2009</text><text class="aw-tick" x="639.8" y="208">2012</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
 
 ## Records reaching the statistics
 
@@ -122,6 +102,28 @@ This matters because a record with one diverged primer is scored as a failure wh
 |---|---|
 | `no_site` | 71 |
 | `truncated` | 19 |
+
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+*7 of 25 diverged, with no site to cluster on.*
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 1994 to 2014."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>1994 — other: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1995 — other: 7 of 7 records (100%), 7 detected</title><rect x="64.1" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1997 — other: 2 of 2 records (100%), 0 detected</title><rect x="130.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1998 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="163.4" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2000 — other: 1 of 1 records (100%), 0 detected</title><rect x="229.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2003 — other: 1 of 1 records (100%), 0 detected</title><rect x="328.9" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2007 — diverged (no site): 4 of 9 records (44%), 0 detected</title><rect x="461.3" y="10.0" width="26.0" height="40.9" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2007 — other: 5 of 9 records (56%), 1 detected</title><rect x="461.3" y="50.9" width="26.0" height="51.1" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2012 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="626.8" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2014 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><text class="aw-tick" x="44.0" y="117">1994</text><text class="aw-tick" x="143.3" y="117">1997</text><text class="aw-tick" x="242.6" y="117">2000</text><text class="aw-tick" x="341.9" y="117">2003</text><text class="aw-tick" x="441.2" y="117">2006</text><text class="aw-tick" x="540.5" y="117">2009</text><text class="aw-tick" x="639.8" y="117">2012</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| diverged (no site) | 7 | 28% |  | Vesivirus exanthema 7 | of, swine, Vesicular |
+| other | 18 | 72% |  | Vesivirus exanthema 18 | RNA-dependent, lion, Miguel, San, sea |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 100%, 2020 98%, 2021 99%, 2022 100%, 2023 100%, 2024 100%, 2025 100%, 2026 99% (best year 100%). A low share is a fact about the query, not about the taxon.
 
 
 ## Curation record

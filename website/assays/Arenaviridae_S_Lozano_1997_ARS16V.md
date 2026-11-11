@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Lozano, M. E. et al. Characterization of arenaviruses using a family-specific primer set for RT-PCR amplification and RFLP analysis - Its potential use for detection of uncharacterized arenaviruses. Virus Res 49, 79-89, doi:Doi 10.1016/S0168-1702(97)01458-5 (1997).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Arenaviridae_S_Lozano_1997_ARS16V</span></p>
+<p class="aw-assay-line"><span class="aw-id">Arenaviridae_S_Lozano_1997_ARS16V</span></p>
 
 **Arenaviridae — S segment (Lozano 1997, ARS16V)**
 
@@ -18,23 +18,16 @@
 | Chemistry | conventional |
 | Amplicon | 630 bp |
 | Registry status | active |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | ARS16V | `GGCATWGANCCAAACTGATT` | 20 nt |
+| reverse | ARS1 | `CGCACCGGGGATCCTAGGC` | 19 nt |
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 422 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">ARS16V</text><rect class="aw-zone" x="329.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="404.0" y2="44.0"/><g class="aw-bar-weak"><title>forward position 20 from the 3&#x27; end, base G
 106 of 740 records differ here (14.3%)
@@ -153,6 +146,54 @@ detected when it does not: 65% of 670
 substitutions: C&gt;T in 45, C&gt;G in 25
 inside the 3′ window</title><rect x="375.0" y="115.5" width="13.0" height="10.5"/></g><text class="aw-base" x="381.5" y="139">C</text><text class="aw-tick" x="381.5" y="153">1</text><text class="aw-tick" x="321.5" y="153">5</text><text class="aw-tick" x="246.5" y="153">10</text><text class="aw-tick" x="171.5" y="153">15</text><text class="aw-tick" x="111.5" y="153">19</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="393" y="139">3′</text></svg>
 
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
+
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
+
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
+
+
+## Verdict
+
+**low coverage** — below the threshold without a measurable decline — applied beyond its design range, or never covering this taxon
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (24 months, from Nov 2024) | 9 | 69 | 13.0% | 7.0% – 23.0% |
+| baseline (everything earlier) | 388 | 1,034 | 37.5% | 34.6% – 40.5% |
+
+Change from baseline, Newcombe interval: **-31.2% to -14.1%**. Threshold: **90.0%**.
+
+*detected share 13.0% (7%-23%) since Nov 2024, upper bound below the 90% threshold; change from baseline -31% to -14% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 38%)*
+
+Trend across deposit years: by record falling (p = 1.39e-05, 39 years); by footprint falling (p = 0.000239). Reported for context; it is not an input to the verdict.
+
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+
+
+## Scope
+
+**Meant to detect:** The complete S RNA of any arenavirus.  
+**Scored against:** the 6 taxa listed below and anything beneath them.  
+**Retrieved from:** Arenaviridae (taxid 11617), every record.
+
+This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=208898" title="unclassified Arenaviridae">208898</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1653394" title="Mammarenavirus">1653394</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1653395">1653395</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2169607">2169607</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2560091">2560091</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3044740">3044740</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
+
+<a class="aw-download" href="../Arenaviridae_S_Lozano_1997_ARS16V.scope.txt" download>Download 6 taxids as a text file</a>
+
+Disclosures on this entry: `scope_wider_than_paper_tested`, `orientation_inferred`.
+
 ## Predicted detection by deposit year
 
 The share of deposited sequence this assay is predicted to detect, by year of
@@ -161,6 +202,21 @@ Bigger markers mean more records behind the point, because 100% of three records
 and 100% of three thousand are very different claims.
 
 <svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1985 to 2026, against a 90 percent threshold."><rect class="aw-window" x="673.7" y="12.0" width="32.3" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="108.6,89.4 173.2,89.4 237.8,99.3 318.5,120.4 350.8,124.4 383.1,119.0 399.2,106.9 415.4,127.8 431.5,117.9 463.8,118.7 480.0,119.1 512.2,125.4 528.4,148.5 544.5,111.1 560.7,100.2 576.8,170.9 593.0,133.0 609.1,130.0 625.3,151.5 641.4,130.2 657.6,142.9 673.7,107.4 689.9,165.7 706.0,154.1"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-low-coverage" points="44.0,20.2 60.1,20.2 76.3,20.2 108.6,40.6 124.7,129.3 157.0,20.2 173.2,90.3 205.5,183.8 221.6,20.2 237.8,142.9 253.9,90.3 270.0,183.8 286.2,20.2 302.3,129.3 318.5,74.7 334.6,134.7 350.8,135.5 366.9,74.7 383.1,116.9 399.2,116.9 415.4,134.3 431.5,105.9 447.7,144.5 463.8,129.3 480.0,104.4 496.1,134.7 512.2,107.5 528.4,143.6 544.5,96.2 560.7,117.7 576.8,169.1 593.0,123.5 609.1,129.3 625.3,141.1 641.4,126.4 657.6,123.7 673.7,114.6 689.9,168.9 706.0,154.9"/><g class="aw-point aw-low-coverage"><title>1985: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>1986: 1 of 1 detected (100.0%)</title><circle cx="60.1" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>1987: 1 of 1 detected (100.0%)</title><circle cx="76.3" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>1989: 7 of 8 detected (87.5%)</title><circle cx="108.6" cy="40.6" r="3.1"/></g><g class="aw-point aw-low-coverage"><title>1990: 1 of 3 detected (33.3%)</title><circle cx="124.7" cy="129.3" r="2.6"/></g><g class="aw-point aw-low-coverage"><title>1992: 1 of 1 detected (100.0%)</title><circle cx="157.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>1993: 4 of 7 detected (57.1%)</title><circle cx="173.2" cy="90.3" r="3.0"/></g><g class="aw-point aw-low-coverage"><title>1995: 0 of 1 detected (0.0%)</title><circle cx="205.5" cy="183.8" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>1996: 2 of 2 detected (100.0%)</title><circle cx="221.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>1997: 1 of 4 detected (25.0%)</title><circle cx="237.8" cy="142.9" r="2.7"/></g><g class="aw-point aw-low-coverage"><title>1998: 4 of 7 detected (57.1%)</title><circle cx="253.9" cy="90.3" r="3.0"/></g><g class="aw-point aw-low-coverage"><title>1999: 0 of 12 detected (0.0%)</title><circle cx="270.0" cy="183.8" r="3.4"/></g><g class="aw-point aw-low-coverage"><title>2000: 1 of 1 detected (100.0%)</title><circle cx="286.2" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2001: 1 of 3 detected (33.3%)</title><circle cx="302.3" cy="129.3" r="2.6"/></g><g class="aw-point aw-low-coverage"><title>2002: 12 of 18 detected (66.7%)</title><circle cx="318.5" cy="74.7" r="3.6"/></g><g class="aw-point aw-low-coverage"><title>2003: 3 of 10 detected (30.0%)</title><circle cx="334.6" cy="134.7" r="3.3"/></g><g class="aw-point aw-low-coverage"><title>2004: 13 of 44 detected (29.5%)</title><circle cx="350.8" cy="135.5" r="4.2"/></g><g class="aw-point aw-low-coverage"><title>2005: 2 of 3 detected (66.7%)</title><circle cx="366.9" cy="74.7" r="2.6"/></g><g class="aw-point aw-low-coverage"><title>2006: 9 of 22 detected (40.9%)</title><circle cx="383.1" cy="116.9" r="3.8"/></g><g class="aw-point aw-low-coverage"><title>2007: 9 of 22 detected (40.9%)</title><circle cx="399.2" cy="116.9" r="3.8"/></g><g class="aw-point aw-low-coverage"><title>2008: 13 of 43 detected (30.2%)</title><circle cx="415.4" cy="134.3" r="4.2"/></g><g class="aw-point aw-low-coverage"><title>2009: 30 of 63 detected (47.6%)</title><circle cx="431.5" cy="105.9" r="4.5"/></g><g class="aw-point aw-low-coverage"><title>2010: 6 of 25 detected (24.0%)</title><circle cx="447.7" cy="144.5" r="3.9"/></g><g class="aw-point aw-low-coverage"><title>2011: 15 of 45 detected (33.3%)</title><circle cx="463.8" cy="129.3" r="4.3"/></g><g class="aw-point aw-low-coverage"><title>2012: 33 of 68 detected (48.5%)</title><circle cx="480.0" cy="104.4" r="4.5"/></g><g class="aw-point aw-low-coverage"><title>2013: 3 of 10 detected (30.0%)</title><circle cx="496.1" cy="134.7" r="3.3"/></g><g class="aw-point aw-low-coverage"><title>2014: 70 of 150 detected (46.7%)</title><circle cx="512.2" cy="107.5" r="5.1"/></g><g class="aw-point aw-low-coverage"><title>2015: 14 of 57 detected (24.6%)</title><circle cx="528.4" cy="143.6" r="4.4"/></g><g class="aw-point aw-low-coverage"><title>2016: 15 of 28 detected (53.6%)</title><circle cx="544.5" cy="96.2" r="3.9"/></g><g class="aw-point aw-low-coverage"><title>2017: 19 of 47 detected (40.4%)</title><circle cx="560.7" cy="117.7" r="4.3"/></g><g class="aw-point aw-low-coverage"><title>2018: 7 of 78 detected (9.0%)</title><circle cx="576.8" cy="169.1" r="4.6"/></g><g class="aw-point aw-low-coverage"><title>2019: 14 of 38 detected (36.8%)</title><circle cx="593.0" cy="123.5" r="4.1"/></g><g class="aw-point aw-low-coverage"><title>2020: 9 of 27 detected (33.3%)</title><circle cx="609.1" cy="129.3" r="3.9"/></g><g class="aw-point aw-low-coverage"><title>2021: 6 of 23 detected (26.1%)</title><circle cx="625.3" cy="141.1" r="3.8"/></g><g class="aw-point aw-low-coverage"><title>2022: 20 of 57 detected (35.1%)</title><circle cx="641.4" cy="126.4" r="4.4"/></g><g class="aw-point aw-low-coverage"><title>2023: 29 of 79 detected (36.7%)</title><circle cx="657.6" cy="123.7" r="4.6"/></g><g class="aw-point aw-low-coverage"><title>2024: 11 of 26 detected (42.3%) — recent window</title><circle cx="673.7" cy="114.6" r="3.9"/></g><g class="aw-point aw-low-coverage"><title>2025: 3 of 33 detected (9.1%) — recent window</title><circle cx="689.9" cy="168.9" r="4.1"/></g><g class="aw-point aw-low-coverage"><title>2026: 6 of 34 detected (17.6%) — recent window</title><circle cx="706.0" cy="154.9" r="4.1"/></g><text class="aw-tick" x="44.0" y="208">1985</text><text class="aw-tick" x="140.9" y="208">1991</text><text class="aw-tick" x="237.8" y="208">1997</text><text class="aw-tick" x="334.6" y="208">2003</text><text class="aw-tick" x="431.5" y="208">2009</text><text class="aw-tick" x="528.4" y="208">2015</text><text class="aw-tick" x="625.3" y="208">2021</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
+
+## Records reaching the statistics
+
+6,227 records were screened for this assay and **1,103 (18%)** were evaluable, meaning both primers landed in the right orientation and size range. 5,124 produced no amplicon at all.
+
+This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
+
+| why a record was not evaluable | records |
+|---|---|
+| `no_site` | 4,341 |
+| `chance_anchor` | 400 |
+| `truncated` | 320 |
+| `no_pair` | 46 |
+| `chance_only` | 14 |
 
 ## What was deposited, by lineage
 
@@ -199,66 +255,12 @@ Of the records the target taxon holds, the share its own retrieval query returne
 Between the baseline and the recent window the detected share went
 37.5% to 13.0%, a change of -0.245. Of that, **-0.139 is the mix** of lineages deposited changing (95% CI -0.195 to -0.085) and **-0.106 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | ARS16V | `GGCATWGANCCAAACTGATT` | 20 nt |
-| reverse | ARS1 | `CGCACCGGGGATCCTAGGC` | 19 nt |
-
-## Verdict
-
-**low coverage** — below the threshold without a measurable decline — applied beyond its design range, or never covering this taxon
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 9 | 69 | 13.0% | 7.0% – 23.0% |
-| baseline (everything earlier) | 388 | 1,034 | 37.5% | 34.6% – 40.5% |
-
-Change from baseline, Newcombe interval: **-31.2% to -14.1%**. Threshold: **90.0%**.
-
-*detected share 13.0% (7%-23%) since Nov 2024, upper bound below the 90% threshold; change from baseline -31% to -14% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 38%)*
-
-Trend across deposit years: by record falling (p = 1.39e-05, 39 years); by footprint falling (p = 0.000239). Reported for context; it is not an input to the verdict.
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-
-## Scope
-
-**Meant to detect:** The complete S RNA of any arenavirus.  
-**Scored against:** the 6 taxa listed below and anything beneath them.  
-**Retrieved from:** Arenaviridae (taxid 11617), every record.
-
-This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=208898" title="unclassified Arenaviridae">208898</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1653394" title="Mammarenavirus">1653394</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1653395">1653395</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2169607">2169607</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2560091">2560091</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3044740">3044740</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
-
-<a class="aw-download" href="../Arenaviridae_S_Lozano_1997_ARS16V.scope.txt" download>Download 6 taxids as a text file</a>
-
-Disclosures on this entry: `scope_wider_than_paper_tested`, `orientation_inferred`.
-
-
-## Records reaching the statistics
-
-6,227 records were screened for this assay and **1,103 (18%)** were evaluable, meaning both primers landed in the right orientation and size range. 5,124 produced no amplicon at all.
-
-This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
-
-| why a record was not evaluable | records |
-|---|---|
-| `no_site` | 4,341 |
-| `chance_anchor` | 400 |
-| `truncated` | 320 |
-| `no_pair` | 46 |
-| `chance_only` | 14 |
-
 
 ## Curation record
 
-SCOPE BROADENED 2026-11-04, on rereading the paper: The paper claims all members, including undescribed ones, from an alignment of 11 sequences of 8 viruses. Reptarenavirus, Hartmanivirus, Antennavirus and Innmovirus are added on that wording. The paper did not test them.
+PREDICT panel protocol P-003 (S-gene), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · newest first</summary><p><b>2026-11-04</b> SCOPE BROADENED 2026-11-04, on rereading the paper: The paper claims all members, including undescribed ones, from an alignment of 11 sequences of 8 viruses. Reptarenavirus, Hartmanivirus, Antennavirus and Innmovirus are added on that wording. The paper did not test them.</p><p><b>2026-10-23</b> RESOLVED BY EYE 2026-10-23 (pdftotext -layout, Lozano Table 1): ARS16V is printed GGCATWGANCCAAACTGA- with TT wrapped onto the next line, which is the stored sequence exactly; the near:2 was the wrap. Both oligos are Lozano's as printed, and the verifier now reads both exact.</p><p><b>2026-10-20</b> VERIFIED AGAINST THE PAPER FOR THE FIRST TIME 2026-10-20. This entry's DOI is parenthesised, so verify_oligos_against_paper.py had never reached the local PDF - it read no-full-text, "no local PDF", while the file sat in papers/. Cause and fix in that script's doi_stem(). Result: ARS1 reads exact, but ARS16V reads near:2. Stored GGCATWGANCCAAACTGATT (20 nt); Lozano et al. 1997 prints GGCATWGANCCAAACTGA (18 nt). The stored form carries two extra bases, TT, at its 3' END. The verifier's standing caveat is that bases at the ends of a printed run can be table text glued on by the extraction, but that caveat is about the PAPER's run, and here the extra bases are on the STORED oligo and at the priming end, where two bases decide whether the 3' terminus matches. Either the primer was lengthened when first entered or the extraction truncated the table. Not changed: read the Table in the PDF by eye before touching the sequence.</p><p><b>2026-10-04</b> PREDICT panel protocol P-003 (S-gene), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Lozano, M. et al (1997). SCOPED 2026-10-20 to the mammarenaviruses, from Lozano et al. 1997's own range. Its title calls the set "family-specific", but in 1997 the family was the mammarenaviruses alone: the paper divides arenaviruses into Old World (LCM, Ippy, Lassa, Mobala, Mopeia) and New World (Junin, Tacaribe, Pichinde and relatives) and amplified LCM WE, Lassa Nigeria and Josiah, Mopeia, Pichinde, Tacaribe, Junin MC2 and XJ, Oliveros and Pampa. Reptarenavirus, Hartmanivirus, Antennavirus and Innmovirus were all described after it, so scope_taxids is 1653394 Mammarenavirus plus 208898 unclassified Arenaviridae -- the latter deliberately, since it holds the 164 Arenavirus sp. records, the legacy genus 11618 with the Mopeia/Lassa reassortants, and field isolates such as Cardamones and Middle Pease River that are mammarenaviruses in all but assignment. It also admits 10 Boid arenavirus records that sit under 208898 rather than under Reptarenavirus, which is an NCBI placement artefact, not a decision here. Snake reptarenaviruses have their own registry entry, so leaving them in this denominator scored them twice against an assay not designed for them. MEASURED on the 2026-10-17 calls: 473 records go out of scope, of which 45 were evaluable here and all 45 at 0 percent detected, but none is in the recent window, so the pooled share and the verdict are unchanged to the digit (low coverage, 52.9 percent of 51). Expect this to matter later rather than now: reptarenavirus and antennavirus deposits are growing and will land in a future recent window.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-003 (S-gene), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Lozano, M. et al (1997). SCOPED 2026-10-20 to the mammarenaviruses, from Lozano et al. 1997's own range. Its title calls the set "family-specific", but in 1997 the family was the mammarenaviruses alone: the paper divides arenaviruses into Old World (LCM, Ippy, Lassa, Mobala, Mopeia) and New World (Junin, Tacaribe, Pichinde and relatives) and designed the primers on the published S RNA sequences of LCM WE and Armstrong, Lassa Nigeria and Josiah, Mopeia, Pichinde, Machupo, Tacaribe, Junin MC2 and XJ, and Oliveros. CORRECTED 2026-11-10: until today this sentence read "and amplified" that list, and the list is the ALIGNMENT set, not what the paper put through a reaction. It is Fig. 2, the HinfI pattern CALCULATED for "different arenaviruses S RNAs" from sequence, for "those arenaviruses for which the S RNA sequence is available". What ARS1/ARS16V amplified is four viruses: Junin MC2, LCM WE and Tacaribe on cultured-cell RNA (Fig. 3a, lanes J, L and T, confirmed by HinfI in Fig. 3b), and the novel Pampa isolate (lane P, about 600 bp). The abstract says the same: "tested with Old World (LCM) and New World (Junin and Tacaribe) arenaviruses", plus the novel isolate. Pichinde is propagated in section 2.2 and appears in no amplification figure. The scope decision recorded above is unaffected: it was taken from the range the paper CLAIMS, not from the panel it ran. Reptarenavirus, Hartmanivirus, Antennavirus and Innmovirus were all described after it, so scope_taxids is 1653394 Mammarenavirus plus 208898 unclassified Arenaviridae -- the latter deliberately, since it holds the 164 Arenavirus sp. records, the legacy genus 11618 with the Mopeia/Lassa reassortants, and field isolates such as Cardamones and Middle Pease River that are mammarenaviruses in all but assignment. It also admits 10 Boid arenavirus records that sit under 208898 rather than under Reptarenavirus, which is an NCBI placement artefact, not a decision here. Snake reptarenaviruses have their own registry entry, so leaving them in this denominator scored them twice against an assay not designed for them. MEASURED on the 2026-10-17 calls: 473 records go out of scope, of which 45 were evaluable here and all 45 at 0 percent detected, but none is in the recent window, so the pooled share and the verdict are unchanged to the digit (low coverage, 52.9 percent of 51). Expect this to matter later rather than now: reptarenavirus and antennavirus deposits are growing and will land in a future recent window.</p><p><b>2026-10-20</b> VERIFIED AGAINST THE PAPER FOR THE FIRST TIME 2026-10-20. This entry's DOI is parenthesised, so verify_oligos_against_paper.py had never reached the local PDF - it read no-full-text, "no local PDF", while the file sat in papers/. Cause and fix in that script's doi_stem(). Result: ARS1 reads exact, but ARS16V reads near:2. Stored GGCATWGANCCAAACTGATT (20 nt); Lozano et al. 1997 prints GGCATWGANCCAAACTGA (18 nt). The stored form carries two extra bases, TT, at its 3' END. The verifier's standing caveat is that bases at the ends of a printed run can be table text glued on by the extraction, but that caveat is about the PAPER's run, and here the extra bases are on the STORED oligo and at the priming end, where two bases decide whether the 3' terminus matches. Either the primer was lengthened when first entered or the extraction truncated the table. Not changed: read the Table in the PDF by eye before touching the sequence.</p><p><b>2026-10-23</b> RESOLVED BY EYE 2026-10-23 (pdftotext -layout, Lozano Table 1): ARS16V is printed GGCATWGANCCAAACTGA- with TT wrapped onto the next line, which is the stored sequence exactly; the near:2 was the wrap. Both oligos are Lozano's as printed, and the verifier now reads both exact.</p><p><b>2026-11-04</b> SCOPE BROADENED 2026-11-04, on rereading the paper: The paper claims all members, including undescribed ones, from an alignment of 11 sequences of 8 viruses. Reptarenavirus, Hartmanivirus, Antennavirus and Innmovirus are added on that wording. The paper did not test them.</p></details>
 
 ## Corrections
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Farias, M. E. M., LaPointe, D. A., Atkinson, C. T., Czerwonka, C., Shrestha, R. & Jarvi, S. I. Taqman real-time PCR detects Avipoxvirus DNA in blood of Hawai'i 'Amakihi (Hemignathus virens). PLoS ONE 5, e10745 (2010).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Avipoxvirus_4b_Farias_2010</span></p>
+<p class="aw-assay-line"><span class="aw-id">Avipoxvirus_4b_Farias_2010</span></p>
 
 **Avipoxvirus — 4b (core protein) (Farias 2010)**
 
@@ -18,23 +18,17 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 250 bp |
 | Registry status | active |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | Farias-1F | `TCCTTGTAAAAGCGATACAGGAA` | 23 nt |
+| reverse | Farias-1R | `CCCCTTAACATGTGCTAACAA` | 21 nt |
+| probe | Pox1 | `CAGCGTGATGAAGACGCTAA` | 20 nt |
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 467 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">Farias-1F</text><rect class="aw-zone" x="374.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="449.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">T</text><text class="aw-base" x="126.5" y="57">C</text><text class="aw-base" x="141.5" y="57">C</text><text class="aw-base" x="156.5" y="57">T</text><text class="aw-base" x="171.5" y="57">T</text><text class="aw-base" x="186.5" y="57">G</text><text class="aw-base" x="201.5" y="57">T</text><text class="aw-base" x="216.5" y="57">A</text><text class="aw-base" x="231.5" y="57">A</text><text class="aw-base" x="246.5" y="57">A</text><g class="aw-bar-strong"><title>forward position 13 from the 3&#x27; end, base A
 27 of 251 records differ here (10.8%)
@@ -118,6 +112,52 @@ detected when it does not: 85% of 224
 substitutions: A&gt;G in 27
 outside the central third</title><rect x="375.0" y="196.8" width="13.0" height="11.2"/></g><text class="aw-base" x="381.5" y="221">A</text><text class="aw-base" x="396.5" y="221">A</text><text class="aw-tick" x="396.5" y="235">1</text><text class="aw-tick" x="336.5" y="235">5</text><text class="aw-tick" x="261.5" y="235">10</text><text class="aw-tick" x="186.5" y="235">15</text><text class="aw-tick" x="111.5" y="235">20</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="408" y="221">3′</text></svg>
 
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
+
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
+
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
+
+
+## Verdict
+
+**low coverage** — below the threshold without a measurable decline — applied beyond its design range, or never covering this taxon
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (24 months, from Nov 2024) | 15 | 24 | 62.5% | 42.7% – 78.8% |
+| baseline (everything earlier) | 175 | 229 | 76.4% | 70.5% – 81.5% |
+
+Change from baseline, Newcombe interval: **-34.3% to 3.5%**. Threshold: **90.0%**.
+
+*detected share 62.5% (43%-79%) since Nov 2024, upper bound below the 90% threshold; change from baseline -34% to +3% (no measurable fall from a baseline of 76%)*
+
+Trend across deposit years: by record falling (p = 0.322, 21 years); by footprint falling (p = 0.241). Reported for context; it is not an input to the verdict.
+
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+
+
+## Scope
+
+**Meant to detect:** Avipoxviruses, 4b core protein gene, as the real-time step of a nested PCR.  
+**Scored against:** every record retrieved.  
+**Retrieved from:** Avipoxvirus (taxid 10260), every record.
+
+This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
+
+Disclosures on this entry: `amplicon_disagrees_with_paper`.
+
 ## Predicted detection by deposit year
 
 The share of deposited sequence this assay is predicted to detect, by year of
@@ -126,6 +166,19 @@ Bigger markers mean more records behind the point, because 100% of three records
 and 100% of three thousand are very different claims.
 
 <svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2003 to 2026, against a 90 percent threshold."><rect class="aw-window" x="648.4" y="12.0" width="57.6" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 72.8,20.2 130.3,86.7 187.9,20.2 216.7,39.0 245.5,20.2 274.3,38.1 331.8,70.1 360.6,20.2 389.4,20.2 418.2,183.8 447.0,38.1 475.7,97.8 504.5,135.3 533.3,38.1 590.9,50.0 619.7,25.8 648.4,23.1 677.2,38.1 706.0,111.0"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-low-coverage" points="44.0,20.2 72.8,20.2 130.3,118.4 187.9,20.2 216.7,52.9 245.5,20.2 274.3,49.4 331.8,66.2 360.6,20.2 389.4,20.2 418.2,183.8 447.0,85.6 475.7,102.0 504.5,142.9 533.3,74.7 562.1,183.8 590.9,49.1 619.7,25.8 648.4,40.6 677.2,31.1 706.0,163.4"/><g class="aw-point aw-low-coverage"><title>2003: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2004: 4 of 4 detected (100.0%)</title><circle cx="72.8" cy="20.2" r="2.7"/></g><g class="aw-point aw-low-coverage"><title>2006: 2 of 5 detected (40.0%)</title><circle cx="130.3" cy="118.4" r="2.8"/></g><g class="aw-point aw-low-coverage"><title>2008: 22 of 22 detected (100.0%)</title><circle cx="187.9" cy="20.2" r="3.8"/></g><g class="aw-point aw-low-coverage"><title>2009: 8 of 10 detected (80.0%)</title><circle cx="216.7" cy="52.9" r="3.3"/></g><g class="aw-point aw-low-coverage"><title>2010: 2 of 2 detected (100.0%)</title><circle cx="245.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2011: 23 of 28 detected (82.1%)</title><circle cx="274.3" cy="49.4" r="3.9"/></g><g class="aw-point aw-low-coverage"><title>2013: 46 of 64 detected (71.9%)</title><circle cx="331.8" cy="66.2" r="4.5"/></g><g class="aw-point aw-low-coverage"><title>2014: 1 of 1 detected (100.0%)</title><circle cx="360.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2015: 2 of 2 detected (100.0%)</title><circle cx="389.4" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2016: 0 of 6 detected (0.0%)</title><circle cx="418.2" cy="183.8" r="3.0"/></g><g class="aw-point aw-low-coverage"><title>2017: 6 of 10 detected (60.0%)</title><circle cx="447.0" cy="85.6" r="3.3"/></g><g class="aw-point aw-low-coverage"><title>2018: 6 of 12 detected (50.0%)</title><circle cx="475.7" cy="102.0" r="3.4"/></g><g class="aw-point aw-low-coverage"><title>2019: 1 of 4 detected (25.0%)</title><circle cx="504.5" cy="142.9" r="2.7"/></g><g class="aw-point aw-low-coverage"><title>2020: 2 of 3 detected (66.7%)</title><circle cx="533.3" cy="74.7" r="2.6"/></g><g class="aw-point aw-low-coverage"><title>2021: 0 of 2 detected (0.0%)</title><circle cx="562.1" cy="183.8" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2022: 14 of 17 detected (82.4%)</title><circle cx="590.9" cy="49.1" r="3.6"/></g><g class="aw-point aw-low-coverage"><title>2023: 28 of 29 detected (96.6%)</title><circle cx="619.7" cy="25.8" r="4.0"/></g><g class="aw-point aw-low-coverage"><title>2024: 7 of 8 detected (87.5%) — recent window</title><circle cx="648.4" cy="40.6" r="3.1"/></g><g class="aw-point aw-low-coverage"><title>2025: 14 of 15 detected (93.3%) — recent window</title><circle cx="677.2" cy="31.1" r="3.5"/></g><g class="aw-point aw-low-coverage"><title>2026: 1 of 8 detected (12.5%) — recent window</title><circle cx="706.0" cy="163.4" r="3.1"/></g><text class="aw-tick" x="44.0" y="208">2003</text><text class="aw-tick" x="130.3" y="208">2006</text><text class="aw-tick" x="216.7" y="208">2009</text><text class="aw-tick" x="303.0" y="208">2012</text><text class="aw-tick" x="389.4" y="208">2015</text><text class="aw-tick" x="475.7" y="208">2018</text><text class="aw-tick" x="562.1" y="208">2021</text><text class="aw-tick" x="648.4" y="208">2024</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
+
+## Records reaching the statistics
+
+1,727 records were screened for this assay and **253 (15%)** were evaluable, meaning both primers landed in the right orientation and size range. 1,474 produced no amplicon at all.
+
+This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
+
+| why a record was not evaluable | records |
+|---|---|
+| `no_site` | 1,389 |
+| `truncated` | 55 |
+| `chance_anchor` | 30 |
 
 ## What was deposited, by lineage
 
@@ -158,57 +211,6 @@ Of the records the target taxon holds, the share its own retrieval query returne
 
 Between the baseline and the recent window the detected share went
 76.4% to 62.5%, a change of -0.139. Of that, **-0.198 is the mix** of lineages deposited changing (95% CI -0.385 to -0.031) and **+0.059 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
-
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | Farias-1F | `TCCTTGTAAAAGCGATACAGGAA` | 23 nt |
-| reverse | Farias-1R | `CCCCTTAACATGTGCTAACAA` | 21 nt |
-| probe | Pox1 | `CAGCGTGATGAAGACGCTAA` | 20 nt |
-
-## Verdict
-
-**low coverage** — below the threshold without a measurable decline — applied beyond its design range, or never covering this taxon
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 15 | 24 | 62.5% | 42.7% – 78.8% |
-| baseline (everything earlier) | 175 | 229 | 76.4% | 70.5% – 81.5% |
-
-Change from baseline, Newcombe interval: **-34.3% to 3.5%**. Threshold: **90.0%**.
-
-*detected share 62.5% (43%-79%) since Nov 2024, upper bound below the 90% threshold; change from baseline -34% to +3% (no measurable fall from a baseline of 76%)*
-
-Trend across deposit years: by record falling (p = 0.322, 21 years); by footprint falling (p = 0.241). Reported for context; it is not an input to the verdict.
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-
-## Scope
-
-**Meant to detect:** Avipoxviruses, 4b core protein gene, as the real-time step of a nested PCR.  
-**Scored against:** every record retrieved.  
-**Retrieved from:** Avipoxvirus (taxid 10260), every record.
-
-This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
-
-Disclosures on this entry: `amplicon_disagrees_with_paper`.
-
-
-## Records reaching the statistics
-
-1,727 records were screened for this assay and **253 (15%)** were evaluable, meaning both primers landed in the right orientation and size range. 1,474 produced no amplicon at all.
-
-This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
-
-| why a record was not evaluable | records |
-|---|---|
-| `no_site` | 1,389 |
-| `truncated` | 55 |
-| `chance_anchor` | 30 |
 
 
 ## Curation record

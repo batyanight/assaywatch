@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Steyn J et al. 2020. Shuni Virus in Wildlife and Nonequine Domestic Animals, South Africa. Emerg Infect Dis 26:1521-1525
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Orthobunyavirus_S_Steyn_2020</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthobunyavirus_S_Steyn_2020</span></p>
 
 **Orthobunyavirus — S segment (Steyn 2020)**
 
@@ -18,6 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 152 bp |
 | Registry status | draft |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 
@@ -33,21 +34,6 @@ This map shows where records differ from the oligos as entered. No status is giv
 the reason above, so it is not a verdict.
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 649 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="136" y="52">forward</text><text class="aw-track-name" x="136" y="64">Ortho(SimbuF152)</text><rect class="aw-zone" x="556.4" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="166.4" y1="44.0" x2="631.4" y2="44.0"/><text class="aw-base" x="173.9" y="57">T</text><text class="aw-base" x="188.9" y="57">A</text><text class="aw-base" x="203.9" y="57">G</text><text class="aw-base" x="218.9" y="57">A</text><text class="aw-base" x="233.9" y="57">G</text><text class="aw-base" x="248.9" y="57">T</text><text class="aw-base" x="263.9" y="57">C</text><text class="aw-base" x="278.9" y="57">T</text><text class="aw-base" x="293.9" y="57">T</text><text class="aw-base" x="308.9" y="57">C</text><text class="aw-base" x="323.9" y="57">T</text><text class="aw-base" x="338.9" y="57">T</text><text class="aw-base" x="353.9" y="57">C</text><text class="aw-base" x="368.9" y="57">C</text><text class="aw-base" x="383.9" y="57">T</text><text class="aw-base" x="398.9" y="57">C</text><text class="aw-base" x="413.9" y="57">A</text><text class="aw-base" x="428.9" y="57">A</text><text class="aw-base" x="443.9" y="57">Y</text><text class="aw-base" x="458.9" y="57">C</text><text class="aw-base" x="473.9" y="57">A</text><text class="aw-base" x="488.9" y="57">G</text><text class="aw-base" x="503.9" y="57">A</text><text class="aw-base" x="518.9" y="57">A</text><text class="aw-base" x="533.9" y="57">G</text><text class="aw-base" x="548.9" y="57">A</text><text class="aw-base" x="563.9" y="57">A</text><text class="aw-base" x="578.9" y="57">G</text><text class="aw-base" x="593.9" y="57">G</text><text class="aw-base" x="608.9" y="57">C</text><text class="aw-base" x="623.9" y="57">C</text><text class="aw-tick" x="623.9" y="71">1</text><text class="aw-tick" x="563.9" y="71">5</text><text class="aw-tick" x="488.9" y="71">10</text><text class="aw-tick" x="413.9" y="71">15</text><text class="aw-tick" x="338.9" y="71">20</text><text class="aw-tick" x="263.9" y="71">25</text><text class="aw-tick" x="188.9" y="71">30</text><text class="aw-tick" x="173.9" y="71">31</text><text class="aw-end" x="162" y="57">5′</text><text class="aw-end aw-end-3" x="635" y="57">3′</text><text class="aw-track-label" x="136" y="134">reverse</text><text class="aw-track-name" x="136" y="146">Ortho(SimbuR304)</text><rect class="aw-zone" x="511.4" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="166.4" y1="126.0" x2="586.4" y2="126.0"/><text class="aw-base" x="173.9" y="139">G</text><text class="aw-base" x="188.9" y="139">T</text><g class="aw-bar-weak"><title>reverse position 26 from the 3&#x27; end, base Y
 335 of 335 records differ here (100.0%)
@@ -80,6 +66,22 @@ detected when it differs: 0% of 20
 detected when it does not: 0% of 315
 substitutions: A&gt;G in 20
 inside the 3′ window</title><rect x="512.4" y="117.7" width="13.0" height="8.3"/></g><text class="aw-base" x="518.9" y="139">A</text><text class="aw-base" x="533.9" y="139">T</text><text class="aw-base" x="548.9" y="139">T</text><text class="aw-base" x="563.9" y="139">T</text><text class="aw-base" x="578.9" y="139">G</text><text class="aw-tick" x="578.9" y="153">1</text><text class="aw-tick" x="518.9" y="153">5</text><text class="aw-tick" x="443.9" y="153">10</text><text class="aw-tick" x="368.9" y="153">15</text><text class="aw-tick" x="293.9" y="153">20</text><text class="aw-tick" x="218.9" y="153">25</text><text class="aw-tick" x="173.9" y="153">28</text><text class="aw-end" x="162" y="139">5′</text><text class="aw-end aw-end-3" x="590" y="139">3′</text><text class="aw-track-label" x="136" y="216">probe</text><text class="aw-track-name" x="136" y="228">Ortho(Simbu-probe252)</text><rect class="aw-zone" x="256.4" y="174.0" width="105.0" height="52.0"/><line class="aw-axis" x1="166.4" y1="208.0" x2="451.4" y2="208.0"/><text class="aw-base" x="173.9" y="221">T</text><text class="aw-base" x="188.9" y="221">G</text><text class="aw-base" x="203.9" y="221">G</text><text class="aw-base" x="218.9" y="221">T</text><text class="aw-base" x="233.9" y="221">T</text><text class="aw-base" x="248.9" y="221">A</text><text class="aw-base" x="263.9" y="221">A</text><text class="aw-base" x="278.9" y="221">T</text><text class="aw-base" x="293.9" y="221">A</text><text class="aw-base" x="308.9" y="221">A</text><text class="aw-base" x="323.9" y="221">C</text><text class="aw-base" x="338.9" y="221">C</text><text class="aw-base" x="353.9" y="221">A</text><text class="aw-base" x="368.9" y="221">T</text><text class="aw-base" x="383.9" y="221">T</text><text class="aw-base" x="398.9" y="221">T</text><text class="aw-base" x="413.9" y="221">T</text><text class="aw-base" x="428.9" y="221">C</text><text class="aw-base" x="443.9" y="221">C</text><text class="aw-tick" x="443.9" y="235">1</text><text class="aw-tick" x="383.9" y="235">5</text><text class="aw-tick" x="308.9" y="235">10</text><text class="aw-tick" x="233.9" y="235">15</text><text class="aw-tick" x="173.9" y="235">19</text><text class="aw-end" x="162" y="221">5′</text><text class="aw-end aw-end-3" x="455" y="221">3′</text></svg>
+
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
+
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
+
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
+
 
 ## Oligos
 

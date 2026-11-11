@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Hermes R, Saragusty J, Moser I, Barth SA, Holtze S, Lecu A, Cracknell J, Williams D, Goeritz F, Hildebrandt TB. 2018. Differential detection of tuberculous and non-tuberculous mycobacteria by qPCR in lavage fluids of tuberculosis-suspicious white rhinoceros. PLoS One 13:e0207365
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Mycobacterium_16S_Hermes_2018</span></p>
+<p class="aw-assay-line"><span class="aw-id">Mycobacterium_16S_Hermes_2018</span></p>
 
 **Mycobacterium — 16S rRNA (Hermes 2018)**
 
@@ -18,6 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 204 bp |
 | Registry status | draft |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 
@@ -33,21 +34,6 @@ This map shows where records differ from the oligos as entered. No status is giv
 the reason above, so it is not a verdict.
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 537 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="99" y="52">forward</text><text class="aw-track-name" x="99" y="64">Mycobac16S_F</text><rect class="aw-zone" x="369.2" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="44.0" x2="444.2" y2="44.0"/><text class="aw-base" x="136.7" y="57">T</text><text class="aw-base" x="151.7" y="57">G</text><text class="aw-base" x="166.7" y="57">C</text><g class="aw-bar-strong"><title>forward position 18 from the 3&#x27; end, base G
 38 of 6,591 records differ here (0.6%)
@@ -175,6 +161,22 @@ detected when it differs: 16% of 25
 detected when it does not: 97% of 6,566
 substitutions: A&gt;T in 13, A&gt;G in 8, A&gt;C in 4
 outside the central third</title><rect x="505.2" y="205.9" width="13.0" height="2.1"/></g><text class="aw-base" x="511.7" y="221">A</text><text class="aw-tick" x="511.7" y="235">1</text><text class="aw-tick" x="451.7" y="235">5</text><text class="aw-tick" x="376.7" y="235">10</text><text class="aw-tick" x="301.7" y="235">15</text><text class="aw-tick" x="226.7" y="235">20</text><text class="aw-tick" x="151.7" y="235">25</text><text class="aw-tick" x="136.7" y="235">26</text><text class="aw-end" x="125" y="221">5′</text><text class="aw-end aw-end-3" x="523" y="221">3′</text></svg>
+
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
+
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
+
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
+
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Gallardo-Romero NF, Velasco-Villa A, Weiss SL, Emerson GL, Carroll DS, Hughes CM, Li Y, Karem KL, Damon IK, Olson VA. 2011. Detection of North American orthopoxviruses by real time-PCR. Virol J 8:313
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Orthopoxvirus_G9R_Gallardo-Romero_2011</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthopoxvirus_G9R_Gallardo-Romero_2011</span></p>
 
 **Orthopoxvirus — G9R (myristylated protein) (Gallardo-Romero 2011)**
 
@@ -18,23 +18,17 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 156 bp |
 | Registry status | draft |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | G9R-NA OPXV forward | `YGGACCRGGAGGTCTTTCTGCATT` | 24 nt |
+| reverse | G9R-NA OPXV reverse | `TCTGGCCAACATGATTCTAATACTGCRTC` | 29 nt |
+| probe | G9R-NA OPXV probe | `AGGGAACGVTAYAATGGYACYGCTCCCAAYTGCTGTCGCACTTT` | 44 nt |
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 832 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="124" y="52">forward</text><text class="aw-track-name" x="124" y="64">G9R-NA OPXV forward</text><rect class="aw-zone" x="439.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="154.0" y1="44.0" x2="514.0" y2="44.0"/><g class="aw-bar-strong"><title>forward position 24 from the 3&#x27; end, base Y
 14,804 of 14,813 records differ here (99.9%)
@@ -118,41 +112,21 @@ detected when it does not: 4% of 188
 substitutions: T&gt;A in 14,624, T&gt;G in 1
 in the central third</title><rect x="500.0" y="174.2" width="13.0" height="33.8"/></g><text class="aw-base" x="506.5" y="221">T</text><text class="aw-base" x="521.5" y="221">C</text><text class="aw-base" x="536.5" y="221">C</text><text class="aw-base" x="551.5" y="221">C</text><text class="aw-base" x="566.5" y="221">A</text><text class="aw-base" x="581.5" y="221">A</text><text class="aw-base" x="596.5" y="221">Y</text><text class="aw-base" x="611.5" y="221">T</text><text class="aw-base" x="626.5" y="221">G</text><text class="aw-base" x="641.5" y="221">C</text><text class="aw-base" x="656.5" y="221">T</text><text class="aw-base" x="671.5" y="221">G</text><text class="aw-base" x="686.5" y="221">T</text><text class="aw-base" x="701.5" y="221">C</text><text class="aw-base" x="716.5" y="221">G</text><text class="aw-base" x="731.5" y="221">C</text><text class="aw-base" x="746.5" y="221">A</text><text class="aw-base" x="761.5" y="221">C</text><text class="aw-base" x="776.5" y="221">T</text><text class="aw-base" x="791.5" y="221">T</text><text class="aw-base" x="806.5" y="221">T</text><text class="aw-tick" x="806.5" y="235">1</text><text class="aw-tick" x="746.5" y="235">5</text><text class="aw-tick" x="671.5" y="235">10</text><text class="aw-tick" x="596.5" y="235">15</text><text class="aw-tick" x="521.5" y="235">20</text><text class="aw-tick" x="446.5" y="235">25</text><text class="aw-tick" x="371.5" y="235">30</text><text class="aw-tick" x="296.5" y="235">35</text><text class="aw-tick" x="221.5" y="235">40</text><text class="aw-tick" x="161.5" y="235">44</text><text class="aw-end" x="150" y="221">5′</text><text class="aw-end aw-end-3" x="818" y="221">3′</text></svg>
 
-## Predicted detection by deposit year
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
 
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
 
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2015 to 2019, against a 90 percent threshold."><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 209.5,20.2 706.0,183.8"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-no-recent-data" points="44.0,20.2 209.5,20.2 706.0,183.8"/><g class="aw-point aw-no-recent-data"><title>2015: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2016: 5 of 5 detected (100.0%)</title><circle cx="209.5" cy="20.2" r="2.8"/></g><g class="aw-point aw-no-recent-data"><title>2019: 0 of 1 detected (0.0%)</title><circle cx="706.0" cy="183.8" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">2015</text><text class="aw-tick" x="209.5" y="208">2016</text><text class="aw-tick" x="375.0" y="208">2017</text><text class="aw-tick" x="540.5" y="208">2018</text><text class="aw-tick" x="706.0" y="208">2019</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
 
-## What was deposited, by lineage
-
-Lineages here are sequence groups, not species or taxids. Each is a group of records
-that look alike over the amplicon and its flanks with the oligo sites masked, cut at
-0.05 Mash distance. Records can link one species to the next, so a group
-can hold several; a percent in its name is the share of its top species. The groups
-come from sequence this assay does not measure, so the mix below can move without the
-assay changing. The dashed line on the chart above recomputes each year on the whole
-period's mix: where the two lines part, what got sequenced changed, not what the assay
-detects.
-
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2015 to 2019."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2015 — other: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2016 — other: 5 of 5 records (100%), 5 detected</title><rect x="196.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2019 — other: 1 of 1 records (100%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><text class="aw-tick" x="44.0" y="117">2015</text><text class="aw-tick" x="209.5" y="117">2016</text><text class="aw-tick" x="375.0" y="117">2017</text><text class="aw-tick" x="540.5" y="117">2018</text><text class="aw-tick" x="706.0" y="117">2019</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
-
-| Lineage | Records | Share | New since design | Species | Also in the titles |
-|---|---|---|---|---|---|
-| other | 8 | 100% |  | Orthopoxvirus raccoonpox 3, Orthopoxvirus skunkpox 2, Orthopoxvirus volepox 2 | -- |
-
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 81%, 2020 100%, 2021 80%, 2022 100%, 2023 100%, 2024 99%, 2025 98%, 2026 98% (best year 100%). A low share is a fact about the query, not about the taxon.
-
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | G9R-NA OPXV forward | `YGGACCRGGAGGTCTTTCTGCATT` | 24 nt |
-| reverse | G9R-NA OPXV reverse | `TCTGGCCAACATGATTCTAATACTGCRTC` | 29 nt |
-| probe | G9R-NA OPXV probe | `AGGGAACGVTAYAATGGYACYGCTCCCAAYTGCTGTCGCACTTT` | 44 nt |
 
 ## Verdict
 
@@ -188,6 +162,15 @@ This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Ta
 
 Disclosures on this entry: `scope_wider_than_paper_tested`, `thin_evidence`.
 
+## Predicted detection by deposit year
+
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2015 to 2019, against a 90 percent threshold."><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 209.5,20.2 706.0,183.8"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-no-recent-data" points="44.0,20.2 209.5,20.2 706.0,183.8"/><g class="aw-point aw-no-recent-data"><title>2015: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2016: 5 of 5 detected (100.0%)</title><circle cx="209.5" cy="20.2" r="2.8"/></g><g class="aw-point aw-no-recent-data"><title>2019: 0 of 1 detected (0.0%)</title><circle cx="706.0" cy="183.8" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">2015</text><text class="aw-tick" x="209.5" y="208">2016</text><text class="aw-tick" x="375.0" y="208">2017</text><text class="aw-tick" x="540.5" y="208">2018</text><text class="aw-tick" x="706.0" y="208">2019</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
 
 ## Records reaching the statistics
 
@@ -198,6 +181,25 @@ This matters because a record with one diverged primer is scored as a failure wh
 | why a record was not evaluable | records |
 |---|---|
 | `no_site` | 58 |
+
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2015 to 2019."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2015 — other: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2016 — other: 5 of 5 records (100%), 5 detected</title><rect x="196.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2019 — other: 1 of 1 records (100%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><text class="aw-tick" x="44.0" y="117">2015</text><text class="aw-tick" x="209.5" y="117">2016</text><text class="aw-tick" x="375.0" y="117">2017</text><text class="aw-tick" x="540.5" y="117">2018</text><text class="aw-tick" x="706.0" y="117">2019</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| other | 8 | 100% |  | Orthopoxvirus raccoonpox 3, Orthopoxvirus skunkpox 2, Orthopoxvirus volepox 2 | -- |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 81%, 2020 100%, 2021 80%, 2022 100%, 2023 100%, 2024 99%, 2025 98%, 2026 98% (best year 100%). A low share is a fact about the query, not about the taxon.
 
 
 ## Curation record

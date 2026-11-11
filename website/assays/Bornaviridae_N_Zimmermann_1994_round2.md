@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Zimmermann W et al. 1994. J Virol Methods 46:133-143
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Bornaviridae_N_Zimmermann_1994_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Bornaviridae_N_Zimmermann_1994_round2</span></p>
 
 **Bornaviridae — N (nucleoprotein) (Zimmermann 1994), nested round 2**
 
@@ -18,6 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | — |
 | Registry status | draft |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

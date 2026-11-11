@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Messmer, T. O., Skelton, S. K., Moroney, J. F., Daugharty, H. & Fields, B. S. Application of a nested, multiplex PCR to psittacosis outbreaks. Journal of Clinical Microbiology 35, 2043-2046 (1997).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Chlamydia_trachomatis_16S_Messmer_1997_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Chlamydia_trachomatis_16S_Messmer_1997_round2</span></p>
 
 **Chlamydia trachomatis — 16S rRNA (Messmer 1997), nested round 2**
 
@@ -18,23 +18,16 @@
 | Chemistry | conventional |
 | Amplicon | 413 bp |
 | Registry status | active |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | C.-trachomatis-sense | `GCAATTGTTTCGGCAATTG` | 19 nt |
+| reverse | C.-trachomatis-antisense | `AGCGGGTATTAACCGCCT` | 18 nt |
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 476 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="143" y="52">forward</text><text class="aw-track-name" x="143" y="64">C.-trachomatis-sense</text><rect class="aw-zone" x="382.6" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="172.6" y1="44.0" x2="457.6" y2="44.0"/><text class="aw-base" x="180.1" y="57">G</text><text class="aw-base" x="195.1" y="57">C</text><text class="aw-base" x="210.1" y="57">A</text><text class="aw-base" x="225.1" y="57">A</text><text class="aw-base" x="240.1" y="57">T</text><text class="aw-base" x="255.1" y="57">T</text><text class="aw-base" x="270.1" y="57">G</text><text class="aw-base" x="285.1" y="57">T</text><text class="aw-base" x="300.1" y="57">T</text><text class="aw-base" x="315.1" y="57">T</text><text class="aw-base" x="330.1" y="57">C</text><text class="aw-base" x="345.1" y="57">G</text><g class="aw-bar-strong"><title>forward position 7 from the 3&#x27; end, base G
 80 of 306 records differ here (26.1%)
@@ -53,43 +46,21 @@ detected when it does not: 100% of 192
 substitutions: C&gt;T in 114
 inside the 3′ window</title><rect x="398.6" y="105.2" width="13.0" height="20.8"/></g><text class="aw-base" x="405.1" y="139">C</text><text class="aw-base" x="420.1" y="139">C</text><text class="aw-base" x="435.1" y="139">T</text><text class="aw-tick" x="435.1" y="153">1</text><text class="aw-tick" x="375.1" y="153">5</text><text class="aw-tick" x="300.1" y="153">10</text><text class="aw-tick" x="225.1" y="153">15</text><text class="aw-tick" x="180.1" y="153">18</text><text class="aw-end" x="169" y="139">5′</text><text class="aw-end aw-end-3" x="447" y="139">3′</text></svg>
 
-## Predicted detection by deposit year
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
 
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
 
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1996 to 2026, against a 90 percent threshold."><rect class="aw-window" x="661.9" y="12.0" width="44.1" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,183.8 66.1,129.3 88.1,183.8 154.3,183.8 242.6,121.5 308.8,20.2 330.9,183.8 352.9,129.3 375.0,102.0 397.1,87.1 419.1,35.1 463.3,74.7 485.3,56.5 507.4,154.1 551.5,20.2 595.7,24.3 617.7,20.2 661.9,87.6 683.9,111.1 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-declining" points="44.0,183.8 66.1,129.3 88.1,183.8 154.3,183.8 242.6,121.5 308.8,20.2 330.9,183.8 352.9,129.3 375.0,102.0 397.1,87.1 419.1,35.1 463.3,74.7 485.3,40.6 507.4,154.9 551.5,20.2 595.7,24.4 617.7,20.2 661.9,92.9 683.9,111.1 706.0,20.2"/><g class="aw-point aw-declining"><title>1996: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>1997: 2 of 6 detected (33.3%)</title><circle cx="66.1" cy="129.3" r="3.0"/></g><g class="aw-point aw-declining"><title>1998: 0 of 1 detected (0.0%)</title><circle cx="88.1" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>2001: 0 of 1 detected (0.0%)</title><circle cx="154.3" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>2005: 8 of 21 detected (38.1%)</title><circle cx="242.6" cy="121.5" r="3.7"/></g><g class="aw-point aw-declining"><title>2008: 2 of 2 detected (100.0%)</title><circle cx="308.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2009: 0 of 3 detected (0.0%)</title><circle cx="330.9" cy="183.8" r="2.6"/></g><g class="aw-point aw-declining"><title>2010: 3 of 9 detected (33.3%)</title><circle cx="352.9" cy="129.3" r="3.2"/></g><g class="aw-point aw-declining"><title>2011: 1 of 2 detected (50.0%)</title><circle cx="375.0" cy="102.0" r="2.5"/></g><g class="aw-point aw-declining"><title>2012: 13 of 22 detected (59.1%)</title><circle cx="397.1" cy="87.1" r="3.8"/></g><g class="aw-point aw-declining"><title>2013: 20 of 22 detected (90.9%)</title><circle cx="419.1" cy="35.1" r="3.8"/></g><g class="aw-point aw-declining"><title>2015: 4 of 6 detected (66.7%)</title><circle cx="463.3" cy="74.7" r="3.0"/></g><g class="aw-point aw-declining"><title>2016: 7 of 8 detected (87.5%)</title><circle cx="485.3" cy="40.6" r="3.1"/></g><g class="aw-point aw-declining"><title>2017: 3 of 17 detected (17.6%)</title><circle cx="507.4" cy="154.9" r="3.6"/></g><g class="aw-point aw-declining"><title>2019: 1 of 1 detected (100.0%)</title><circle cx="551.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2021: 150 of 154 detected (97.4%)</title><circle cx="595.7" cy="24.4" r="5.1"/></g><g class="aw-point aw-declining"><title>2022: 1 of 1 detected (100.0%)</title><circle cx="617.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2024: 5 of 9 detected (55.6%) — recent window</title><circle cx="661.9" cy="92.9" r="3.2"/></g><g class="aw-point aw-declining"><title>2025: 8 of 18 detected (44.4%) — recent window</title><circle cx="683.9" cy="111.1" r="3.6"/></g><g class="aw-point aw-declining"><title>2026: 1 of 1 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">1996</text><text class="aw-tick" x="132.3" y="208">2000</text><text class="aw-tick" x="220.5" y="208">2004</text><text class="aw-tick" x="308.8" y="208">2008</text><text class="aw-tick" x="397.1" y="208">2012</text><text class="aw-tick" x="485.3" y="208">2016</text><text class="aw-tick" x="573.6" y="208">2020</text><text class="aw-tick" x="661.9" y="208">2024</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
 
-## What was deposited, by lineage
-
-Lineages here are sequence groups, not species or taxids. Each is a group of records
-that look alike over the amplicon and its flanks with the oligo sites masked, cut at
-0.05 Mash distance. Records can link one species to the next, so a group
-can hold several; a percent in its name is the share of its top species. The groups
-come from sequence this assay does not measure, so the mix below can move without the
-assay changing. The dashed line on the chart above recomputes each year on the whole
-period's mix: where the two lines part, what got sequenced changed, not what the assay
-detects.
-
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 1996 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>1996 — C. trachomatis: 1 of 1 records (100%), 0 detected</title><rect x="32.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>1997 — C. trachomatis: 6 of 6 records (100%), 2 detected</title><rect x="54.2" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>1998 — C. trachomatis: 1 of 1 records (100%), 0 detected</title><rect x="76.2" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2001 — C. trachomatis: 1 of 1 records (100%), 0 detected</title><rect x="142.4" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2005 — C. trachomatis: 21 of 21 records (100%), 8 detected</title><rect x="230.7" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2008 — C. trachomatis: 2 of 2 records (100%), 2 detected</title><rect x="296.9" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2009 — C. trachomatis: 3 of 3 records (100%), 0 detected</title><rect x="319.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2010 — C. trachomatis: 9 of 9 records (100%), 3 detected</title><rect x="341.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2011 — C. trachomatis: 2 of 2 records (100%), 1 detected</title><rect x="363.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2012 — C. trachomatis: 22 of 22 records (100%), 13 detected</title><rect x="385.2" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2013 — C. trachomatis: 22 of 22 records (100%), 20 detected</title><rect x="407.2" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2015 — C. trachomatis: 12 of 12 records (100%), 8 detected</title><rect x="451.4" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2016 — C. trachomatis: 9 of 9 records (100%), 7 detected</title><rect x="473.4" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2017 — C. trachomatis: 33 of 33 records (100%), 6 detected</title><rect x="495.5" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2019 — C. trachomatis: 2 of 2 records (100%), 2 detected</title><rect x="539.6" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2021 — C. trachomatis: 159 of 159 records (100%), 155 detected</title><rect x="583.8" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2022 — C. trachomatis: 2 of 2 records (100%), 2 detected</title><rect x="605.8" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2024 — C. trachomatis: 17 of 17 records (100%), 10 detected</title><rect x="650.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2025 — C. trachomatis: 36 of 36 records (100%), 16 detected</title><rect x="672.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2026 — C. trachomatis: 2 of 2 records (100%), 2 detected</title><rect x="694.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">1996</text><text class="aw-tick" x="132.3" y="117">2000</text><text class="aw-tick" x="220.5" y="117">2004</text><text class="aw-tick" x="308.8" y="117">2008</text><text class="aw-tick" x="397.1" y="117">2012</text><text class="aw-tick" x="485.3" y="117">2016</text><text class="aw-tick" x="573.6" y="117">2020</text><text class="aw-tick" x="661.9" y="117">2024</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
-
-| Lineage | Records | Share | New since design | Species | Also in the titles |
-|---|---|---|---|---|---|
-| C. trachomatis | 362 | 100% |  | Chlamydia trachomatis 362 | -- |
-
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 1%, 2020 0%, 2021 27%, 2022 0%, 2023 0%, 2024 1%, 2025 4%, 2026 0% (best year 30%). A low share is a fact about the query, not about the taxon.
-
-Between the baseline and the recent window the detected share went
-74.0% to 46.2%, a change of -0.278. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **-0.278 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
-
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | C.-trachomatis-sense | `GCAATTGTTTCGGCAATTG` | 19 nt |
-| reverse | C.-trachomatis-antisense | `AGCGGGTATTAACCGCCT` | 18 nt |
 
 ## Verdict
 
@@ -129,6 +100,15 @@ A retrieval query is a claim about which records the assay is tested against, an
 
 Disclosures on this entry: `primer_site_polymorphic`.
 
+## Predicted detection by deposit year
+
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1996 to 2026, against a 90 percent threshold."><rect class="aw-window" x="661.9" y="12.0" width="44.1" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,183.8 66.1,129.3 88.1,183.8 154.3,183.8 242.6,121.5 308.8,20.2 330.9,183.8 352.9,129.3 375.0,102.0 397.1,87.1 419.1,35.1 463.3,74.7 485.3,56.5 507.4,154.1 551.5,20.2 595.7,24.3 617.7,20.2 661.9,87.6 683.9,111.1 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-declining" points="44.0,183.8 66.1,129.3 88.1,183.8 154.3,183.8 242.6,121.5 308.8,20.2 330.9,183.8 352.9,129.3 375.0,102.0 397.1,87.1 419.1,35.1 463.3,74.7 485.3,40.6 507.4,154.9 551.5,20.2 595.7,24.4 617.7,20.2 661.9,92.9 683.9,111.1 706.0,20.2"/><g class="aw-point aw-declining"><title>1996: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>1997: 2 of 6 detected (33.3%)</title><circle cx="66.1" cy="129.3" r="3.0"/></g><g class="aw-point aw-declining"><title>1998: 0 of 1 detected (0.0%)</title><circle cx="88.1" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>2001: 0 of 1 detected (0.0%)</title><circle cx="154.3" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>2005: 8 of 21 detected (38.1%)</title><circle cx="242.6" cy="121.5" r="3.7"/></g><g class="aw-point aw-declining"><title>2008: 2 of 2 detected (100.0%)</title><circle cx="308.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2009: 0 of 3 detected (0.0%)</title><circle cx="330.9" cy="183.8" r="2.6"/></g><g class="aw-point aw-declining"><title>2010: 3 of 9 detected (33.3%)</title><circle cx="352.9" cy="129.3" r="3.2"/></g><g class="aw-point aw-declining"><title>2011: 1 of 2 detected (50.0%)</title><circle cx="375.0" cy="102.0" r="2.5"/></g><g class="aw-point aw-declining"><title>2012: 13 of 22 detected (59.1%)</title><circle cx="397.1" cy="87.1" r="3.8"/></g><g class="aw-point aw-declining"><title>2013: 20 of 22 detected (90.9%)</title><circle cx="419.1" cy="35.1" r="3.8"/></g><g class="aw-point aw-declining"><title>2015: 4 of 6 detected (66.7%)</title><circle cx="463.3" cy="74.7" r="3.0"/></g><g class="aw-point aw-declining"><title>2016: 7 of 8 detected (87.5%)</title><circle cx="485.3" cy="40.6" r="3.1"/></g><g class="aw-point aw-declining"><title>2017: 3 of 17 detected (17.6%)</title><circle cx="507.4" cy="154.9" r="3.6"/></g><g class="aw-point aw-declining"><title>2019: 1 of 1 detected (100.0%)</title><circle cx="551.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2021: 150 of 154 detected (97.4%)</title><circle cx="595.7" cy="24.4" r="5.1"/></g><g class="aw-point aw-declining"><title>2022: 1 of 1 detected (100.0%)</title><circle cx="617.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2024: 5 of 9 detected (55.6%) — recent window</title><circle cx="661.9" cy="92.9" r="3.2"/></g><g class="aw-point aw-declining"><title>2025: 8 of 18 detected (44.4%) — recent window</title><circle cx="683.9" cy="111.1" r="3.6"/></g><g class="aw-point aw-declining"><title>2026: 1 of 1 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">1996</text><text class="aw-tick" x="132.3" y="208">2000</text><text class="aw-tick" x="220.5" y="208">2004</text><text class="aw-tick" x="308.8" y="208">2008</text><text class="aw-tick" x="397.1" y="208">2012</text><text class="aw-tick" x="485.3" y="208">2016</text><text class="aw-tick" x="573.6" y="208">2020</text><text class="aw-tick" x="661.9" y="208">2024</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
 
 ## Records reaching the statistics
 
@@ -139,6 +119,28 @@ This matters because a record with one diverged primer is scored as a failure wh
 | why a record was not evaluable | records |
 |---|---|
 | `no_site` | 16 |
+
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 1996 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>1996 — C. trachomatis: 1 of 1 records (100%), 0 detected</title><rect x="32.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>1997 — C. trachomatis: 6 of 6 records (100%), 2 detected</title><rect x="54.2" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>1998 — C. trachomatis: 1 of 1 records (100%), 0 detected</title><rect x="76.2" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2001 — C. trachomatis: 1 of 1 records (100%), 0 detected</title><rect x="142.4" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2005 — C. trachomatis: 21 of 21 records (100%), 8 detected</title><rect x="230.7" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2008 — C. trachomatis: 2 of 2 records (100%), 2 detected</title><rect x="296.9" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2009 — C. trachomatis: 3 of 3 records (100%), 0 detected</title><rect x="319.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2010 — C. trachomatis: 9 of 9 records (100%), 3 detected</title><rect x="341.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2011 — C. trachomatis: 2 of 2 records (100%), 1 detected</title><rect x="363.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2012 — C. trachomatis: 22 of 22 records (100%), 13 detected</title><rect x="385.2" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2013 — C. trachomatis: 22 of 22 records (100%), 20 detected</title><rect x="407.2" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2015 — C. trachomatis: 12 of 12 records (100%), 8 detected</title><rect x="451.4" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2016 — C. trachomatis: 9 of 9 records (100%), 7 detected</title><rect x="473.4" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2017 — C. trachomatis: 33 of 33 records (100%), 6 detected</title><rect x="495.5" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2019 — C. trachomatis: 2 of 2 records (100%), 2 detected</title><rect x="539.6" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2021 — C. trachomatis: 159 of 159 records (100%), 155 detected</title><rect x="583.8" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2022 — C. trachomatis: 2 of 2 records (100%), 2 detected</title><rect x="605.8" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2024 — C. trachomatis: 17 of 17 records (100%), 10 detected</title><rect x="650.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2025 — C. trachomatis: 36 of 36 records (100%), 16 detected</title><rect x="672.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2026 — C. trachomatis: 2 of 2 records (100%), 2 detected</title><rect x="694.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">1996</text><text class="aw-tick" x="132.3" y="117">2000</text><text class="aw-tick" x="220.5" y="117">2004</text><text class="aw-tick" x="308.8" y="117">2008</text><text class="aw-tick" x="397.1" y="117">2012</text><text class="aw-tick" x="485.3" y="117">2016</text><text class="aw-tick" x="573.6" y="117">2020</text><text class="aw-tick" x="661.9" y="117">2024</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| C. trachomatis | 362 | 100% |  | Chlamydia trachomatis 362 | -- |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 1%, 2020 0%, 2021 27%, 2022 0%, 2023 0%, 2024 1%, 2025 4%, 2026 0% (best year 30%). A low share is a fact about the query, not about the taxon.
+
+Between the baseline and the recent window the detected share went
+74.0% to 46.2%, a change of -0.278. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **-0.278 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
 
 
 ## Curation record

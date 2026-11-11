@@ -1617,7 +1617,11 @@ def test_the_claim_and_a_withheld_note_are_escaped():
     assert "<i>y</i>" not in md and "&lt;i&gt;y" in md
 
 
-def test_the_graphs_lead_the_page_primer_then_line_then_bar():
+def test_the_page_sections_run_in_the_order_the_maintainer_set():
+    """The order of 2026-11-10, replacing the graphs-first order of 2026-11-04: what the
+    assay IS, then what it is made of, then the evidence, then the arithmetic, then the
+    populations, then the provenance. Pinned because section order is a decision, and a
+    reorder that happens by accident is the kind nobody notices until a reader does."""
     comp = {
         "years": [2020],
         "cut": 0.05,
@@ -1633,15 +1637,30 @@ def test_the_graphs_lead_the_page_primer_then_line_then_bar():
     md = site_render.assay_page(
         _page(status="stable", years=years, min_records=15, oligos={"forward": "ACGT"}), "2026-11-01", comp
     )
-    order = [
-        md.index("## Mismatch distribution"),
-        md.index("## Predicted detection by deposit year"),
-        md.index("## What was deposited, by lineage"),
-        md.index("## Oligos"),
-        md.index("## Verdict"),
-        md.index("## Scope"),
+    import re
+
+    # The whole sequence, not a subset: this fails loudly if a section is added, removed or
+    # moved. "## By lineage" is absent here because this fixture carries no per-lineage
+    # rows; `test_a_page_with_lineages_lists_them` covers that section's own content.
+    assert re.findall(r"^## .*$", md, re.M) == [
+        "## Oligos",
+        "## Mismatch distribution",
+        "## Verdict",
+        "## Scope",
+        "## Predicted detection by deposit year",
+        "## Records reaching the statistics",
+        "## What was deposited, by lineage",
+        "## Corrections",
     ]
-    assert order == sorted(order), order
+    # The verdict is one line of the metadata table, above every section, and it carries
+    # the chip: the status is said there and nowhere else above it.
+    row = md.index("| Verdict | ")
+    assert row < md.index("## Oligos")
+    assert 'class="aw-chip' in md[row : md.index("\n", row)]
+    assert "aw-chip" not in md[: md.index("| Target |")], "the chip is not also on its own line"
+    # And inside its own section the chart leads, with the prose explaining it underneath.
+    chart = md.index("<svg", md.index("## Mismatch distribution"))
+    assert chart < md.index("Each oligo drawn base by base")
 
 
 def test_a_withheld_page_gives_its_reason_before_its_map():
@@ -1799,7 +1818,9 @@ def test_the_page_says_which_failures_have_no_position_to_draw():
     )
     assert "no probe site inside amplicon: 3,120 records" in md
     assert "no position to draw" in md
-    assert md.index("no probe site inside amplicon: 3,120") < md.index("## Oligos")
+    # It belongs under the chart it is about, and above the verdict that chart feeds.
+    assert md.index("## Mismatch distribution") < md.index("no probe site inside amplicon: 3,120")
+    assert md.index("no probe site inside amplicon: 3,120") < md.index("## Verdict")
 
 
 def test_a_page_with_no_failure_reasons_says_nothing_about_them():

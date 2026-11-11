@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Casas I et al. 2005. J Clin Microbiol 43:6176-6182 (ADHEX primers)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Adenoviridae_hexon_Casas_2005_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Adenoviridae_hexon_Casas_2005_round1</span></p>
 
 **Adenoviridae — hexon (Casas 2005), nested round 1**
 
@@ -18,23 +18,16 @@
 | Chemistry | conventional |
 | Amplicon | 475 bp |
 | Registry status | active |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | ADHEX1F | `CAACACCTAYGASTACATGAA` | 21 nt |
+| reverse | ADHEX1R | `KATGGGGTARAGCATGTT` | 18 nt |
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 437 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">ADHEX1F</text><rect class="aw-zone" x="344.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="419.0" y2="44.0"/><g class="aw-bar-mid"><title>forward position 21 from the 3&#x27; end, base C
 2,552 of 6,189 records differ here (41.2%)
@@ -223,6 +216,69 @@ detected when it does not: 84% of 5,978
 substitutions: T&gt;A in 121, T&gt;C in 53, T&gt;G in 37
 inside the 3′ window</title><rect x="360.0" y="119.7" width="13.0" height="6.3"/></g><text class="aw-base" x="366.5" y="139">T</text><text class="aw-tick" x="366.5" y="153">1</text><text class="aw-tick" x="306.5" y="153">5</text><text class="aw-tick" x="231.5" y="153">10</text><text class="aw-tick" x="156.5" y="153">15</text><text class="aw-tick" x="111.5" y="153">18</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="378" y="139">3′</text></svg>
 
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
+
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
+
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
+
+
+## Verdict
+
+**declining** — below the threshold, and measurably lower than a baseline that previously exceeded it
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (24 months, from Nov 2024) | 1,171 | 1,500 | 78.1% | 75.9% – 80.1% |
+| baseline (everything earlier) | 3,528 | 4,736 | 74.5% | 73.2% – 75.7% |
+
+Change from baseline, Newcombe interval: **1.1% to 6.0%**. Threshold: **90.0%**.
+
+*pooled share 78.1% has low coverage, but lineage Mastadenovirus caesari (3241411) (185 records) detects only 65.4% (58.3%-71.9%), down from 71.3% on 795 earlier records; lineage verdict overrides to declining*
+
+Trend across deposit years: by record falling (p = 0.404, 36 years); by footprint falling (p = 1.24e-06). Reported for context; it is not an input to the verdict.
+
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+
+
+## Scope
+
+**Meant to detect:** Human adenoviruses, hexon gene, as the first-round PCR.  
+**Scored against:** every record retrieved.  
+**Retrieved from:** Adenoviridae (taxid 10508), every record.
+
+This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
+
+
+## By lineage
+
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region, so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
+
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-fail"><td>Aviadenovirus hepatitidis (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3426530" title="Aviadenovirus hepatitidis">3426530</a>) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="0.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">49</td><td class="num">0.0%</td><td class="num">0.0–7.3%</td></tr>
+<tr class="aw-lin-fail"><td>Mastadenovirus caesari (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3241411" title="Mastadenovirus caesari">3241411</a>) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="65.4% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:65.4%"></span></span></td><td class="num">185</td><td class="num">65.4%</td><td class="num">58.3–71.9%</td></tr>
+<tr class="aw-lin-fail"><td>Human adenovirus sp. (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1907210" title="Human adenovirus sp.">1907210</a>) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="83.3% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:83.3%"></span></span></td><td class="num">102</td><td class="num">83.3%</td><td class="num">74.9–89.3%</td></tr>
+<tr class="aw-lin-ok"><td>Mastadenovirus faecale (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3241426" title="Mastadenovirus faecale">3241426</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="99.1% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:99.1%"></span></span></td><td class="num">229</td><td class="num">99.1%</td><td class="num">96.9–99.8%</td></tr>
+<tr class="aw-lin-ok"><td>Mastadenovirus blackbeardi (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3241406" title="Mastadenovirus blackbeardi">3241406</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="99.8% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:99.8%"></span></span></td><td class="num">617</td><td class="num">99.8%</td><td class="num">99.1–100.0%</td></tr>
+</tbody>
+</table>
+
 ## Predicted detection by deposit year
 
 The share of deposited sequence this assay is predicted to detect, by year of
@@ -231,6 +287,21 @@ Bigger markers mean more records behind the point, because 100% of three records
 and 100% of three thousand are very different claims.
 
 <svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1985 to 2026, against a 90 percent threshold."><rect class="aw-window" x="673.7" y="12.0" width="32.3" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="173.2,31.2 302.3,26.4 334.6,88.1 350.8,64.5 366.9,30.8 399.2,66.1 415.4,50.1 431.5,51.1 447.7,45.7 463.8,44.6 480.0,43.8 496.1,58.1 512.2,55.8 528.4,30.5 544.5,69.5 560.7,49.4 576.8,58.3 593.0,74.2 609.1,66.8 625.3,47.5 641.4,61.7 657.6,60.7 673.7,60.6 689.9,71.9 706.0,54.5"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-declining" points="44.0,20.2 124.7,20.2 173.2,45.4 189.3,183.8 205.5,85.6 221.6,183.8 237.8,102.0 253.9,47.5 270.0,66.9 286.2,162.0 302.3,50.5 318.5,56.5 334.6,49.3 350.8,59.7 366.9,26.5 383.1,28.4 399.2,94.6 415.4,39.8 431.5,36.2 447.7,61.1 463.8,57.6 480.0,43.8 496.1,51.2 512.2,55.4 528.4,34.5 544.5,128.3 560.7,84.3 576.8,47.9 593.0,96.1 609.1,56.9 625.3,33.7 641.4,61.3 657.6,74.0 673.7,58.3 689.9,77.2 706.0,46.2"/><g class="aw-point aw-declining"><title>1985: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>1990: 3 of 3 detected (100.0%)</title><circle cx="124.7" cy="20.2" r="2.6"/></g><g class="aw-point aw-declining"><title>1993: 11 of 13 detected (84.6%)</title><circle cx="173.2" cy="45.4" r="3.4"/></g><g class="aw-point aw-declining"><title>1994: 0 of 1 detected (0.0%)</title><circle cx="189.3" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>1995: 3 of 5 detected (60.0%)</title><circle cx="205.5" cy="85.6" r="2.8"/></g><g class="aw-point aw-declining"><title>1996: 0 of 8 detected (0.0%)</title><circle cx="221.6" cy="183.8" r="3.1"/></g><g class="aw-point aw-declining"><title>1997: 1 of 2 detected (50.0%)</title><circle cx="237.8" cy="102.0" r="2.5"/></g><g class="aw-point aw-declining"><title>1998: 5 of 6 detected (83.3%)</title><circle cx="253.9" cy="47.5" r="3.0"/></g><g class="aw-point aw-declining"><title>1999: 10 of 14 detected (71.4%)</title><circle cx="270.0" cy="66.9" r="3.5"/></g><g class="aw-point aw-declining"><title>2000: 2 of 15 detected (13.3%)</title><circle cx="286.2" cy="162.0" r="3.5"/></g><g class="aw-point aw-declining"><title>2001: 22 of 27 detected (81.5%)</title><circle cx="302.3" cy="50.5" r="3.9"/></g><g class="aw-point aw-declining"><title>2002: 7 of 9 detected (77.8%)</title><circle cx="318.5" cy="56.5" r="3.2"/></g><g class="aw-point aw-declining"><title>2003: 37 of 45 detected (82.2%)</title><circle cx="334.6" cy="49.3" r="4.3"/></g><g class="aw-point aw-declining"><title>2004: 22 of 29 detected (75.9%)</title><circle cx="350.8" cy="59.7" r="4.0"/></g><g class="aw-point aw-declining"><title>2005: 99 of 103 detected (96.1%)</title><circle cx="366.9" cy="26.5" r="4.8"/></g><g class="aw-point aw-declining"><title>2006: 19 of 20 detected (95.0%)</title><circle cx="383.1" cy="28.4" r="3.7"/></g><g class="aw-point aw-declining"><title>2007: 24 of 44 detected (54.5%)</title><circle cx="399.2" cy="94.6" r="4.2"/></g><g class="aw-point aw-declining"><title>2008: 110 of 125 detected (88.0%)</title><circle cx="415.4" cy="39.8" r="5.0"/></g><g class="aw-point aw-declining"><title>2009: 92 of 102 detected (90.2%)</title><circle cx="431.5" cy="36.2" r="4.8"/></g><g class="aw-point aw-declining"><title>2010: 69 of 92 detected (75.0%)</title><circle cx="447.7" cy="61.1" r="4.7"/></g><g class="aw-point aw-declining"><title>2011: 64 of 83 detected (77.1%)</title><circle cx="463.8" cy="57.6" r="4.7"/></g><g class="aw-point aw-declining"><title>2012: 83 of 97 detected (85.6%)</title><circle cx="480.0" cy="43.8" r="4.8"/></g><g class="aw-point aw-declining"><title>2013: 158 of 195 detected (81.0%)</title><circle cx="496.1" cy="51.2" r="5.3"/></g><g class="aw-point aw-declining"><title>2014: 73 of 93 detected (78.5%)</title><circle cx="512.2" cy="55.4" r="4.8"/></g><g class="aw-point aw-declining"><title>2015: 146 of 160 detected (91.2%)</title><circle cx="528.4" cy="34.5" r="5.1"/></g><g class="aw-point aw-declining"><title>2016: 56 of 165 detected (33.9%)</title><circle cx="544.5" cy="128.3" r="5.2"/></g><g class="aw-point aw-declining"><title>2017: 149 of 245 detected (60.8%)</title><circle cx="560.7" cy="84.3" r="5.4"/></g><g class="aw-point aw-declining"><title>2018: 108 of 130 detected (83.1%)</title><circle cx="576.8" cy="47.9" r="5.0"/></g><g class="aw-point aw-declining"><title>2019: 134 of 250 detected (53.6%)</title><circle cx="593.0" cy="96.1" r="5.4"/></g><g class="aw-point aw-declining"><title>2020: 459 of 592 detected (77.5%)</title><circle cx="609.1" cy="56.9" r="6.0"/></g><g class="aw-point aw-declining"><title>2021: 466 of 508 detected (91.7%)</title><circle cx="625.3" cy="33.7" r="5.9"/></g><g class="aw-point aw-declining"><title>2022: 346 of 462 detected (74.9%)</title><circle cx="641.4" cy="61.3" r="5.9"/></g><g class="aw-point aw-declining"><title>2023: 492 of 733 detected (67.1%)</title><circle cx="657.6" cy="74.0" r="6.2"/></g><g class="aw-point aw-declining"><title>2024: 339 of 442 detected (76.7%) — recent window</title><circle cx="673.7" cy="58.3" r="5.8"/></g><g class="aw-point aw-declining"><title>2025: 353 of 542 detected (65.1%) — recent window</title><circle cx="689.9" cy="77.2" r="6.0"/></g><g class="aw-point aw-declining"><title>2026: 736 of 875 detected (84.1%) — recent window</title><circle cx="706.0" cy="46.2" r="6.3"/></g><text class="aw-tick" x="44.0" y="208">1985</text><text class="aw-tick" x="140.9" y="208">1991</text><text class="aw-tick" x="237.8" y="208">1997</text><text class="aw-tick" x="334.6" y="208">2003</text><text class="aw-tick" x="431.5" y="208">2009</text><text class="aw-tick" x="528.4" y="208">2015</text><text class="aw-tick" x="625.3" y="208">2021</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
+
+## Records reaching the statistics
+
+38,024 records were screened for this assay and **6,236 (16%)** were evaluable, meaning both primers landed in the right orientation and size range. 31,788 produced no amplicon at all.
+
+This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
+
+| why a record was not evaluable | records |
+|---|---|
+| `no_site` | 24,353 |
+| `truncated` | 6,190 |
+| `chance_anchor` | 882 |
+| `chance_only` | 350 |
+| `no_pair` | 12 |
 
 ## What was deposited, by lineage
 
@@ -264,75 +335,6 @@ Of the records the target taxon holds, the share its own retrieval query returne
 
 Between the baseline and the recent window the detected share went
 74.5% to 78.1%, a change of +0.036. Of that, **+0.050 is the mix** of lineages deposited changing (95% CI +0.034 to +0.068) and **-0.015 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
-
-
-## By lineage
-
-Published misses are nearly always specific to one lineage, and a clade that is 5%
-of deposits can be 100% of the cases in one region, so a pooled percentage can look
-healthy while one clade fails completely. Worst first. Lineages with too few records
-to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
-
-<table class="aw-lineage">
-<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
-<tbody>
-<tr class="aw-lin-fail"><td>Aviadenovirus hepatitidis (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3426530" title="Aviadenovirus hepatitidis">3426530</a>) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="0.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">49</td><td class="num">0.0%</td><td class="num">0.0–7.3%</td></tr>
-<tr class="aw-lin-fail"><td>Mastadenovirus caesari (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3241411" title="Mastadenovirus caesari">3241411</a>) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="65.4% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:65.4%"></span></span></td><td class="num">185</td><td class="num">65.4%</td><td class="num">58.3–71.9%</td></tr>
-<tr class="aw-lin-fail"><td>Human adenovirus sp. (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1907210" title="Human adenovirus sp.">1907210</a>) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="83.3% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:83.3%"></span></span></td><td class="num">102</td><td class="num">83.3%</td><td class="num">74.9–89.3%</td></tr>
-<tr class="aw-lin-ok"><td>Mastadenovirus faecale (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3241426" title="Mastadenovirus faecale">3241426</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="99.1% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:99.1%"></span></span></td><td class="num">229</td><td class="num">99.1%</td><td class="num">96.9–99.8%</td></tr>
-<tr class="aw-lin-ok"><td>Mastadenovirus blackbeardi (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3241406" title="Mastadenovirus blackbeardi">3241406</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="99.8% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:99.8%"></span></span></td><td class="num">617</td><td class="num">99.8%</td><td class="num">99.1–100.0%</td></tr>
-</tbody>
-</table>
-
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | ADHEX1F | `CAACACCTAYGASTACATGAA` | 21 nt |
-| reverse | ADHEX1R | `KATGGGGTARAGCATGTT` | 18 nt |
-
-## Verdict
-
-**declining** — below the threshold, and measurably lower than a baseline that previously exceeded it
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 1,171 | 1,500 | 78.1% | 75.9% – 80.1% |
-| baseline (everything earlier) | 3,528 | 4,736 | 74.5% | 73.2% – 75.7% |
-
-Change from baseline, Newcombe interval: **1.1% to 6.0%**. Threshold: **90.0%**.
-
-*pooled share 78.1% has low coverage, but lineage Mastadenovirus caesari (3241411) (185 records) detects only 65.4% (58.3%-71.9%), down from 71.3% on 795 earlier records; lineage verdict overrides to declining*
-
-Trend across deposit years: by record falling (p = 0.404, 36 years); by footprint falling (p = 1.24e-06). Reported for context; it is not an input to the verdict.
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-
-## Scope
-
-**Meant to detect:** Human adenoviruses, hexon gene, as the first-round PCR.  
-**Scored against:** every record retrieved.  
-**Retrieved from:** Adenoviridae (taxid 10508), every record.
-
-This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
-
-
-## Records reaching the statistics
-
-38,024 records were screened for this assay and **6,236 (16%)** were evaluable, meaning both primers landed in the right orientation and size range. 31,788 produced no amplicon at all.
-
-This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
-
-| why a record was not evaluable | records |
-|---|---|
-| `no_site` | 24,353 |
-| `truncated` | 6,190 |
-| `chance_anchor` | 882 |
-| `chance_only` | 350 |
-| `no_pair` | 12 |
 
 
 ## Curation record
