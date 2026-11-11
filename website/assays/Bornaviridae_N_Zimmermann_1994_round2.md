@@ -18,6 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | — |
 | Registry status | draft |
+| Verdict | — |
 
 !!! warning "No status is reported for this assay"
 

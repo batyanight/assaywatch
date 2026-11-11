@@ -18,23 +18,17 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 179 bp |
 | Registry status | draft |
+| Verdict | declining |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | Huo2022_P1_F | `ATCCTCTCTCATTGATTTTTCGCGGGA` | 27 nt |
+| reverse | Huo2022_P1_R | `TGGAGAAGCGAGAAGTTAATAAAGC` | 25 nt |
+| probe | Huo2022_P1_I_P | `TCGTCGGAACTGTACACCATAGTAC` | 25 nt |
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 546 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="93" y="52">forward</text><text class="aw-track-name" x="93" y="64">Huo2022_P1_F</text><rect class="aw-zone" x="453.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="123.0" y1="44.0" x2="528.0" y2="44.0"/><text class="aw-base" x="130.5" y="57">A</text><text class="aw-base" x="145.5" y="57">T</text><text class="aw-base" x="160.5" y="57">C</text><text class="aw-base" x="175.5" y="57">C</text><text class="aw-base" x="190.5" y="57">T</text><text class="aw-base" x="205.5" y="57">C</text><text class="aw-base" x="220.5" y="57">T</text><text class="aw-base" x="235.5" y="57">C</text><text class="aw-base" x="250.5" y="57">T</text><text class="aw-base" x="265.5" y="57">C</text><text class="aw-base" x="280.5" y="57">A</text><text class="aw-base" x="295.5" y="57">T</text><text class="aw-base" x="310.5" y="57">T</text><text class="aw-base" x="325.5" y="57">G</text><text class="aw-base" x="340.5" y="57">A</text><text class="aw-base" x="355.5" y="57">T</text><text class="aw-base" x="370.5" y="57">T</text><text class="aw-base" x="385.5" y="57">T</text><text class="aw-base" x="400.5" y="57">T</text><text class="aw-base" x="415.5" y="57">T</text><text class="aw-base" x="430.5" y="57">C</text><text class="aw-base" x="445.5" y="57">G</text><text class="aw-base" x="460.5" y="57">C</text><text class="aw-base" x="475.5" y="57">G</text><text class="aw-base" x="490.5" y="57">G</text><text class="aw-base" x="505.5" y="57">G</text><text class="aw-base" x="520.5" y="57">A</text><text class="aw-tick" x="520.5" y="71">1</text><text class="aw-tick" x="460.5" y="71">5</text><text class="aw-tick" x="385.5" y="71">10</text><text class="aw-tick" x="310.5" y="71">15</text><text class="aw-tick" x="235.5" y="71">20</text><text class="aw-tick" x="160.5" y="71">25</text><text class="aw-tick" x="130.5" y="71">27</text><text class="aw-end" x="119" y="57">5′</text><text class="aw-end aw-end-3" x="532" y="57">3′</text><text class="aw-track-label" x="93" y="134">reverse</text><text class="aw-track-name" x="93" y="146">Huo2022_P1_R</text><rect class="aw-zone" x="423.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="123.0" y1="126.0" x2="498.0" y2="126.0"/><text class="aw-base" x="130.5" y="139">T</text><text class="aw-base" x="145.5" y="139">G</text><text class="aw-base" x="160.5" y="139">G</text><text class="aw-base" x="175.5" y="139">A</text><text class="aw-base" x="190.5" y="139">G</text><text class="aw-base" x="205.5" y="139">A</text><text class="aw-base" x="220.5" y="139">A</text><text class="aw-base" x="235.5" y="139">G</text><text class="aw-base" x="250.5" y="139">C</text><text class="aw-base" x="265.5" y="139">G</text><text class="aw-base" x="280.5" y="139">A</text><g class="aw-bar-mid"><title>reverse position 14 from the 3&#x27; end, base G
 25 of 13,649 records differ here (0.2%)
@@ -63,53 +57,21 @@ detected when it does not: 99% of 3,002
 substitutions: T&gt;C in 10,647
 outside the central third</title><rect x="454.0" y="178.0" width="13.0" height="30.0"/></g><text class="aw-base" x="460.5" y="221">T</text><text class="aw-base" x="475.5" y="221">A</text><text class="aw-base" x="490.5" y="221">C</text><text class="aw-tick" x="490.5" y="235">1</text><text class="aw-tick" x="430.5" y="235">5</text><text class="aw-tick" x="355.5" y="235">10</text><text class="aw-tick" x="280.5" y="235">15</text><text class="aw-tick" x="205.5" y="235">20</text><text class="aw-tick" x="130.5" y="235">25</text><text class="aw-end" x="119" y="221">5′</text><text class="aw-end aw-end-3" x="502" y="221">3′</text></svg>
 
-## Predicted detection by deposit year
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
 
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
 
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2001 to 2026, against a 90 percent threshold."><rect class="aw-window" x="653.0" y="12.0" width="53.0" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 123.4,183.8 149.9,137.1 282.3,20.2 308.8,20.2 361.8,20.2 388.2,27.0 414.7,94.6 494.2,183.8 520.6,183.8 547.1,139.6 600.1,183.8 626.6,183.7 653.0,145.1 679.5,124.5 706.0,74.9"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-declining" points="44.0,20.2 123.4,183.8 149.9,137.1 282.3,129.3 308.8,20.2 361.8,20.2 388.2,27.0 414.7,94.6 494.2,183.8 520.6,183.8 547.1,139.6 600.1,183.8 626.6,183.7 653.0,144.8 679.5,124.6 706.0,83.2"/><g class="aw-point aw-declining"><title>2001: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2004: 0 of 1 detected (0.0%)</title><circle cx="123.4" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>2005: 2 of 7 detected (28.6%)</title><circle cx="149.9" cy="137.1" r="3.0"/></g><g class="aw-point aw-declining"><title>2010: 1 of 3 detected (33.3%)</title><circle cx="282.3" cy="129.3" r="2.6"/></g><g class="aw-point aw-declining"><title>2011: 2 of 2 detected (100.0%)</title><circle cx="308.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2013: 2 of 2 detected (100.0%)</title><circle cx="361.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2014: 23 of 24 detected (95.8%)</title><circle cx="388.2" cy="27.0" r="3.8"/></g><g class="aw-point aw-declining"><title>2015: 6 of 11 detected (54.5%)</title><circle cx="414.7" cy="94.6" r="3.3"/></g><g class="aw-point aw-declining"><title>2018: 0 of 3 detected (0.0%)</title><circle cx="494.2" cy="183.8" r="2.6"/></g><g class="aw-point aw-declining"><title>2019: 0 of 8 detected (0.0%)</title><circle cx="520.6" cy="183.8" r="3.1"/></g><g class="aw-point aw-declining"><title>2020: 10 of 37 detected (27.0%)</title><circle cx="547.1" cy="139.6" r="4.1"/></g><g class="aw-point aw-declining"><title>2022: 1 of 3,446 detected (0.0%)</title><circle cx="600.1" cy="183.8" r="7.0"/></g><g class="aw-point aw-declining"><title>2023: 3 of 3,132 detected (0.1%)</title><circle cx="626.6" cy="183.7" r="7.0"/></g><g class="aw-point aw-declining"><title>2024: 500 of 2,099 detected (23.8%) — recent window</title><circle cx="653.0" cy="144.8" r="6.9"/></g><g class="aw-point aw-declining"><title>2025: 682 of 1,886 detected (36.2%) — recent window</title><circle cx="679.5" cy="124.6" r="6.8"/></g><g class="aw-point aw-declining"><title>2026: 1,746 of 2,840 detected (61.5%) — recent window</title><circle cx="706.0" cy="83.2" r="7.0"/></g><text class="aw-tick" x="44.0" y="208">2001</text><text class="aw-tick" x="149.9" y="208">2005</text><text class="aw-tick" x="255.8" y="208">2009</text><text class="aw-tick" x="361.8" y="208">2013</text><text class="aw-tick" x="467.7" y="208">2017</text><text class="aw-tick" x="573.6" y="208">2021</text><text class="aw-tick" x="679.5" y="208">2025</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
 
-## What was deposited, by lineage
-
-Lineages here are sequence groups, not species or taxids. Each is a group of records
-that look alike over the amplicon and its flanks with the oligo sites masked, cut at
-0.05 Mash distance. Records can link one species to the next, so a group
-can hold several; a percent in its name is the share of its top species. The groups
-come from sequence this assay does not measure, so the mix below can move without the
-assay changing. The dashed line on the chart above recomputes each year on the whole
-period's mix: where the two lines part, what got sequenced changed, not what the assay
-detects.
-
-*431 of 13503 diverged, with no site to cluster on.*
-
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2001 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2001 — O. monkeypox: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2004 — O. monkeypox: 1 of 1 records (100%), 0 detected</title><rect x="110.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2005 — O. monkeypox: 7 of 7 records (100%), 2 detected</title><rect x="136.9" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2010 — other: 2 of 3 records (67%), 0 detected</title><rect x="269.3" y="10.0" width="26.0" height="61.3" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2010 — O. monkeypox: 1 of 3 records (33%), 1 detected</title><rect x="269.3" y="71.3" width="26.0" height="30.7" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2011 — O. monkeypox: 2 of 2 records (100%), 2 detected</title><rect x="295.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2013 — O. monkeypox: 2 of 2 records (100%), 2 detected</title><rect x="348.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2014 — O. monkeypox: 24 of 24 records (100%), 23 detected</title><rect x="375.2" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2015 — O. monkeypox: 11 of 11 records (100%), 6 detected</title><rect x="401.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2018 — O. monkeypox: 3 of 3 records (100%), 0 detected</title><rect x="481.2" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2019 — O. monkeypox: 8 of 8 records (100%), 0 detected</title><rect x="507.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2020 — O. monkeypox: 37 of 37 records (100%), 10 detected</title><rect x="534.1" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2022 — diverged (no site): 5 of 3,446 records (0%), 0 detected</title><rect x="587.1" y="10.0" width="26.0" height="0.1" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2022 — O. monkeypox: 3,441 of 3,446 records (100%), 1 detected</title><rect x="587.1" y="10.1" width="26.0" height="91.9" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2023 — diverged (no site): 7 of 3,132 records (0%), 0 detected</title><rect x="613.6" y="10.0" width="26.0" height="0.2" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2023 — O. monkeypox: 3,125 of 3,132 records (100%), 3 detected</title><rect x="613.6" y="10.2" width="26.0" height="91.8" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2024 — diverged (no site): 53 of 2,099 records (3%), 0 detected</title><rect x="640.0" y="10.0" width="26.0" height="2.3" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2024 — O. monkeypox: 2,046 of 2,099 records (97%), 500 detected</title><rect x="640.0" y="12.3" width="26.0" height="89.7" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2025 — diverged (no site): 66 of 1,886 records (3%), 0 detected</title><rect x="666.5" y="10.0" width="26.0" height="3.2" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2025 — O. monkeypox: 1,820 of 1,886 records (97%), 682 detected</title><rect x="666.5" y="13.2" width="26.0" height="88.8" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2026 — diverged (no site): 300 of 2,840 records (11%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="9.7" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2026 — O. monkeypox: 2,540 of 2,840 records (89%), 1,746 detected</title><rect x="693.0" y="19.7" width="26.0" height="82.3" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2001</text><text class="aw-tick" x="149.9" y="117">2005</text><text class="aw-tick" x="255.8" y="117">2009</text><text class="aw-tick" x="361.8" y="117">2013</text><text class="aw-tick" x="467.7" y="117">2017</text><text class="aw-tick" x="573.6" y="117">2021</text><text class="aw-tick" x="679.5" y="117">2025</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
-
-| Lineage | Records | Share | New since design | Species | Also in the titles |
-|---|---|---|---|---|---|
-| diverged (no site) | 431 | 3% |  | Orthopoxvirus monkeypox 431 | monopartite, assembly |
-| other | 2 | 0% |  | Orthopoxvirus monkeypox 2 | Acid, Microbial, Modified, Nucleic |
-| O. monkeypox | 13,070 | 97% |  | Orthopoxvirus monkeypox 13,070 | 2022, MPXV, USA |
-
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2018 89%, 2019 100%, 2020 100%, 2022 100%, 2023 100%, 2024 100%, 2025 99%, 2026 100% (best year 100%). A low share is a fact about the query, not about the taxon.
-
-Between the baseline and the recent window the detected share went
-6.4% to 49.4%, a change of +0.430. Of that, **-0.020 is the mix** of lineages deposited changing (95% CI -0.022 to -0.018) and **+0.450 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
-
-
-## By lineage
-
-Only one lineage has enough records to report here: **Orthopoxvirus monkeypox (3431483)** (2,431 of 4,551 detected, 53.4%, 95% interval 52.0–54.9%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
-
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | Huo2022_P1_F | `ATCCTCTCTCATTGATTTTTCGCGGGA` | 27 nt |
-| reverse | Huo2022_P1_R | `TGGAGAAGCGAGAAGTTAATAAAGC` | 25 nt |
-| probe | Huo2022_P1_I_P | `TCGTCGGAACTGTACACCATAGTAC` | 25 nt |
 
 ## Verdict
 
@@ -146,6 +108,20 @@ The paper claims this assay does **not** amplify 7 other taxa. Those are retriev
 Disclosures on this entry: `amplicon_measured_not_published`, `scope_narrower_than_taxid`.
 
 
+## By lineage
+
+Only one lineage has enough records to report here: **Orthopoxvirus monkeypox (3431483)** (2,431 of 4,551 detected, 53.4%, 95% interval 52.0–54.9%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
+
+## Predicted detection by deposit year
+
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2001 to 2026, against a 90 percent threshold."><rect class="aw-window" x="653.0" y="12.0" width="53.0" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 123.4,183.8 149.9,137.1 282.3,20.2 308.8,20.2 361.8,20.2 388.2,27.0 414.7,94.6 494.2,183.8 520.6,183.8 547.1,139.6 600.1,183.8 626.6,183.7 653.0,145.1 679.5,124.5 706.0,74.9"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-declining" points="44.0,20.2 123.4,183.8 149.9,137.1 282.3,129.3 308.8,20.2 361.8,20.2 388.2,27.0 414.7,94.6 494.2,183.8 520.6,183.8 547.1,139.6 600.1,183.8 626.6,183.7 653.0,144.8 679.5,124.6 706.0,83.2"/><g class="aw-point aw-declining"><title>2001: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2004: 0 of 1 detected (0.0%)</title><circle cx="123.4" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>2005: 2 of 7 detected (28.6%)</title><circle cx="149.9" cy="137.1" r="3.0"/></g><g class="aw-point aw-declining"><title>2010: 1 of 3 detected (33.3%)</title><circle cx="282.3" cy="129.3" r="2.6"/></g><g class="aw-point aw-declining"><title>2011: 2 of 2 detected (100.0%)</title><circle cx="308.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2013: 2 of 2 detected (100.0%)</title><circle cx="361.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2014: 23 of 24 detected (95.8%)</title><circle cx="388.2" cy="27.0" r="3.8"/></g><g class="aw-point aw-declining"><title>2015: 6 of 11 detected (54.5%)</title><circle cx="414.7" cy="94.6" r="3.3"/></g><g class="aw-point aw-declining"><title>2018: 0 of 3 detected (0.0%)</title><circle cx="494.2" cy="183.8" r="2.6"/></g><g class="aw-point aw-declining"><title>2019: 0 of 8 detected (0.0%)</title><circle cx="520.6" cy="183.8" r="3.1"/></g><g class="aw-point aw-declining"><title>2020: 10 of 37 detected (27.0%)</title><circle cx="547.1" cy="139.6" r="4.1"/></g><g class="aw-point aw-declining"><title>2022: 1 of 3,446 detected (0.0%)</title><circle cx="600.1" cy="183.8" r="7.0"/></g><g class="aw-point aw-declining"><title>2023: 3 of 3,132 detected (0.1%)</title><circle cx="626.6" cy="183.7" r="7.0"/></g><g class="aw-point aw-declining"><title>2024: 500 of 2,099 detected (23.8%) — recent window</title><circle cx="653.0" cy="144.8" r="6.9"/></g><g class="aw-point aw-declining"><title>2025: 682 of 1,886 detected (36.2%) — recent window</title><circle cx="679.5" cy="124.6" r="6.8"/></g><g class="aw-point aw-declining"><title>2026: 1,746 of 2,840 detected (61.5%) — recent window</title><circle cx="706.0" cy="83.2" r="7.0"/></g><text class="aw-tick" x="44.0" y="208">2001</text><text class="aw-tick" x="149.9" y="208">2005</text><text class="aw-tick" x="255.8" y="208">2009</text><text class="aw-tick" x="361.8" y="208">2013</text><text class="aw-tick" x="467.7" y="208">2017</text><text class="aw-tick" x="573.6" y="208">2021</text><text class="aw-tick" x="679.5" y="208">2025</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
+
 ## Records reaching the statistics
 
 14,206 records were screened for this assay and **13,503 (95%)** were evaluable, meaning both primers landed in the right orientation and size range. 703 produced no amplicon at all.
@@ -155,6 +131,32 @@ This matters because a record with one diverged primer is scored as a failure wh
 | why a record was not evaluable | records |
 |---|---|
 | `no_site` | 693 |
+
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+*431 of 13503 diverged, with no site to cluster on.*
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2001 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2001 — O. monkeypox: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2004 — O. monkeypox: 1 of 1 records (100%), 0 detected</title><rect x="110.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2005 — O. monkeypox: 7 of 7 records (100%), 2 detected</title><rect x="136.9" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2010 — other: 2 of 3 records (67%), 0 detected</title><rect x="269.3" y="10.0" width="26.0" height="61.3" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2010 — O. monkeypox: 1 of 3 records (33%), 1 detected</title><rect x="269.3" y="71.3" width="26.0" height="30.7" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2011 — O. monkeypox: 2 of 2 records (100%), 2 detected</title><rect x="295.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2013 — O. monkeypox: 2 of 2 records (100%), 2 detected</title><rect x="348.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2014 — O. monkeypox: 24 of 24 records (100%), 23 detected</title><rect x="375.2" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2015 — O. monkeypox: 11 of 11 records (100%), 6 detected</title><rect x="401.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2018 — O. monkeypox: 3 of 3 records (100%), 0 detected</title><rect x="481.2" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2019 — O. monkeypox: 8 of 8 records (100%), 0 detected</title><rect x="507.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2020 — O. monkeypox: 37 of 37 records (100%), 10 detected</title><rect x="534.1" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2022 — diverged (no site): 5 of 3,446 records (0%), 0 detected</title><rect x="587.1" y="10.0" width="26.0" height="0.1" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2022 — O. monkeypox: 3,441 of 3,446 records (100%), 1 detected</title><rect x="587.1" y="10.1" width="26.0" height="91.9" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2023 — diverged (no site): 7 of 3,132 records (0%), 0 detected</title><rect x="613.6" y="10.0" width="26.0" height="0.2" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2023 — O. monkeypox: 3,125 of 3,132 records (100%), 3 detected</title><rect x="613.6" y="10.2" width="26.0" height="91.8" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2024 — diverged (no site): 53 of 2,099 records (3%), 0 detected</title><rect x="640.0" y="10.0" width="26.0" height="2.3" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2024 — O. monkeypox: 2,046 of 2,099 records (97%), 500 detected</title><rect x="640.0" y="12.3" width="26.0" height="89.7" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2025 — diverged (no site): 66 of 1,886 records (3%), 0 detected</title><rect x="666.5" y="10.0" width="26.0" height="3.2" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2025 — O. monkeypox: 1,820 of 1,886 records (97%), 682 detected</title><rect x="666.5" y="13.2" width="26.0" height="88.8" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2026 — diverged (no site): 300 of 2,840 records (11%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="9.7" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2026 — O. monkeypox: 2,540 of 2,840 records (89%), 1,746 detected</title><rect x="693.0" y="19.7" width="26.0" height="82.3" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2001</text><text class="aw-tick" x="149.9" y="117">2005</text><text class="aw-tick" x="255.8" y="117">2009</text><text class="aw-tick" x="361.8" y="117">2013</text><text class="aw-tick" x="467.7" y="117">2017</text><text class="aw-tick" x="573.6" y="117">2021</text><text class="aw-tick" x="679.5" y="117">2025</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| diverged (no site) | 431 | 3% |  | Orthopoxvirus monkeypox 431 | monopartite, assembly |
+| other | 2 | 0% |  | Orthopoxvirus monkeypox 2 | Acid, Microbial, Modified, Nucleic |
+| O. monkeypox | 13,070 | 97% |  | Orthopoxvirus monkeypox 13,070 | 2022, MPXV, USA |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2018 89%, 2019 100%, 2020 100%, 2022 100%, 2023 100%, 2024 100%, 2025 99%, 2026 100% (best year 100%). A low share is a fact about the query, not about the taxon.
+
+Between the baseline and the recent window the detected share went
+6.4% to 49.4%, a change of +0.430. Of that, **-0.020 is the mix** of lineages deposited changing (95% CI -0.022 to -0.018) and **+0.450 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
 
 
 ## Curation record

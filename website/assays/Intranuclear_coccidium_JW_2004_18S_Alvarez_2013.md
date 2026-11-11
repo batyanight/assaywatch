@@ -18,8 +18,19 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 84 bp |
 | Registry status | active |
+| Verdict | no recent data |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | INCqPCRF | `GTTTGGTCCGCCTCCTTG` | 18 nt |
+| reverse | INCqPCR2R | `AACCCGCACAGTGAAGTGG` | 19 nt |
+| probe | Probe | `GCCGGTCGAACTTCAGCATC` | 20 nt |
 
 ## Mismatch distribution
+
+<svg class="aw-track" viewBox="0 0 422 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">INCqPCRF</text><rect class="aw-zone" x="299.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="374.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">G</text><text class="aw-base" x="126.5" y="57">T</text><text class="aw-base" x="141.5" y="57">T</text><text class="aw-base" x="156.5" y="57">T</text><text class="aw-base" x="171.5" y="57">G</text><text class="aw-base" x="186.5" y="57">G</text><text class="aw-base" x="201.5" y="57">T</text><text class="aw-base" x="216.5" y="57">C</text><text class="aw-base" x="231.5" y="57">C</text><text class="aw-base" x="246.5" y="57">G</text><text class="aw-base" x="261.5" y="57">C</text><text class="aw-base" x="276.5" y="57">C</text><text class="aw-base" x="291.5" y="57">T</text><text class="aw-base" x="306.5" y="57">C</text><text class="aw-base" x="321.5" y="57">C</text><text class="aw-base" x="336.5" y="57">T</text><text class="aw-base" x="351.5" y="57">T</text><text class="aw-base" x="366.5" y="57">G</text><text class="aw-tick" x="366.5" y="71">1</text><text class="aw-tick" x="306.5" y="71">5</text><text class="aw-tick" x="231.5" y="71">10</text><text class="aw-tick" x="156.5" y="71">15</text><text class="aw-tick" x="111.5" y="71">18</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="378" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">INCqPCR2R</text><rect class="aw-zone" x="314.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="389.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">A</text><text class="aw-base" x="126.5" y="139">A</text><text class="aw-base" x="141.5" y="139">C</text><text class="aw-base" x="156.5" y="139">C</text><text class="aw-base" x="171.5" y="139">C</text><text class="aw-base" x="186.5" y="139">G</text><text class="aw-base" x="201.5" y="139">C</text><text class="aw-base" x="216.5" y="139">A</text><text class="aw-base" x="231.5" y="139">C</text><text class="aw-base" x="246.5" y="139">A</text><text class="aw-base" x="261.5" y="139">G</text><text class="aw-base" x="276.5" y="139">T</text><text class="aw-base" x="291.5" y="139">G</text><text class="aw-base" x="306.5" y="139">A</text><text class="aw-base" x="321.5" y="139">A</text><text class="aw-base" x="336.5" y="139">G</text><text class="aw-base" x="351.5" y="139">T</text><text class="aw-base" x="366.5" y="139">G</text><text class="aw-base" x="381.5" y="139">G</text><text class="aw-tick" x="381.5" y="153">1</text><text class="aw-tick" x="321.5" y="153">5</text><text class="aw-tick" x="246.5" y="153">10</text><text class="aw-tick" x="171.5" y="153">15</text><text class="aw-tick" x="111.5" y="153">19</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="393" y="139">3′</text><text class="aw-track-label" x="74" y="216">probe</text><text class="aw-track-name" x="74" y="228">Probe</text><rect class="aw-zone" x="194.0" y="174.0" width="120.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="208.0" x2="404.0" y2="208.0"/><text class="aw-base" x="111.5" y="221">G</text><text class="aw-base" x="126.5" y="221">C</text><text class="aw-base" x="141.5" y="221">C</text><text class="aw-base" x="156.5" y="221">G</text><text class="aw-base" x="171.5" y="221">G</text><text class="aw-base" x="186.5" y="221">T</text><text class="aw-base" x="201.5" y="221">C</text><text class="aw-base" x="216.5" y="221">G</text><text class="aw-base" x="231.5" y="221">A</text><text class="aw-base" x="246.5" y="221">A</text><text class="aw-base" x="261.5" y="221">C</text><text class="aw-base" x="276.5" y="221">T</text><text class="aw-base" x="291.5" y="221">T</text><text class="aw-base" x="306.5" y="221">C</text><text class="aw-base" x="321.5" y="221">A</text><text class="aw-base" x="336.5" y="221">G</text><text class="aw-base" x="351.5" y="221">C</text><text class="aw-base" x="366.5" y="221">A</text><text class="aw-base" x="381.5" y="221">T</text><text class="aw-base" x="396.5" y="221">C</text><text class="aw-tick" x="396.5" y="235">1</text><text class="aw-tick" x="336.5" y="235">5</text><text class="aw-tick" x="261.5" y="235">10</text><text class="aw-tick" x="186.5" y="235">15</text><text class="aw-tick" x="111.5" y="235">20</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="408" y="221">3′</text></svg>
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
 penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
@@ -36,41 +47,7 @@ as the fall in detection between records that differ there and records that do n
 Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
 bar is a position that matters.
 
-<svg class="aw-track" viewBox="0 0 422 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">INCqPCRF</text><rect class="aw-zone" x="299.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="374.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">G</text><text class="aw-base" x="126.5" y="57">T</text><text class="aw-base" x="141.5" y="57">T</text><text class="aw-base" x="156.5" y="57">T</text><text class="aw-base" x="171.5" y="57">G</text><text class="aw-base" x="186.5" y="57">G</text><text class="aw-base" x="201.5" y="57">T</text><text class="aw-base" x="216.5" y="57">C</text><text class="aw-base" x="231.5" y="57">C</text><text class="aw-base" x="246.5" y="57">G</text><text class="aw-base" x="261.5" y="57">C</text><text class="aw-base" x="276.5" y="57">C</text><text class="aw-base" x="291.5" y="57">T</text><text class="aw-base" x="306.5" y="57">C</text><text class="aw-base" x="321.5" y="57">C</text><text class="aw-base" x="336.5" y="57">T</text><text class="aw-base" x="351.5" y="57">T</text><text class="aw-base" x="366.5" y="57">G</text><text class="aw-tick" x="366.5" y="71">1</text><text class="aw-tick" x="306.5" y="71">5</text><text class="aw-tick" x="231.5" y="71">10</text><text class="aw-tick" x="156.5" y="71">15</text><text class="aw-tick" x="111.5" y="71">18</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="378" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">INCqPCR2R</text><rect class="aw-zone" x="314.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="389.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">A</text><text class="aw-base" x="126.5" y="139">A</text><text class="aw-base" x="141.5" y="139">C</text><text class="aw-base" x="156.5" y="139">C</text><text class="aw-base" x="171.5" y="139">C</text><text class="aw-base" x="186.5" y="139">G</text><text class="aw-base" x="201.5" y="139">C</text><text class="aw-base" x="216.5" y="139">A</text><text class="aw-base" x="231.5" y="139">C</text><text class="aw-base" x="246.5" y="139">A</text><text class="aw-base" x="261.5" y="139">G</text><text class="aw-base" x="276.5" y="139">T</text><text class="aw-base" x="291.5" y="139">G</text><text class="aw-base" x="306.5" y="139">A</text><text class="aw-base" x="321.5" y="139">A</text><text class="aw-base" x="336.5" y="139">G</text><text class="aw-base" x="351.5" y="139">T</text><text class="aw-base" x="366.5" y="139">G</text><text class="aw-base" x="381.5" y="139">G</text><text class="aw-tick" x="381.5" y="153">1</text><text class="aw-tick" x="321.5" y="153">5</text><text class="aw-tick" x="246.5" y="153">10</text><text class="aw-tick" x="171.5" y="153">15</text><text class="aw-tick" x="111.5" y="153">19</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="393" y="139">3′</text><text class="aw-track-label" x="74" y="216">probe</text><text class="aw-track-name" x="74" y="228">Probe</text><rect class="aw-zone" x="194.0" y="174.0" width="120.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="208.0" x2="404.0" y2="208.0"/><text class="aw-base" x="111.5" y="221">G</text><text class="aw-base" x="126.5" y="221">C</text><text class="aw-base" x="141.5" y="221">C</text><text class="aw-base" x="156.5" y="221">G</text><text class="aw-base" x="171.5" y="221">G</text><text class="aw-base" x="186.5" y="221">T</text><text class="aw-base" x="201.5" y="221">C</text><text class="aw-base" x="216.5" y="221">G</text><text class="aw-base" x="231.5" y="221">A</text><text class="aw-base" x="246.5" y="221">A</text><text class="aw-base" x="261.5" y="221">C</text><text class="aw-base" x="276.5" y="221">T</text><text class="aw-base" x="291.5" y="221">T</text><text class="aw-base" x="306.5" y="221">C</text><text class="aw-base" x="321.5" y="221">A</text><text class="aw-base" x="336.5" y="221">G</text><text class="aw-base" x="351.5" y="221">C</text><text class="aw-base" x="366.5" y="221">A</text><text class="aw-base" x="381.5" y="221">T</text><text class="aw-base" x="396.5" y="221">C</text><text class="aw-tick" x="396.5" y="235">1</text><text class="aw-tick" x="336.5" y="235">5</text><text class="aw-tick" x="261.5" y="235">10</text><text class="aw-tick" x="186.5" y="235">15</text><text class="aw-tick" x="111.5" y="235">20</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="408" y="221">3′</text></svg>
 <p class="aw-empty">No position carried a mismatch in enough records to report.</p>
-
-## Predicted detection by deposit year
-
-**The one evaluable record**, deposited in 2004, is predicted to be detected. That is fewer than the 15 records a drift verdict needs, so there is no trend to draw and none is drawn.
-
-## What was deposited, by lineage
-
-Lineages here are sequence groups, not species or taxids. Each is a group of records
-that look alike over the amplicon and its flanks with the oligo sites masked, cut at
-0.05 Mash distance. Records can link one species to the next, so a group
-can hold several; a percent in its name is the share of its top species. The groups
-come from sequence this assay does not measure, so the mix below can move without the
-assay changing. The dashed line on the chart above recomputes each year on the whole
-period's mix: where the two lines part, what got sequenced changed, not what the assay
-detects.
-
-*too few windows to cluster: every record is unplaced; 1 of 1 records unplaced (100%).*
-
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2004 to 2004."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2004 — unplaced: 1 of 1 records (100%), 1 detected</title><rect x="362.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><text class="aw-tick" x="375.0" y="117">2004</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
-
-| Lineage | Records | Share | New since design | Species | Also in the titles |
-|---|---|---|---|---|---|
-| unplaced | 1 | 100% |  | Intranuclear coccidium JW-2004 1 | -- |
-
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2004 100%, 2018 100% (best year 100%). A low share is a fact about the query, not about the taxon.
-
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | INCqPCRF | `GTTTGGTCCGCCTCCTTG` | 18 nt |
-| reverse | INCqPCR2R | `AACCCGCACAGTGAAGTGG` | 19 nt |
-| probe | Probe | `GCCGGTCGAACTTCAGCATC` | 20 nt |
 
 ## Verdict
 
@@ -100,6 +77,10 @@ This entry declares no scope restriction, so every record retrieved for its targ
 
 Disclosures on this entry: `amplicon_measured_not_published`.
 
+## Predicted detection by deposit year
+
+**The one evaluable record**, deposited in 2004, is predicted to be detected. That is fewer than the 15 records a drift verdict needs, so there is no trend to draw and none is drawn.
+
 
 ## Records reaching the statistics
 
@@ -110,6 +91,27 @@ This matters because a record with one diverged primer is scored as a failure wh
 | why a record was not evaluable | records |
 |---|---|
 | `no_site` | 1 |
+
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+*too few windows to cluster: every record is unplaced; 1 of 1 records unplaced (100%).*
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2004 to 2004."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2004 — unplaced: 1 of 1 records (100%), 1 detected</title><rect x="362.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><text class="aw-tick" x="375.0" y="117">2004</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| unplaced | 1 | 100% |  | Intranuclear coccidium JW-2004 1 | -- |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2004 100%, 2018 100% (best year 100%). A low share is a fact about the query, not about the taxon.
 
 
 ## Curation record

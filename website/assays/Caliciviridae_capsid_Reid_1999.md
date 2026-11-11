@@ -18,23 +18,16 @@
 | Chemistry | conventional |
 | Amplicon | 768 bp |
 | Registry status | active |
+| Verdict | no recent data |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | Reid-1F | `GTGAGGTGTTTGAGAATTAG` | 20 nt |
+| reverse | Reid-1R | `ACATCAATTCCGCCAGACCA` | 20 nt |
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 422 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">Reid-1F</text><rect class="aw-zone" x="329.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="404.0" y2="44.0"/><g class="aw-bar-strong"><title>forward position 20 from the 3&#x27; end, base G
 26 of 67 records differ here (38.8%)
@@ -98,38 +91,21 @@ detected when it does not: 37% of 46
 substitutions: G&gt;T in 14, G&gt;C in 6, G&gt;A in 1
 inside the 3′ window</title><rect x="330.0" y="107.0" width="13.0" height="19.0"/></g><text class="aw-base" x="336.5" y="139">G</text><text class="aw-base" x="351.5" y="139">A</text><text class="aw-base" x="366.5" y="139">C</text><text class="aw-base" x="381.5" y="139">C</text><text class="aw-base" x="396.5" y="139">A</text><text class="aw-tick" x="396.5" y="153">1</text><text class="aw-tick" x="336.5" y="153">5</text><text class="aw-tick" x="261.5" y="153">10</text><text class="aw-tick" x="186.5" y="153">15</text><text class="aw-tick" x="111.5" y="153">20</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="408" y="139">3′</text></svg>
 
-## Predicted detection by deposit year
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
 
-**all 11 evaluable records**, deposited between 1993 and 2014, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
 
-## What was deposited, by lineage
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
 
-Lineages here are sequence groups, not species or taxids. Each is a group of records
-that look alike over the amplicon and its flanks with the oligo sites masked, cut at
-0.05 Mash distance. Records can link one species to the next, so a group
-can hold several; a percent in its name is the share of its top species. The groups
-come from sequence this assay does not measure, so the mix below can move without the
-assay changing. The dashed line on the chart above recomputes each year on the whole
-period's mix: where the two lines part, what got sequenced changed, not what the assay
-detects.
-
-*1 of 11 records unplaced (9%).*
-
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 1993 to 2014."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>1993 — other: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1994 — other: 1 of 1 records (100%), 1 detected</title><rect x="62.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1997 — unplaced: 1 of 3 records (33%), 1 detected</title><rect x="157.1" y="10.0" width="26.0" height="30.7" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>1997 — other: 2 of 3 records (67%), 2 detected</title><rect x="157.1" y="40.7" width="26.0" height="61.3" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1998 — other: 1 of 1 records (100%), 1 detected</title><rect x="188.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2000 — other: 1 of 1 records (100%), 1 detected</title><rect x="251.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2003 — other: 1 of 1 records (100%), 1 detected</title><rect x="346.2" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2012 — other: 1 of 1 records (100%), 1 detected</title><rect x="630.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2014 — other: 1 of 1 records (100%), 1 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><text class="aw-tick" x="44.0" y="117">1993</text><text class="aw-tick" x="138.6" y="117">1996</text><text class="aw-tick" x="233.1" y="117">1999</text><text class="aw-tick" x="327.7" y="117">2002</text><text class="aw-tick" x="422.3" y="117">2005</text><text class="aw-tick" x="516.9" y="117">2008</text><text class="aw-tick" x="611.4" y="117">2011</text><text class="aw-tick" x="706.0" y="117">2014</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
-
-| Lineage | Records | Share | New since design | Species | Also in the titles |
-|---|---|---|---|---|---|
-| unplaced | 1 | 9% |  | Vesivirus exanthema 1 | lion, Miguel, San, sea, capsid |
-| other | 10 | 91% |  | Vesivirus exanthema 10 | calicivirus, of, swine, Vesicular, binding |
-
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 82%, 2020 71%, 2021 82%, 2022 79%, 2023 90%, 2024 81%, 2025 75%, 2026 77% (best year 100%). A low share is a fact about the query, not about the taxon.
-
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | Reid-1F | `GTGAGGTGTTTGAGAATTAG` | 20 nt |
-| reverse | Reid-1R | `ACATCAATTCCGCCAGACCA` | 20 nt |
 
 ## Verdict
 
@@ -169,6 +145,10 @@ capsid[Title] OR VP1[Gene] OR VP1[Title] OR "complete genome"[Title]
 
 A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
+## Predicted detection by deposit year
+
+**all 11 evaluable records**, deposited between 1993 and 2014, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
+
 
 ## Records reaching the statistics
 
@@ -181,6 +161,28 @@ This matters because a record with one diverged primer is scored as a failure wh
 | `no_site` | 24 |
 | `truncated` | 11 |
 | `chance_anchor` | 3 |
+
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+*1 of 11 records unplaced (9%).*
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 1993 to 2014."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>1993 — other: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1994 — other: 1 of 1 records (100%), 1 detected</title><rect x="62.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1997 — unplaced: 1 of 3 records (33%), 1 detected</title><rect x="157.1" y="10.0" width="26.0" height="30.7" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>1997 — other: 2 of 3 records (67%), 2 detected</title><rect x="157.1" y="40.7" width="26.0" height="61.3" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1998 — other: 1 of 1 records (100%), 1 detected</title><rect x="188.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2000 — other: 1 of 1 records (100%), 1 detected</title><rect x="251.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2003 — other: 1 of 1 records (100%), 1 detected</title><rect x="346.2" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2012 — other: 1 of 1 records (100%), 1 detected</title><rect x="630.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2014 — other: 1 of 1 records (100%), 1 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><text class="aw-tick" x="44.0" y="117">1993</text><text class="aw-tick" x="138.6" y="117">1996</text><text class="aw-tick" x="233.1" y="117">1999</text><text class="aw-tick" x="327.7" y="117">2002</text><text class="aw-tick" x="422.3" y="117">2005</text><text class="aw-tick" x="516.9" y="117">2008</text><text class="aw-tick" x="611.4" y="117">2011</text><text class="aw-tick" x="706.0" y="117">2014</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| unplaced | 1 | 9% |  | Vesivirus exanthema 1 | lion, Miguel, San, sea, capsid |
+| other | 10 | 91% |  | Vesivirus exanthema 10 | calicivirus, of, swine, Vesicular, binding |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 82%, 2020 71%, 2021 82%, 2022 79%, 2023 90%, 2024 81%, 2025 75%, 2026 77% (best year 100%). A low share is a fact about the query, not about the taxon.
 
 
 ## Curation record

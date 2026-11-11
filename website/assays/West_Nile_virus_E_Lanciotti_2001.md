@@ -18,6 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 162 bp |
 | Registry status | active |
+| Verdict | — |
 
 !!! warning "No status is reported for this assay"
 

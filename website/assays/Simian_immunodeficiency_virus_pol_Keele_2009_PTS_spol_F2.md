@@ -18,6 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 547 bp |
 | Registry status | draft |
+| Verdict | — |
 
 !!! warning "No status is reported for this assay"
 
@@ -33,21 +34,6 @@ This map shows where records differ from the oligos as entered. No status is giv
 the reason above, so it is not a verdict.
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 542 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">PTS-spol-F2</text><rect class="aw-zone" x="329.4" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.4" y1="44.0" x2="404.4" y2="44.0"/><text class="aw-base" x="111.9" y="57">G</text><text class="aw-base" x="126.9" y="57">A</text><text class="aw-base" x="141.9" y="57">R</text><text class="aw-base" x="156.9" y="57">G</text><text class="aw-base" x="171.9" y="57">A</text><g class="aw-bar-strong"><title>forward position 15 from the 3&#x27; end, base C
 141 of 334 records differ here (42.2%)
@@ -105,6 +91,22 @@ detected when it differs: 43% of 28
 detected when it does not: 80% of 306
 substitutions: G&gt;A in 28
 inside the 3′ window</title><rect x="480.4" y="116.2" width="13.0" height="9.8"/></g><text class="aw-base" x="486.9" y="139">G</text><text class="aw-base" x="501.9" y="139">T</text><text class="aw-base" x="516.9" y="139">G</text><text class="aw-tick" x="516.9" y="153">1</text><text class="aw-tick" x="456.9" y="153">5</text><text class="aw-tick" x="381.9" y="153">10</text><text class="aw-tick" x="306.9" y="153">15</text><text class="aw-tick" x="231.9" y="153">20</text><text class="aw-tick" x="156.9" y="153">25</text><text class="aw-tick" x="111.9" y="153">28</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="528" y="139">3′</text></svg>
+
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
+
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
+
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
+
 
 ## Oligos
 

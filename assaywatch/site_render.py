@@ -429,6 +429,11 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
         ("Chemistry", a["chemistry"]),
         ("Amplicon", _amplicon_cell(a)),
         ("Registry status", a["entry_status"]),
+        # The verdict reads as a property of the assay beside Target and Gene
+        # (maintainer, 2026-11-10). The status WORD only: its one-sentence meaning stays in
+        # the Verdict section below, where there is room for it. Blank on a withheld page,
+        # which has no status to give.
+        ("Verdict", status or "\u2014"),
     ]
     out.append("| | |\n|---|---|")
     out += [f"| {k} | {v} |" for k, v in rows]
@@ -445,17 +450,21 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
         out += _contribute_block(a, run_date)
         return "\n".join(out) + "\n"
 
-    # The graphs lead, primer then line then bar (maintainer's order, 2026-11-04): the page
-    # opens on the evidence, and the arithmetic behind the verdict follows it.
+    # SECTION ORDER, set by the maintainer 2026-11-10 and the reason this function reads
+    # as a list: what the assay IS, then what it is made of, then the evidence, then the
+    # arithmetic, then the populations, then the provenance. It replaces the 2026-11-04
+    # order, which opened on the graphs.
+    out += _oligos_block(a)
     out.append(_mismatch_block(a))
     out += _failure_reasons_block(a)
-    out.append(_year_block(a, composition))
-    out += _composition_block(composition)
-    out += _lineage_block(a)
-    out += _oligos_block(a)
     out.append(_verdict_block(a, run_date))
     out.append(_scope_block(a))
+    out += _lineage_block(a)
+    out.append(_year_block(a, composition))
     out.append(_denominator_block(a))
+    # At the foot: the composition panel is the heaviest figure on the page and a reader
+    # who wants the verdict and the oligos should not have to scroll past it.
+    out += _composition_block(composition)
     # Near the foot and in small type: the protocol's own verdict is the page;
     # the rounds are a drill-down for a reader asking which one costs it.
     out += _rounds_block(a)
@@ -772,8 +781,15 @@ def _withheld_map(a: dict[str, Any]) -> str:
 
 
 def _mismatch_lines(a: dict[str, Any]) -> list[str]:
+    """The chart, then the prose that explains it (maintainer's order, 2026-11-10).
+
+    The paragraphs and the colour key used to come first, so a reader met three sentences
+    about bar height before any bar. The section now opens on the figure.
+    """
     return [
         "## Mismatch distribution\n",
+        site_svg.mismatch_track(a, _oligo_names().get(a["assay_id"])),
+        "",
         "Each oligo drawn base by base, 5\u2032 to 3\u2032. The shaded region is the one the scoring",
         "penalizes more heavily, and it depends on the oligo. For a primer it is the 3\u2032 window,",
         "where a mismatch sits in the polymerase\u2019s catalytic site. For a probe it is the central",
@@ -790,7 +806,6 @@ def _mismatch_lines(a: dict[str, Any]) -> list[str]:
         "",
         "Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red",
         "bar is a position that matters.\n",
-        site_svg.mismatch_track(a, _oligo_names().get(a["assay_id"])),
     ]
 
 

@@ -18,23 +18,16 @@
 | Chemistry | conventional |
 | Amplicon | 211 bp |
 | Registry status | active |
+| Verdict | stable |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | 218MITOC-FOR | `CGGCGACGATGTGATATGAAAATATTAA` | 28 nt |
+| reverse | 218MITOC-REV | `CCCGGTCATTCTCAAACAAAAAACCG` | 26 nt |
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 549 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="81" y="52">forward</text><text class="aw-track-name" x="81" y="64">218MITOC-FOR</text><rect class="aw-zone" x="455.6" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="110.6" y1="44.0" x2="530.6" y2="44.0"/><text class="aw-base" x="118.1" y="57">C</text><text class="aw-base" x="133.1" y="57">G</text><text class="aw-base" x="148.1" y="57">G</text><text class="aw-base" x="163.1" y="57">C</text><text class="aw-base" x="178.1" y="57">G</text><text class="aw-base" x="193.1" y="57">A</text><text class="aw-base" x="208.1" y="57">C</text><text class="aw-base" x="223.1" y="57">G</text><text class="aw-base" x="238.1" y="57">A</text><text class="aw-base" x="253.1" y="57">T</text><text class="aw-base" x="268.1" y="57">G</text><text class="aw-base" x="283.1" y="57">T</text><text class="aw-base" x="298.1" y="57">G</text><text class="aw-base" x="313.1" y="57">A</text><text class="aw-base" x="328.1" y="57">T</text><text class="aw-base" x="343.1" y="57">A</text><text class="aw-base" x="358.1" y="57">T</text><g class="aw-bar-strong"><title>forward position 11 from the 3&#x27; end, base G
 41 of 876 records differ here (4.7%)
@@ -83,46 +76,21 @@ detected when it does not: 86% of 806
 substitutions: G&gt;T in 68, G&gt;C in 2
 inside the 3′ window</title><rect x="486.6" y="116.4" width="13.0" height="9.6"/></g><text class="aw-base" x="493.1" y="139">G</text><text class="aw-tick" x="493.1" y="153">1</text><text class="aw-tick" x="433.1" y="153">5</text><text class="aw-tick" x="358.1" y="153">10</text><text class="aw-tick" x="283.1" y="153">15</text><text class="aw-tick" x="208.1" y="153">20</text><text class="aw-tick" x="133.1" y="153">25</text><text class="aw-tick" x="118.1" y="153">26</text><text class="aw-end" x="107" y="139">5′</text><text class="aw-end aw-end-3" x="505" y="139">3′</text></svg>
 
-## Predicted detection by deposit year
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
 
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
 
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1995 to 2026, against a 90 percent threshold."><rect class="aw-window" x="663.3" y="12.0" width="42.7" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,183.8 257.5,102.0 278.9,74.7 300.3,36.7 321.6,74.7 343.0,20.2 364.3,20.2 385.7,20.2 407.0,40.6 428.4,66.3 492.5,139.2 513.8,20.2 535.2,59.9 556.5,61.7 577.9,20.2 599.2,20.2 620.6,20.2 663.3,20.2 684.6,20.2 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-stable" points="44.0,183.8 257.5,102.0 278.9,74.7 300.3,49.9 321.6,74.7 343.0,20.2 364.3,20.2 385.7,20.2 407.0,40.6 428.4,66.3 492.5,139.2 513.8,20.2 535.2,59.9 556.5,61.7 577.9,20.2 599.2,20.2 620.6,20.2 663.3,20.2 684.6,20.2 706.0,20.2"/><g class="aw-point aw-stable"><title>1995: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="183.8" r="2.5"/></g><g class="aw-point aw-stable"><title>2005: 1 of 2 detected (50.0%)</title><circle cx="257.5" cy="102.0" r="2.5"/></g><g class="aw-point aw-stable"><title>2006: 4 of 6 detected (66.7%)</title><circle cx="278.9" cy="74.7" r="3.0"/></g><g class="aw-point aw-stable"><title>2007: 9 of 11 detected (81.8%)</title><circle cx="300.3" cy="49.9" r="3.3"/></g><g class="aw-point aw-stable"><title>2008: 2 of 3 detected (66.7%)</title><circle cx="321.6" cy="74.7" r="2.6"/></g><g class="aw-point aw-stable"><title>2009: 16 of 16 detected (100.0%)</title><circle cx="343.0" cy="20.2" r="3.6"/></g><g class="aw-point aw-stable"><title>2010: 7 of 7 detected (100.0%)</title><circle cx="364.3" cy="20.2" r="3.0"/></g><g class="aw-point aw-stable"><title>2011: 2 of 2 detected (100.0%)</title><circle cx="385.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2012: 14 of 16 detected (87.5%)</title><circle cx="407.0" cy="40.6" r="3.6"/></g><g class="aw-point aw-stable"><title>2013: 28 of 39 detected (71.8%)</title><circle cx="428.4" cy="66.3" r="4.2"/></g><g class="aw-point aw-stable"><title>2016: 3 of 11 detected (27.3%)</title><circle cx="492.5" cy="139.2" r="3.3"/></g><g class="aw-point aw-stable"><title>2017: 1 of 1 detected (100.0%)</title><circle cx="513.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2018: 421 of 556 detected (75.7%)</title><circle cx="535.2" cy="59.9" r="6.0"/></g><g class="aw-point aw-stable"><title>2019: 53 of 71 detected (74.6%)</title><circle cx="556.5" cy="61.7" r="4.6"/></g><g class="aw-point aw-stable"><title>2020: 5 of 5 detected (100.0%)</title><circle cx="577.9" cy="20.2" r="2.8"/></g><g class="aw-point aw-stable"><title>2021: 9 of 9 detected (100.0%)</title><circle cx="599.2" cy="20.2" r="3.2"/></g><g class="aw-point aw-stable"><title>2022: 87 of 87 detected (100.0%)</title><circle cx="620.6" cy="20.2" r="4.7"/></g><g class="aw-point aw-stable"><title>2024: 15 of 15 detected (100.0%) — recent window</title><circle cx="663.3" cy="20.2" r="3.5"/></g><g class="aw-point aw-stable"><title>2025: 2 of 2 detected (100.0%) — recent window</title><circle cx="684.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2026: 17 of 17 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="3.6"/></g><text class="aw-tick" x="44.0" y="208">1995</text><text class="aw-tick" x="129.4" y="208">1999</text><text class="aw-tick" x="214.8" y="208">2003</text><text class="aw-tick" x="300.3" y="208">2007</text><text class="aw-tick" x="385.7" y="208">2011</text><text class="aw-tick" x="471.1" y="208">2015</text><text class="aw-tick" x="556.5" y="208">2019</text><text class="aw-tick" x="641.9" y="208">2023</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
 
-## What was deposited, by lineage
-
-Lineages here are sequence groups, not species or taxids. Each is a group of records
-that look alike over the amplicon and its flanks with the oligo sites masked, cut at
-0.05 Mash distance. Records can link one species to the next, so a group
-can hold several; a percent in its name is the share of its top species. The groups
-come from sequence this assay does not measure, so the mix below can move without the
-assay changing. The dashed line on the chart above recomputes each year on the whole
-period's mix: where the two lines part, what got sequenced changed, not what the assay
-detects.
-
-*1 of 877 diverged, with no site to cluster on.*
-
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 1995 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>1995 — V. ceranae: 1 of 1 records (100%), 0 detected</title><rect x="32.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2005 — V. ceranae: 2 of 2 records (100%), 1 detected</title><rect x="245.6" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2006 — V. ceranae: 6 of 6 records (100%), 4 detected</title><rect x="267.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2007 — diverged (no site): 1 of 11 records (9%), 0 detected</title><rect x="288.3" y="10.0" width="23.8" height="8.4" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2007 — V. ceranae: 10 of 11 records (91%), 9 detected</title><rect x="288.3" y="18.4" width="23.8" height="83.6" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2008 — V. ceranae: 3 of 3 records (100%), 2 detected</title><rect x="309.7" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2009 — V. ceranae: 16 of 16 records (100%), 16 detected</title><rect x="331.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2010 — V. ceranae: 7 of 7 records (100%), 7 detected</title><rect x="352.4" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2011 — V. ceranae: 2 of 2 records (100%), 2 detected</title><rect x="373.8" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2012 — V. ceranae: 16 of 16 records (100%), 14 detected</title><rect x="395.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2013 — V. ceranae: 39 of 39 records (100%), 28 detected</title><rect x="416.5" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2016 — V. ceranae: 11 of 11 records (100%), 3 detected</title><rect x="480.5" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2017 — V. ceranae: 1 of 1 records (100%), 1 detected</title><rect x="501.9" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2018 — V. ceranae: 556 of 556 records (100%), 421 detected</title><rect x="523.2" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2019 — V. ceranae: 71 of 71 records (100%), 53 detected</title><rect x="544.6" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2020 — V. ceranae: 5 of 5 records (100%), 5 detected</title><rect x="566.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2021 — V. ceranae: 9 of 9 records (100%), 9 detected</title><rect x="587.3" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2022 — V. ceranae: 87 of 87 records (100%), 87 detected</title><rect x="608.7" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2024 — V. ceranae: 15 of 15 records (100%), 15 detected</title><rect x="651.4" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2025 — V. ceranae: 2 of 2 records (100%), 2 detected</title><rect x="672.7" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2026 — V. ceranae: 17 of 17 records (100%), 17 detected</title><rect x="694.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">1995</text><text class="aw-tick" x="129.4" y="117">1999</text><text class="aw-tick" x="214.8" y="117">2003</text><text class="aw-tick" x="300.3" y="117">2007</text><text class="aw-tick" x="385.7" y="117">2011</text><text class="aw-tick" x="471.1" y="117">2015</text><text class="aw-tick" x="556.5" y="117">2019</text><text class="aw-tick" x="641.9" y="117">2023</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
-
-| Lineage | Records | Share | New since design | Species | Also in the titles |
-|---|---|---|---|---|---|
-| diverged (no site) | 1 | 0% |  | Vairimorpha ceranae 1 | Austria, Nosema |
-| V. ceranae | 876 | 100% |  | Vairimorpha ceranae 876 | small, subunit, Vairimorpha |
-
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 57%, 2020 52%, 2021 82%, 2022 96%, 2023 88%, 2024 8%, 2025 100%, 2026 98% (best year 100%). A low share is a fact about the query, not about the taxon.
-
-Between the baseline and the recent window the detected share went
-78.7% to 100.0%, a change of +0.213. Of that, **+0.001 is the mix** of lineages deposited changing (95% CI +0.000 to +0.004) and **+0.212 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
-
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | 218MITOC-FOR | `CGGCGACGATGTGATATGAAAATATTAA` | 28 nt |
-| reverse | 218MITOC-REV | `CCCGGTCATTCTCAAACAAAAAACCG` | 26 nt |
 
 ## Verdict
 
@@ -162,6 +130,15 @@ A retrieval query is a claim about which records the assay is tested against, an
 
 Disclosures on this entry: `oligos_read_from_figure`.
 
+## Predicted detection by deposit year
+
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1995 to 2026, against a 90 percent threshold."><rect class="aw-window" x="663.3" y="12.0" width="42.7" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,183.8 257.5,102.0 278.9,74.7 300.3,36.7 321.6,74.7 343.0,20.2 364.3,20.2 385.7,20.2 407.0,40.6 428.4,66.3 492.5,139.2 513.8,20.2 535.2,59.9 556.5,61.7 577.9,20.2 599.2,20.2 620.6,20.2 663.3,20.2 684.6,20.2 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-stable" points="44.0,183.8 257.5,102.0 278.9,74.7 300.3,49.9 321.6,74.7 343.0,20.2 364.3,20.2 385.7,20.2 407.0,40.6 428.4,66.3 492.5,139.2 513.8,20.2 535.2,59.9 556.5,61.7 577.9,20.2 599.2,20.2 620.6,20.2 663.3,20.2 684.6,20.2 706.0,20.2"/><g class="aw-point aw-stable"><title>1995: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="183.8" r="2.5"/></g><g class="aw-point aw-stable"><title>2005: 1 of 2 detected (50.0%)</title><circle cx="257.5" cy="102.0" r="2.5"/></g><g class="aw-point aw-stable"><title>2006: 4 of 6 detected (66.7%)</title><circle cx="278.9" cy="74.7" r="3.0"/></g><g class="aw-point aw-stable"><title>2007: 9 of 11 detected (81.8%)</title><circle cx="300.3" cy="49.9" r="3.3"/></g><g class="aw-point aw-stable"><title>2008: 2 of 3 detected (66.7%)</title><circle cx="321.6" cy="74.7" r="2.6"/></g><g class="aw-point aw-stable"><title>2009: 16 of 16 detected (100.0%)</title><circle cx="343.0" cy="20.2" r="3.6"/></g><g class="aw-point aw-stable"><title>2010: 7 of 7 detected (100.0%)</title><circle cx="364.3" cy="20.2" r="3.0"/></g><g class="aw-point aw-stable"><title>2011: 2 of 2 detected (100.0%)</title><circle cx="385.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2012: 14 of 16 detected (87.5%)</title><circle cx="407.0" cy="40.6" r="3.6"/></g><g class="aw-point aw-stable"><title>2013: 28 of 39 detected (71.8%)</title><circle cx="428.4" cy="66.3" r="4.2"/></g><g class="aw-point aw-stable"><title>2016: 3 of 11 detected (27.3%)</title><circle cx="492.5" cy="139.2" r="3.3"/></g><g class="aw-point aw-stable"><title>2017: 1 of 1 detected (100.0%)</title><circle cx="513.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2018: 421 of 556 detected (75.7%)</title><circle cx="535.2" cy="59.9" r="6.0"/></g><g class="aw-point aw-stable"><title>2019: 53 of 71 detected (74.6%)</title><circle cx="556.5" cy="61.7" r="4.6"/></g><g class="aw-point aw-stable"><title>2020: 5 of 5 detected (100.0%)</title><circle cx="577.9" cy="20.2" r="2.8"/></g><g class="aw-point aw-stable"><title>2021: 9 of 9 detected (100.0%)</title><circle cx="599.2" cy="20.2" r="3.2"/></g><g class="aw-point aw-stable"><title>2022: 87 of 87 detected (100.0%)</title><circle cx="620.6" cy="20.2" r="4.7"/></g><g class="aw-point aw-stable"><title>2024: 15 of 15 detected (100.0%) — recent window</title><circle cx="663.3" cy="20.2" r="3.5"/></g><g class="aw-point aw-stable"><title>2025: 2 of 2 detected (100.0%) — recent window</title><circle cx="684.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2026: 17 of 17 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="3.6"/></g><text class="aw-tick" x="44.0" y="208">1995</text><text class="aw-tick" x="129.4" y="208">1999</text><text class="aw-tick" x="214.8" y="208">2003</text><text class="aw-tick" x="300.3" y="208">2007</text><text class="aw-tick" x="385.7" y="208">2011</text><text class="aw-tick" x="471.1" y="208">2015</text><text class="aw-tick" x="556.5" y="208">2019</text><text class="aw-tick" x="641.9" y="208">2023</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
 
 ## Records reaching the statistics
 
@@ -174,6 +151,31 @@ This matters because a record with one diverged primer is scored as a failure wh
 | `no_site` | 485 |
 | `truncated` | 165 |
 | `chance_anchor` | 8 |
+
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+*1 of 877 diverged, with no site to cluster on.*
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 1995 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>1995 — V. ceranae: 1 of 1 records (100%), 0 detected</title><rect x="32.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2005 — V. ceranae: 2 of 2 records (100%), 1 detected</title><rect x="245.6" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2006 — V. ceranae: 6 of 6 records (100%), 4 detected</title><rect x="267.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2007 — diverged (no site): 1 of 11 records (9%), 0 detected</title><rect x="288.3" y="10.0" width="23.8" height="8.4" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2007 — V. ceranae: 10 of 11 records (91%), 9 detected</title><rect x="288.3" y="18.4" width="23.8" height="83.6" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2008 — V. ceranae: 3 of 3 records (100%), 2 detected</title><rect x="309.7" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2009 — V. ceranae: 16 of 16 records (100%), 16 detected</title><rect x="331.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2010 — V. ceranae: 7 of 7 records (100%), 7 detected</title><rect x="352.4" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2011 — V. ceranae: 2 of 2 records (100%), 2 detected</title><rect x="373.8" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2012 — V. ceranae: 16 of 16 records (100%), 14 detected</title><rect x="395.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2013 — V. ceranae: 39 of 39 records (100%), 28 detected</title><rect x="416.5" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2016 — V. ceranae: 11 of 11 records (100%), 3 detected</title><rect x="480.5" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2017 — V. ceranae: 1 of 1 records (100%), 1 detected</title><rect x="501.9" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2018 — V. ceranae: 556 of 556 records (100%), 421 detected</title><rect x="523.2" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2019 — V. ceranae: 71 of 71 records (100%), 53 detected</title><rect x="544.6" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2020 — V. ceranae: 5 of 5 records (100%), 5 detected</title><rect x="566.0" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2021 — V. ceranae: 9 of 9 records (100%), 9 detected</title><rect x="587.3" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2022 — V. ceranae: 87 of 87 records (100%), 87 detected</title><rect x="608.7" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2024 — V. ceranae: 15 of 15 records (100%), 15 detected</title><rect x="651.4" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2025 — V. ceranae: 2 of 2 records (100%), 2 detected</title><rect x="672.7" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2026 — V. ceranae: 17 of 17 records (100%), 17 detected</title><rect x="694.1" y="10.0" width="23.8" height="92.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">1995</text><text class="aw-tick" x="129.4" y="117">1999</text><text class="aw-tick" x="214.8" y="117">2003</text><text class="aw-tick" x="300.3" y="117">2007</text><text class="aw-tick" x="385.7" y="117">2011</text><text class="aw-tick" x="471.1" y="117">2015</text><text class="aw-tick" x="556.5" y="117">2019</text><text class="aw-tick" x="641.9" y="117">2023</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| diverged (no site) | 1 | 0% |  | Vairimorpha ceranae 1 | Austria, Nosema |
+| V. ceranae | 876 | 100% |  | Vairimorpha ceranae 876 | small, subunit, Vairimorpha |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 57%, 2020 52%, 2021 82%, 2022 96%, 2023 88%, 2024 8%, 2025 100%, 2026 98% (best year 100%). A low share is a fact about the query, not about the taxon.
+
+Between the baseline and the recent window the detected share went
+78.7% to 100.0%, a change of +0.213. Of that, **+0.001 is the mix** of lineages deposited changing (95% CI +0.000 to +0.004) and **+0.212 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
 
 
 ## Curation record

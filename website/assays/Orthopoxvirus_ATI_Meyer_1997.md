@@ -18,6 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 540–1700 bp, varies by species |
 | Registry status | draft |
+| Verdict | — |
 
 <p class="aw-rounds-note">Product size by species, measured on GenBank records:</p>
 | species | product | records |

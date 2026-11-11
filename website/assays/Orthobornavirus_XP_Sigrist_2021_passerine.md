@@ -18,23 +18,17 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 123 bp |
 | Registry status | active |
+| Verdict | insufficient data |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | BornaPCA3 | `CCCGCAGACAGYACGT` | 16 nt |
+| reverse | BornaPCA6 | `GAGATCATGGANGGRTTCTT` | 20 nt |
+| probe | BornaC_Aby | `AGATGCATTGACCCARCCRGT` | 21 nt |
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 437 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">BornaPCA3</text><rect class="aw-zone" x="269.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="344.0" y2="44.0"/><g class="aw-bar-weak"><title>forward position 16 from the 3&#x27; end, base C
 27 of 536 records differ here (5.0%)
@@ -98,47 +92,21 @@ detected when it does not: 4% of 496
 substitutions: R&gt;T in 40
 outside the central third</title><rect x="375.0" y="198.7" width="13.0" height="9.3"/></g><text class="aw-base" x="381.5" y="221">R</text><text class="aw-base" x="396.5" y="221">G</text><text class="aw-base" x="411.5" y="221">T</text><text class="aw-tick" x="411.5" y="235">1</text><text class="aw-tick" x="351.5" y="235">5</text><text class="aw-tick" x="276.5" y="235">10</text><text class="aw-tick" x="201.5" y="235">15</text><text class="aw-tick" x="126.5" y="235">20</text><text class="aw-tick" x="111.5" y="235">21</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="423" y="221">3′</text></svg>
 
-## Predicted detection by deposit year
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
 
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
 
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2012 to 2026, against a 90 percent threshold."><rect class="aw-window" x="564.1" y="12.0" width="141.9" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="91.3,72.7 233.1,40.6"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-insufficient-data" points="44.0,20.2 91.3,61.1 138.6,20.2 233.1,40.6 327.7,183.8 564.1,183.8 611.4,20.2 706.0,102.0"/><g class="aw-point aw-insufficient-data"><title>2012: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2013: 9 of 12 detected (75.0%)</title><circle cx="91.3" cy="61.1" r="3.4"/></g><g class="aw-point aw-insufficient-data"><title>2014: 1 of 1 detected (100.0%)</title><circle cx="138.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2016: 7 of 8 detected (87.5%)</title><circle cx="233.1" cy="40.6" r="3.1"/></g><g class="aw-point aw-insufficient-data"><title>2018: 0 of 1 detected (0.0%)</title><circle cx="327.7" cy="183.8" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2023: 0 of 1 detected (0.0%) — recent window</title><circle cx="564.1" cy="183.8" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2024: 1 of 1 detected (100.0%) — recent window</title><circle cx="611.4" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2026: 1 of 2 detected (50.0%) — recent window</title><circle cx="706.0" cy="102.0" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">2012</text><text class="aw-tick" x="138.6" y="208">2014</text><text class="aw-tick" x="233.1" y="208">2016</text><text class="aw-tick" x="327.7" y="208">2018</text><text class="aw-tick" x="422.3" y="208">2020</text><text class="aw-tick" x="516.9" y="208">2022</text><text class="aw-tick" x="611.4" y="208">2024</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
 
-## What was deposited, by lineage
-
-Lineages here are sequence groups, not species or taxids. Each is a group of records
-that look alike over the amplicon and its flanks with the oligo sites masked, cut at
-0.05 Mash distance. Records can link one species to the next, so a group
-can hold several; a percent in its name is the share of its top species. The groups
-come from sequence this assay does not measure, so the mix below can move without the
-assay changing. The dashed line on the chart above recomputes each year on the whole
-period's mix: where the two lines part, what got sequenced changed, not what the assay
-detects.
-
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2012 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2012 — O. serini 3: 1 of 1 records (100%), 1 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2013 — other: 1 of 12 records (8%), 0 detected</title><rect x="78.3" y="10.0" width="26.0" height="7.7" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2013 — O. serini 1: 6 of 12 records (50%), 4 detected</title><rect x="78.3" y="17.7" width="26.0" height="46.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2013 — O. serini 2: 4 of 12 records (33%), 4 detected</title><rect x="78.3" y="63.7" width="26.0" height="30.7" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2013 — O. serini 3: 1 of 12 records (8%), 1 detected</title><rect x="78.3" y="94.3" width="26.0" height="7.7" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2014 — O. serini 3: 1 of 1 records (100%), 1 detected</title><rect x="125.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2016 — O. serini 1: 4 of 8 records (50%), 3 detected</title><rect x="220.1" y="10.0" width="26.0" height="46.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2016 — O. serini 2: 3 of 8 records (38%), 3 detected</title><rect x="220.1" y="56.0" width="26.0" height="34.5" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2016 — O. serini 3: 1 of 8 records (12%), 1 detected</title><rect x="220.1" y="90.5" width="26.0" height="11.5" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2018 — other: 1 of 1 records (100%), 0 detected</title><rect x="314.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2023 — other: 1 of 1 records (100%), 0 detected</title><rect x="551.1" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2024 — other: 1 of 1 records (100%), 1 detected</title><rect x="598.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2026 — other: 1 of 2 records (50%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="46.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2026 — O. serini 1: 1 of 2 records (50%), 1 detected</title><rect x="693.0" y="56.0" width="26.0" height="46.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2012</text><text class="aw-tick" x="138.6" y="117">2014</text><text class="aw-tick" x="233.1" y="117">2016</text><text class="aw-tick" x="327.7" y="117">2018</text><text class="aw-tick" x="422.3" y="117">2020</text><text class="aw-tick" x="516.9" y="117">2022</text><text class="aw-tick" x="611.4" y="117">2024</text><text class="aw-tick" x="706.0" y="117">2026</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
-
-| Lineage | Records | Share | New since design | Species | Also in the titles |
-|---|---|---|---|---|---|
-| other | 5 | 19% |  | Orthobornavirus serini 3, Orthobornavirus estrildidae 2 | Estrildid, finch, VS-4707, viral, 2017 |
-| O. serini 1 | 11 | 41% |  | Orthobornavirus serini 11 | -- |
-| O. serini 2 | 7 | 26% |  | Orthobornavirus serini 7 | -- |
-| O. serini 3 | 4 | 15% |  | Orthobornavirus serini 4 | 2011, ITA, p10, VS-4424, VS-9103 |
-
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 100%, 2020 100%, 2021 100%, 2022 97%, 2023 100%, 2024 100%, 2025 99%, 2026 100% (best year 100%). A low share is a fact about the query, not about the taxon.
-
-Between the baseline and the recent window the detected share went
-78.3% to 50.0%, a change of -0.283. Of that, **-0.525 is the mix** of lineages deposited changing (95% CI -0.826 to -0.151) and **+0.242 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
-
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | BornaPCA3 | `CCCGCAGACAGYACGT` | 16 nt |
-| reverse | BornaPCA6 | `GAGATCATGGANGGRTTCTT` | 20 nt |
-| probe | BornaC_Aby | `AGATGCATTGACCCARCCRGT` | 21 nt |
 
 ## Verdict
 
@@ -174,6 +142,15 @@ This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Ta
 
 Disclosures on this entry: `oligos_read_from_figure`.
 
+## Predicted detection by deposit year
+
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2012 to 2026, against a 90 percent threshold."><rect class="aw-window" x="564.1" y="12.0" width="141.9" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="91.3,72.7 233.1,40.6"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-insufficient-data" points="44.0,20.2 91.3,61.1 138.6,20.2 233.1,40.6 327.7,183.8 564.1,183.8 611.4,20.2 706.0,102.0"/><g class="aw-point aw-insufficient-data"><title>2012: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2013: 9 of 12 detected (75.0%)</title><circle cx="91.3" cy="61.1" r="3.4"/></g><g class="aw-point aw-insufficient-data"><title>2014: 1 of 1 detected (100.0%)</title><circle cx="138.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2016: 7 of 8 detected (87.5%)</title><circle cx="233.1" cy="40.6" r="3.1"/></g><g class="aw-point aw-insufficient-data"><title>2018: 0 of 1 detected (0.0%)</title><circle cx="327.7" cy="183.8" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2023: 0 of 1 detected (0.0%) — recent window</title><circle cx="564.1" cy="183.8" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2024: 1 of 1 detected (100.0%) — recent window</title><circle cx="611.4" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2026: 1 of 2 detected (50.0%) — recent window</title><circle cx="706.0" cy="102.0" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">2012</text><text class="aw-tick" x="138.6" y="208">2014</text><text class="aw-tick" x="233.1" y="208">2016</text><text class="aw-tick" x="327.7" y="208">2018</text><text class="aw-tick" x="422.3" y="208">2020</text><text class="aw-tick" x="516.9" y="208">2022</text><text class="aw-tick" x="611.4" y="208">2024</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
 
 ## Records reaching the statistics
 
@@ -184,6 +161,31 @@ This matters because a record with one diverged primer is scored as a failure wh
 | why a record was not evaluable | records |
 |---|---|
 | `no_site` | 58 |
+
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2012 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2012 — O. serini 3: 1 of 1 records (100%), 1 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2013 — other: 1 of 12 records (8%), 0 detected</title><rect x="78.3" y="10.0" width="26.0" height="7.7" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2013 — O. serini 1: 6 of 12 records (50%), 4 detected</title><rect x="78.3" y="17.7" width="26.0" height="46.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2013 — O. serini 2: 4 of 12 records (33%), 4 detected</title><rect x="78.3" y="63.7" width="26.0" height="30.7" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2013 — O. serini 3: 1 of 12 records (8%), 1 detected</title><rect x="78.3" y="94.3" width="26.0" height="7.7" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2014 — O. serini 3: 1 of 1 records (100%), 1 detected</title><rect x="125.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2016 — O. serini 1: 4 of 8 records (50%), 3 detected</title><rect x="220.1" y="10.0" width="26.0" height="46.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2016 — O. serini 2: 3 of 8 records (38%), 3 detected</title><rect x="220.1" y="56.0" width="26.0" height="34.5" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2016 — O. serini 3: 1 of 8 records (12%), 1 detected</title><rect x="220.1" y="90.5" width="26.0" height="11.5" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2018 — other: 1 of 1 records (100%), 0 detected</title><rect x="314.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2023 — other: 1 of 1 records (100%), 0 detected</title><rect x="551.1" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2024 — other: 1 of 1 records (100%), 1 detected</title><rect x="598.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2026 — other: 1 of 2 records (50%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="46.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2026 — O. serini 1: 1 of 2 records (50%), 1 detected</title><rect x="693.0" y="56.0" width="26.0" height="46.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2012</text><text class="aw-tick" x="138.6" y="117">2014</text><text class="aw-tick" x="233.1" y="117">2016</text><text class="aw-tick" x="327.7" y="117">2018</text><text class="aw-tick" x="422.3" y="117">2020</text><text class="aw-tick" x="516.9" y="117">2022</text><text class="aw-tick" x="611.4" y="117">2024</text><text class="aw-tick" x="706.0" y="117">2026</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| other | 5 | 19% |  | Orthobornavirus serini 3, Orthobornavirus estrildidae 2 | Estrildid, finch, VS-4707, viral, 2017 |
+| O. serini 1 | 11 | 41% |  | Orthobornavirus serini 11 | -- |
+| O. serini 2 | 7 | 26% |  | Orthobornavirus serini 7 | -- |
+| O. serini 3 | 4 | 15% |  | Orthobornavirus serini 4 | 2011, ITA, p10, VS-4424, VS-9103 |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 100%, 2020 100%, 2021 100%, 2022 97%, 2023 100%, 2024 100%, 2025 99%, 2026 100% (best year 100%). A low share is a fact about the query, not about the taxon.
+
+Between the baseline and the recent window the detected share went
+78.3% to 50.0%, a change of -0.283. Of that, **-0.525 is the mix** of lineages deposited changing (95% CI -0.826 to -0.151) and **+0.242 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
 
 
 ## Curation record
