@@ -1,3 +1,20 @@
+# Resume point, 2026-11-11 (v0.3.0 is out)
+
+**v0.3.0 is released**: `main` at `138ce37`, tag `v0.3.0`, Zenodo 10.5281/zenodo.24143615, Pages deployed,
+the weekly job running again on Sundays. `docs/journal/2026-11-11-frozen-run-check.md` is the record of
+the run it is built on, and the one finding worth reading first: Barrett 1993's P-gene primers miss all
+43 genomes of the 2024-2025 European PPRV incursion.
+
+**The release plan is closed and the merge target is `main` again.** `next-release` has nothing
+unmerged and can be deleted, as can the `page-narrative` worktree at `../assaywatch-pages`; neither was
+deleted here because branch deletion is the maintainer's to do.
+
+**Next, in the order the maintainer approved on 2026-11-10:** PR #14's twelve items in their own order
+(`ROADMAP.md`, "PRD decisions and candidate features"), stopping where the PR says maintainer; then
+Architecture 6b-6e; then the post-release list, whose newest entries came out of step 14 (the taxonomy
+cache's six missing taxids first). The review packets and scripts from this release are in
+`local/release-work-2026-11-06/` and `local/release-work-2026-11-10/`, gitignored.
+
 # Resume point, 2026-11-10 night (frozen, and the run is in flight)
 
 **Steps 0-12 are done on `next-release`; the frozen run is RUNNING.** If it is not running when you
