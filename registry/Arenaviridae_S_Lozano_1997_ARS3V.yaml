@@ -45,33 +45,44 @@ source:
     source per the panel: Lozano, M. et al (1997). SCOPED 2026-10-20 to the mammarenaviruses, from Lozano et al. 1997''s own
     range. Its title calls the set "family-specific", but in 1997 the family was the mammarenaviruses alone: the paper divides
     arenaviruses into Old World (LCM, Ippy, Lassa, Mobala, Mopeia) and New World (Junin, Tacaribe, Pichinde and relatives)
-    and amplified LCM WE, Lassa Nigeria and Josiah, Mopeia, Pichinde, Tacaribe, Junin MC2 and XJ, Oliveros and Pampa. Reptarenavirus,
-    Hartmanivirus, Antennavirus and Innmovirus were all described after it, so scope_taxids is 1653394 Mammarenavirus plus
-    208898 unclassified Arenaviridae -- the latter deliberately, since it holds the 164 Arenavirus sp. records, the legacy
-    genus 11618 with the Mopeia/Lassa reassortants, and field isolates such as Cardamones and Middle Pease River that are
-    mammarenaviruses in all but assignment. It also admits 10 Boid arenavirus records that sit under 208898 rather than under
-    Reptarenavirus, which is an NCBI placement artefact, not a decision here. Snake reptarenaviruses have their own registry
-    entry, so leaving them in this denominator scored them twice against an assay not designed for them. MEASURED on the 2026-10-17
-    calls: 473 records go out of scope, of which 9 were evaluable here and all 9 at 0 percent detected, but none is in the
-    recent window, so the pooled share and the verdict are unchanged to the digit (declining, 43.5 percent of 177). Separately,
-    the lineage override fires here on Mammarenavirus choriomeningitidis at 41/78 = 52.6 percent against that pooled 43.5
-    percent. LCM is the prototype species of the family and one of the viruses Lozano amplified, and it detects 9 points BETTER
-    than the pool, so this is a second worked example of the above-pooled override pattern in docs/journal/2026-10-20-pan-family-override.md
-    point 2, not something scope can fix. VERIFIED AGAINST THE PAPER FOR THE FIRST TIME 2026-10-20. This entry''s DOI is parenthesised,
-    so verify_oligos_against_paper.py had never reached the local PDF - it read no-full-text, "no local PDF", while the file
-    sat in papers/. Cause and fix in that script''s doi_stem(). Result: both oligos differ from the paper. ARS3V reads near:2
-    - stored CATGACKMTGAATTYTGTGACA, paper CCATGACKMTGAATTYTGTGARS; the leading C is the harmless end-glue case, but the 3''
-    terminus differs, ARS against ACA. ARS7C-MOD reads near:3 - stored ATRTGYCKRTGWGTTGG, paper CATGTGYCTRTGAGTTGG. The second
-    is EXPECTED and is why the oligo is named -MOD and the entry already carried MODIFIED_IN_HOUSE: the stored form is the
-    PREDICT P-004 modification, confirmed against the Anthony 2015 supplement on 2026-10-04, not Lozano''s printed primer.
-    So the verifier has now independently corroborated that flag. ARS3V''s 3'' difference is NOT explained that way and needs
-    an eye on the PDF table. Both left unchanged. RESOLVED BY EYE 2026-10-23 (pdftotext -layout, Lozano Table 1): ARS3V is
-    printed CATGACKMTGAATTYTGTG- with ACA wrapped onto the next line, which is the stored sequence exactly; the ARS ending
-    was the next row''s name glued on. ARS7C is printed ATGTGYCTRTGAGTTGG (17 nt, no leading C), now recorded as the oligo''s
-    modified_from, with the modified form''s source as modification_doi. Neither oligo is in doubt. SCOPE BROADENED 2026-11-04, on rereading the paper: The paper claims all members, including undescribed ones, from an alignment of 11 sequences of 8 viruses. Reptarenavirus, Hartmanivirus, Antennavirus and Innmovirus are added on that wording. The paper did not test them.'
+    and designed the primers on the published S RNA sequences of LCM WE and Armstrong, Lassa Nigeria and Josiah, Mopeia, Pichinde,
+    Machupo, Tacaribe, Junin MC2 and XJ, and Oliveros. CORRECTED 2026-11-10: until today this sentence read "and amplified"
+    that list, and the list is the ALIGNMENT set, not what the paper put through a reaction. It is Fig. 2, the HinfI pattern
+    CALCULATED for "different arenaviruses S RNAs" from sequence, for "those arenaviruses for which the S RNA sequence is
+    available". What ARS6C/ARS3V amplified is three viruses, and the paper shows no gel for them: "We have also used the generalized
+    primer pairs ARS16C/ARS8V, ARS8C/ARS6V, ARS6C/ARS3V and ARS3C/ARS1 to RT-PCR amplify the whole S RNA of Junin, LCM and
+    Tacaribe virus (not shown)." The four viruses of Fig. 3a (Junin MC2, LCM WE, Tacaribe, Pampa) are the ARS1/ARS16V pair''s,
+    which is this entry''s sibling. The scope decision recorded above is unaffected: it was taken from the range the paper
+    CLAIMS, not from the panel it ran. Reptarenavirus, Hartmanivirus, Antennavirus and Innmovirus were all described after
+    it, so scope_taxids is 1653394 Mammarenavirus plus 208898 unclassified Arenaviridae -- the latter deliberately, since
+    it holds the 164 Arenavirus sp. records, the legacy genus 11618 with the Mopeia/Lassa reassortants, and field isolates
+    such as Cardamones and Middle Pease River that are mammarenaviruses in all but assignment. It also admits 10 Boid arenavirus
+    records that sit under 208898 rather than under Reptarenavirus, which is an NCBI placement artefact, not a decision here.
+    Snake reptarenaviruses have their own registry entry, so leaving them in this denominator scored them twice against an
+    assay not designed for them. MEASURED on the 2026-10-17 calls: 473 records go out of scope, of which 9 were evaluable
+    here and all 9 at 0 percent detected, but none is in the recent window, so the pooled share and the verdict are unchanged
+    to the digit (declining, 43.5 percent of 177). Separately, the lineage override fires here on Mammarenavirus choriomeningitidis
+    at 41/78 = 52.6 percent against that pooled 43.5 percent. LCM is the prototype species of the family and one of the viruses
+    Lozano amplified, and it detects 9 points BETTER than the pool, so this is a second worked example of the above-pooled
+    override pattern in docs/journal/2026-10-20-pan-family-override.md point 2, not something scope can fix. VERIFIED AGAINST
+    THE PAPER FOR THE FIRST TIME 2026-10-20. This entry''s DOI is parenthesised, so verify_oligos_against_paper.py had never
+    reached the local PDF - it read no-full-text, "no local PDF", while the file sat in papers/. Cause and fix in that script''s
+    doi_stem(). Result: both oligos differ from the paper. ARS3V reads near:2 - stored CATGACKMTGAATTYTGTGACA, paper CCATGACKMTGAATTYTGTGARS;
+    the leading C is the harmless end-glue case, but the 3'' terminus differs, ARS against ACA. ARS7C-MOD reads near:3 - stored
+    ATRTGYCKRTGWGTTGG, paper CATGTGYCTRTGAGTTGG. The second is EXPECTED and is why the oligo is named -MOD and the entry already
+    carried MODIFIED_IN_HOUSE: the stored form is the PREDICT P-004 modification, confirmed against the Anthony 2015 supplement
+    on 2026-10-04, not Lozano''s printed primer. So the verifier has now independently corroborated that flag. ARS3V''s 3''
+    difference is NOT explained that way and needs an eye on the PDF table. Both left unchanged. RESOLVED BY EYE 2026-10-23
+    (pdftotext -layout, Lozano Table 1): ARS3V is printed CATGACKMTGAATTYTGTG- with ACA wrapped onto the next line, which
+    is the stored sequence exactly; the ARS ending was the next row''s name glued on. ARS7C is printed ATGTGYCTRTGAGTTGG (17
+    nt, no leading C), now recorded as the oligo''s modified_from, with the modified form''s source as modification_doi. Neither
+    oligo is in doubt. SCOPE BROADENED 2026-11-04, on rereading the paper: The paper claims all members, including undescribed
+    ones, from an alignment of 11 sequences of 8 viruses. Reptarenavirus, Hartmanivirus, Antennavirus and Innmovirus are added
+    on that wording. The paper did not test them.'
 needs_review:
 - flag: scope_wider_than_paper_tested
-  note: "The paper claims all members, including undescribed ones, from an alignment of 11 sequences of 8 viruses. Reptarenavirus, Hartmanivirus, Antennavirus and Innmovirus are added on that wording. The paper did not test them."
+  note: "The paper claims all members, including undescribed ones, from an alignment of 11 sequences of 8 viruses. Reptarenavirus,
+    Hartmanivirus, Antennavirus and Innmovirus are added on that wording. The paper did not test them."
 - flag: oligos_modified
   note: ARS7C-MOD is the PREDICT P-004 widening of Lozano's ARS7C (modified_from, modification_doi)
 - flag: orientation_inferred
