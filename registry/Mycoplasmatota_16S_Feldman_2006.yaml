@@ -21,6 +21,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Feldman SH et al. 2006. J Wildl Dis 42:279-288
+  claim: Mycoplasma of eastern box turtles and Mycoplasma agassizii, 16S rRNA gene.
 conditions:
   mg_mm: 1.5
   annealing_c: 55.0

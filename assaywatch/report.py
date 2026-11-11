@@ -27,7 +27,6 @@ misled by the report rather than informed by it.
 from __future__ import annotations
 
 import argparse
-import gzip
 import html
 import json
 import sys
@@ -37,10 +36,10 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from assaywatch import atomic
+# Re-exported since accession.py was split out; tests/test_accession.py pins it.
+from assaywatch import atomic, refseq_twins
 from assaywatch.accession import strip_version
 
-# Re-exported since accession.py was split out; tests/test_accession.py pins it.
 # `ruff --fix` removes an unused import, re-export or not, so the `as` form says so.
 from assaywatch.accession import version_of as version_of
 
@@ -2638,33 +2637,15 @@ def assessment_inputs(
     lineage_cfg = cfg.get("lineage", {})
     taxa_cache_path = lineage_cfg.get("taxa_cache")
     if taxa_cache_path:
-        from assaywatch.lineage import load_taxa_cache
+        from assaywatch.lineage import load_taxa_cache, read_taxid_backfill
+        from assaywatch.metadata import read_column
 
         taxa_cache_data = load_taxa_cache(taxa_cache_path)
         # Build accession -> taxid from the backfill sidecar + archive metadata.
-        taxid_map = {}
-        # `lineage.taxid_backfill` was declared in config.yaml and read nowhere,
-        # while this path and lineage_report.py's copy were hardcoded - a setting
-        # that looked configurable and was not. The config value wins; the literal
-        # stays as the default so an older config still resolves the same file.
-        sidecar_path = Path(lineage_cfg.get("taxid_backfill") or retrieved / ".meta.taxid.backfill.tsv.gz")
-        if sidecar_path.exists():
-            with gzip.open(sidecar_path, "rt") as f:
-                next(f, None)  # skip header
-                for line in f:
-                    acc, _, tx = line.rstrip("\n").partition("\t")
-                    if tx.isdigit():
-                        taxid_map[strip_version(acc)] = int(tx)
-        for meta_path in sorted(retrieved.rglob("*.meta.tsv.gz")):
-            with gzip.open(meta_path, "rt") as f:
-                hdr = (f.readline() or "").rstrip("\n").split("\t")
-                if "taxid" not in hdr or "accession" not in hdr:
-                    continue
-                ai, ti = hdr.index("accession"), hdr.index("taxid")
-                for line in f:
-                    parts = line.rstrip("\n").split("\t")
-                    if len(parts) > max(ai, ti) and parts[ti].isdigit():
-                        taxid_map[strip_version(parts[ai])] = int(parts[ti])
+        taxid_map = read_taxid_backfill(lineage_cfg, retrieved)
+        taxid_map.update(
+            (acc, int(tx)) for acc, tx in read_column(retrieved, "taxid").items() if tx.isdigit()
+        )
         if not taxid_map:
             taxid_map = None
             taxa_cache_data = None
@@ -2840,7 +2821,7 @@ def load_calls_as_reported(
     from assaywatch.nested import families
 
     rounds = {i for v in families(assays).values() for i in v}
-    calls = key_calls_by_accession(read_calls(calls_path, with_spans=rounds))
+    calls = key_calls_by_accession(read_calls(calls_path, with_spans=rounds), refseq_twins.beside(calls_path))
     # The archive-scale anchor test, before anything reads an exclusion label
     # (drift, nested, lineage all take these rows). Off unless drift.anchor_fdr is set.
     apply_anchor_fdr(calls, cfg)

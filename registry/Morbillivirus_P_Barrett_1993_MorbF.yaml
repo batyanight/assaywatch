@@ -20,11 +20,12 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Barrett T et al. 1993. Virology 193:1010-1012 (universal morbillivirus P-gene primers)
+  claim: Morbilliviruses, phosphoprotein gene around the RNA editing site, for sequencing rather than detection.
 use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: active
+status: draft
 source:
   nested_round: null
   notes_curator: 'SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids added, and the firing lineage turns out to be
@@ -42,5 +43,9 @@ source:
     identity in the 3'' window (docs/journal/2026-10-19-fap-bench-panel.md). No config change here; the knob needs tier-2.
     MEASURED while reading: the paper says "a 429 nucleotide DNA fragment" and the 2026-10-17 calls give 429 bp in 4,326 of
     4,347 detected or reduced records. The two entries holding this pair disagreed, 429 here and 430 there; both now read
-    429 (inside declared_tolerance either way, so no call moves).'
-needs_review: null
+    429 (inside declared_tolerance either way, so no call moves). CORRECTED 2026-11-10: holds the same pair, size and taxid
+    as Morbillivirus_P_Barrett_1993_Grosh_F (Grosh-F/R and MorbF/R are labels for the same oligos); withheld as a duplicate
+    until one is retired.'
+needs_review:
+- flag: duplicate_entry_unresolved
+  note: the same pair as Morbillivirus_P_Barrett_1993_Grosh_F

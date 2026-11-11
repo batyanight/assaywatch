@@ -23,10 +23,14 @@ amplicon_bp: 95
 citation:
   doi: 10.1016/S1386-6532(03)00122-7
   design_year: 2004
-  n_sequences_at_design: 40
+  n_sequences_at_design: 20
   doi_verified: true
   reference: Ward CL et al. 2004. J Clin Virol 29:179-188
   oligos_designed_here: true
+  claim: Influenza A virus matrix (M1) gene, for quantifying viral load.
+  description: Two-step RT-qPCR with a FAM/TAMRA hydrolysis probe in the M1 gene of influenza A, giving a 104 bp product
+    as published. Designed to measure viral load in clinical samples where plaque and culture assays are slow and less 
+    sensitive.
 conditions:
   annealing_c: 60
   cycles: 40
@@ -58,9 +62,9 @@ source:
     a working reverse primer does, and the registry''s existing matrix entry (Spackman) stores its reverse the same way. This
     is recorded because Yang 2014 prints the same primer on the opposite strand; see that entry.
 
-    DISTINCT FROM Influenza_A_virus_M_Spackman_2002 (Spackman 2002), which is the registry''s other matrix assay:
-    different design paper, different primers (no sequence is shared), different target region within the segment, and MGB
-    rather than FAM/TAMRA chemistry. The two are siblings on the same locus and the same retrieval group, not duplicates.
+    DISTINCT FROM Influenza_A_virus_M_Spackman_2002 (Spackman 2002), which is the registry''s other matrix assay: different
+    design paper, different primers (no sequence is shared), different target region within the segment, and MGB rather than
+    FAM/TAMRA chemistry. The two are siblings on the same locus and the same retrieval group, not duplicates.
 
     The design paper also prints an influenza B matrix assay (senseB / antisenseB and a VIC probe) which is NOT entered here:
     it is a different target taxon and a separate curation. Recorded so that a later reader knows it was seen and left.
@@ -80,7 +84,8 @@ source:
     and tests/test_schema.py::test_nothing_in_pending_is_live_and_nothing_in_registry_is_pending fails on exactly that. The
     maintainer asked for these entries to wait in pending/ for sign-off, and that is incompatible with the flag being true,
     so the flag waits too. No information is lost: the resolution is recorded here and `assaywatch curate` re-sets the flag
-    in one command at promotion. '
+    in one command at promotion. CORRECTED 2026-11-06: the alignment behind this assay is 20 influenza A matrix sequences;
+    the 20 influenza B were aligned separately for the B assay.'
 needs_review:
 - flag: amplicon_disagrees_with_paper
   note: measured 95 bp on 3,975 of 4,000 archive records, unimodal; the paper says 104

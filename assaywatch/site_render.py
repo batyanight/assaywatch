@@ -407,13 +407,20 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
         else:
             out.append(f'<p class="aw-citation">{a["reference"]}</p>\n')
 
-    out.append(f'<p class="aw-assay-line">{_chip(status)} <span class="aw-id">{a["assay_id"]}</span></p>\n')
+    # The chip moved into the metadata table's Verdict row (maintainer, 2026-11-10), so this
+    # line is the entry id alone. The status used to appear here and again two lines below.
+    out.append(f'<p class="aw-assay-line"><span class="aw-id">{a["assay_id"]}</span></p>\n')
+    if a.get("page_note"):
+        out.append(f"**Note:** {_md_text(a['page_note'])}\n")
     if title:
         # The assay's own name says what the entry is; the heading now says what
         # the paper is, and those are different sentences.
         out.append(f"**{a['name']}**\n")
 
-    # What this assay is, before any number about it.
+    # What this assay is, before any number about it. Escaped: it is curator prose, shown
+    # as written, and `.get` because an older run.json has no such field.
+    if a.get("description"):
+        out.append(f"{_md_text(a['description'])}\n")
     rows = [
         (
             "Target",
@@ -424,6 +431,13 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
         ("Chemistry", a["chemistry"]),
         ("Amplicon", _amplicon_cell(a)),
         ("Registry status", a["entry_status"]),
+        # The verdict reads as a property of the assay beside Target and Gene
+        # (maintainer, 2026-11-10), and the chip is here rather than on its own line above,
+        # so the status is said once. The chip carries the word as well as the colour, which
+        # is the condition the palette's colour-vision warning is licensed under, and on a
+        # withheld page it reads "status withheld" rather than going blank. Its one-sentence
+        # meaning stays in the Verdict section below, where there is room for it.
+        ("Verdict", _chip(status)),
     ]
     out.append("| | |\n|---|---|")
     out += [f"| {k} | {v} |" for k, v in rows]
@@ -440,22 +454,41 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
         out += _contribute_block(a, run_date)
         return "\n".join(out) + "\n"
 
-    # The graphs lead, primer then line then bar (maintainer's order, 2026-11-04): the page
-    # opens on the evidence, and the arithmetic behind the verdict follows it.
-    out.append(_mismatch_block(a))
-    out.append(_year_block(a, composition))
-    out += _composition_block(composition)
-    out += _lineage_block(a)
+    # SECTION ORDER, set by the maintainer 2026-11-10 and the reason this function reads
+    # as a list: what the assay IS, then what it is made of, then the evidence, then the
+    # arithmetic, then the populations, then the provenance. It replaces the 2026-11-04
+    # order, which opened on the graphs.
     out += _oligos_block(a)
+    out.append(_mismatch_block(a))
+    out += _failure_reasons_block(a)
     out.append(_verdict_block(a, run_date))
     out.append(_scope_block(a))
+    out += _lineage_block(a)
+    out.append(_year_block(a, composition))
     out.append(_denominator_block(a))
+    # At the foot: the composition panel is the heaviest figure on the page and a reader
+    # who wants the verdict and the oligos should not have to scroll past it.
+    out += _composition_block(composition)
     # Near the foot and in small type: the protocol's own verdict is the page;
     # the rounds are a drill-down for a reader asking which one costs it.
     out += _rounds_block(a)
     out += _curation_block(a)
     out += _contribute_block(a, run_date)
     return "\n".join(out) + "\n"
+
+
+def _print_errors() -> dict[str, list[tuple[str, str]]]:
+    """{assay id: [(oligo name, what the paper prints)]} for oligos stored as a correction."""
+    from assaywatch import registry
+
+    out: dict[str, list[tuple[str, str]]] = {}
+    for f in registry.files(ROOT / "registry"):
+        a = registry.load_one(f)
+        for role in ("forward", "reverse", "probe"):
+            o = getattr(a.oligos, role, None)
+            if o is not None and o.print_error:
+                out.setdefault(a.id, []).append((o.name or role, o.modified_from or ""))
+    return out
 
 
 def _oligos_block(a: dict[str, Any]) -> list[str]:
@@ -470,6 +503,11 @@ def _oligos_block(a: dict[str, Any]) -> list[str]:
         f"| {role} | {names.get(role, '—')} | `{seq}` | {len(seq)} nt |" for role, seq in a["oligos"].items()
     ]
     out.append("")
+    for name, printed in _print_errors().get(a["assay_id"], []):
+        out.append(
+            f"The paper prints {_md_text(name)} as `{printed}`. The sequence above is our "
+            "correction, not the paper's, and it is why this page has no status.\n"
+        )
     return out
 
 
@@ -597,6 +635,41 @@ def _coverage_sentence(comp: dict[str, Any]) -> list[str]:
     ]
 
 
+def _spike_sentences(spike: dict[str, Any]) -> str:
+    """What one spike year's records show, worded "may", or "" when they show nothing.
+
+    Names only what the records hold. A missing reference or collection year leaves its
+    clause out rather than saying it is unknown, and no event is named here at all: an
+    outbreak reaches the page only inside a reference's own title.
+    """
+    lead = f"{spike['year']}'s {spike['records']:,} records"
+    said: list[str] = []
+    if spike.get("batch_records"):
+        source = f" from {_md_text(spike['reference'])}" if spike.get("reference") else ""
+        run = f"{_md_text(spike['batch_first'])} to {_md_text(spike['batch_last'])}"
+        said.append(
+            f"{lead} may reflect one study: {spike['batch_records']:,} are consecutive accessions "
+            f"({run}){source}."
+        )
+    if spike.get("tokens"):
+        words = _md_text(", ".join(spike["tokens"]))
+        said.append(
+            f"Many of that year's titles carry {words}."
+            if said
+            else f"{lead} may share a source: many of their titles carry {words}."
+        )
+    if spike.get("collected_records"):
+        first, last = spike["collected_first"], spike["collected_last"]
+        span = str(first) if first == last else f"{first} to {last}"
+        n = spike["collected_records"]
+        said.append(
+            f"Of them, {n:,} name a collection year, {span}."
+            if said
+            else f"{lead} may rest on samples collected {span}: {n:,} name a collection year."
+        )
+    return " ".join(said)
+
+
 def _mix_cell(comp: dict[str, Any], col: int) -> str:
     """A group's top species with their counts; the file holds the top three."""
     mixes = comp.get("mix") or []
@@ -652,6 +725,8 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
     if comp.get("note"):
         lines += [f"*{_md_text(comp['note'])}.*\n"]
     lines += [site_svg.composition_panel(comp, {}), ""]
+    # `.get`: an older composition.json has no spikes, and most assays have none.
+    lines += [f"{text}\n" for s in comp.get("spikes") or [] if (text := _spike_sentences(s))]
     lines += [
         "| Lineage | Records | Share | New since design | Species | Also in the titles |",
         "|---|---|---|---|---|---|",
@@ -729,8 +804,15 @@ def _withheld_map(a: dict[str, Any]) -> str:
 
 
 def _mismatch_lines(a: dict[str, Any]) -> list[str]:
+    """The chart, then the prose that explains it (maintainer's order, 2026-11-10).
+
+    The paragraphs and the colour key used to come first, so a reader met three sentences
+    about bar height before any bar. The section now opens on the figure.
+    """
     return [
         "## Mismatch distribution\n",
+        site_svg.mismatch_track(a, _oligo_names().get(a["assay_id"])),
+        "",
         "Each oligo drawn base by base, 5\u2032 to 3\u2032. The shaded region is the one the scoring",
         "penalizes more heavily, and it depends on the oligo. For a primer it is the 3\u2032 window,",
         "where a mismatch sits in the polymerase\u2019s catalytic site. For a probe it is the central",
@@ -747,7 +829,6 @@ def _mismatch_lines(a: dict[str, Any]) -> list[str]:
         "",
         "Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red",
         "bar is a position that matters.\n",
-        site_svg.mismatch_track(a, _oligo_names().get(a["assay_id"])),
     ]
 
 
@@ -769,6 +850,24 @@ def _no_bars_note(a: dict[str, Any]) -> str:
             " inside the amplicon), which leaves no position to draw."
         )
     return f'<p class="aw-empty">{note}</p>'
+
+
+def _failure_reasons_block(a: dict[str, Any]) -> list[str]:
+    """The failures the mismatch chart can't show, in the words of `_no_bars_note`.
+
+    The worked case is G2R WA_F, whose 82 bp product has no probe site: a tall count of
+    failures with no bar to explain them. Absent on an older run.json.
+    """
+    reasons = a.get("failure_reasons") or []
+    if not reasons:
+        return []
+    return [
+        "Some records fail with no position to draw: the record has no site for an oligo, so the",
+        "chart above can't show them. One count per record, across everything screened, before",
+        "the scope filter:\n",
+        *[f"- {_md_text(why)}: {int(n):,} records" for why, n in reasons],
+        "",
+    ]
 
 
 _LINEAGE_TAXID = re.compile(r"^(?P<name>.*?)\s*\((?P<taxid>\d+)\)\s*$")

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Smilansky, V., Chambouvet, A., Reeves, M., Richards, T. A. & Milner, D. S. A novel duplex qPCR assay for stepwise detection of multiple Perkinsea protistan infections of amphibian tissues. Royal Society Open Science 8, 202150 (2021).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Perkinsea_18S_Smilansky_2021_cladeAC</span></p>
+<p class="aw-assay-line"><span class="aw-id">Perkinsea_18S_Smilansky_2021_cladeAC</span></p>
 
 **Perkinsea — 18S rRNA (Smilansky 2021, cladeAC)**
 
@@ -18,23 +18,17 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 287 bp |
 | Registry status | active |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | 300F-B | `GGGCTTCAYAGTCTTGCAAT` | 20 nt |
+| reverse | NAG01R_1 | `GCCTGCTTGAAACRCTCTAA` | 20 nt |
+| probe | NAG01a-c_P1 | `CAAGGACGACCTACCCACCTTAG` | 23 nt |
 
 ## Mismatch distribution
-
-Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
-penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
-where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
-third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
-cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
-share of records that differ at that position. Bar color is what that costs, measured
-as the fall in detection between records that differ there and records that do not:
-
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
-
-Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
-bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 467 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">300F-B</text><rect class="aw-zone" x="329.4" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.4" y1="44.0" x2="404.4" y2="44.0"/><text class="aw-base" x="111.9" y="57">G</text><text class="aw-base" x="126.9" y="57">G</text><text class="aw-base" x="141.9" y="57">G</text><text class="aw-base" x="156.9" y="57">C</text><g class="aw-bar-strong"><title>forward position 16 from the 3&#x27; end, base T
 77 of 464 records differ here (16.6%)
@@ -93,45 +87,27 @@ detected when it does not: 68% of 280
 substitutions: A&gt;C in 183, A&gt;G in 1
 outside the central third</title><rect x="420.4" y="186.6" width="13.0" height="21.4"/></g><text class="aw-base" x="426.9" y="221">A</text><text class="aw-base" x="441.9" y="221">G</text><text class="aw-tick" x="441.9" y="235">1</text><text class="aw-tick" x="381.9" y="235">5</text><text class="aw-tick" x="306.9" y="235">10</text><text class="aw-tick" x="231.9" y="235">15</text><text class="aw-tick" x="156.9" y="235">20</text><text class="aw-tick" x="111.9" y="235">23</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="453" y="221">3′</text></svg>
 
-## Predicted detection by deposit year
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
 
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
 
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2010 to 2021, against a 90 percent threshold."><rect class="aw-window" x="706.0" y="12.0" width="0.0" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,183.8 344.9,41.8 465.3,183.8 706.0,183.8"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-no-recent-data" points="44.0,183.8 344.9,41.3 465.3,183.8 585.6,183.8 706.0,183.8"/><g class="aw-point aw-no-recent-data"><title>2010: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2015: 196 of 225 detected (87.1%)</title><circle cx="344.9" cy="41.3" r="5.4"/></g><g class="aw-point aw-no-recent-data"><title>2017: 0 of 92 detected (0.0%)</title><circle cx="465.3" cy="183.8" r="4.7"/></g><g class="aw-point aw-no-recent-data"><title>2019: 0 of 1 detected (0.0%)</title><circle cx="585.6" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2021: 0 of 72 detected (0.0%) — recent window</title><circle cx="706.0" cy="183.8" r="4.6"/></g><text class="aw-tick" x="44.0" y="208">2010</text><text class="aw-tick" x="164.4" y="208">2012</text><text class="aw-tick" x="284.7" y="208">2014</text><text class="aw-tick" x="405.1" y="208">2016</text><text class="aw-tick" x="525.5" y="208">2018</text><text class="aw-tick" x="645.8" y="208">2020</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
 
-## What was deposited, by lineage
 
-Lineages here are sequence groups, not species or taxids. Each is a group of records
-that look alike over the amplicon and its flanks with the oligo sites masked, cut at
-0.05 Mash distance. Records can link one species to the next, so a group
-can hold several; a percent in its name is the share of its top species. The groups
-come from sequence this assay does not measure, so the mix below can move without the
-assay changing. The dashed line on the chart above recomputes each year on the whole
-period's mix: where the two lines part, what got sequenced changed, not what the assay
-detects.
+Some records fail with no position to draw: the record has no site for an oligo, so the
+chart above can't show them. One count per record, across everything screened, before
+the scope filter:
 
-*3 of 391 diverged, with no site to cluster on.*
-
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2010 to 2021."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2010 — uncultured Perkinsea: 1 of 1 records (100%), 0 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2015 — diverged (no site): 1 of 225 records (0%), 0 detected</title><rect x="331.9" y="10.0" width="26.0" height="0.4" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2015 — other: 1 of 225 records (0%), 0 detected</title><rect x="331.9" y="10.4" width="26.0" height="0.4" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2015 — uncultured Perkinsea: 223 of 225 records (99%), 196 detected</title><rect x="331.9" y="10.8" width="26.0" height="91.2" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2017 — uncultured Perkinsea: 92 of 92 records (100%), 0 detected</title><rect x="452.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2019 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="572.6" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2021 — diverged (no site): 1 of 72 records (1%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="1.3" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2021 — other: 1 of 72 records (1%), 0 detected</title><rect x="693.0" y="11.3" width="26.0" height="1.3" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2021 — uncultured Perkinsea: 70 of 72 records (97%), 0 detected</title><rect x="693.0" y="12.6" width="26.0" height="89.4" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2010</text><text class="aw-tick" x="164.4" y="117">2012</text><text class="aw-tick" x="284.7" y="117">2014</text><text class="aw-tick" x="405.1" y="117">2016</text><text class="aw-tick" x="525.5" y="117">2018</text><text class="aw-tick" x="645.8" y="117">2020</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
-
-| Lineage | Records | Share | New since design | Species | Also in the titles |
-|---|---|---|---|---|---|
-| diverged (no site) | 3 | 1% |  | uncultured Perkinsea 3 | small, subunit, F2, PL89, 2.7 |
-| other | 2 | 1% |  | uncultured Perkinsea 2 | 2015, Barcelona, D1, BIB1, small |
-| uncultured Perkinsea | 386 | 99% |  | uncultured Perkinsea 386 | NWHC |
-
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 2%, 2020 0%, 2021 0%, 2022 72%, 2023 95%, 2024 100%, 2025 98%, 2026 26% (best year 100%). A low share is a fact about the query, not about the taxon.
-
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | 300F-B | `GGGCTTCAYAGTCTTGCAAT` | 20 nt |
-| reverse | NAG01R_1 | `GCCTGCTTGAAACRCTCTAA` | 20 nt |
-| probe | NAG01a-c_P1 | `CAAGGACGACCTACCCACCTTAG` | 23 nt |
+- no probe site inside amplicon: 81 records
 
 ## Verdict
 
@@ -150,7 +126,7 @@ Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.
 
 Trend across deposit years: by record falling (p = 1.48e-42, 5 years); by footprint falling (p = 0.181). Reported for context; it is not an input to the verdict.
 
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -175,6 +151,15 @@ A retrieval query is a claim about which records the assay is tested against, an
 
 Disclosures on this entry: `oligos_from_secondary_source`.
 
+## Predicted detection by deposit year
+
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2010 to 2021, against a 90 percent threshold."><rect class="aw-window" x="706.0" y="12.0" width="0.0" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,183.8 344.9,41.8 465.3,183.8 706.0,183.8"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-no-recent-data" points="44.0,183.8 344.9,41.3 465.3,183.8 585.6,183.8 706.0,183.8"/><g class="aw-point aw-no-recent-data"><title>2010: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2015: 196 of 225 detected (87.1%)</title><circle cx="344.9" cy="41.3" r="5.4"/></g><g class="aw-point aw-no-recent-data"><title>2017: 0 of 92 detected (0.0%)</title><circle cx="465.3" cy="183.8" r="4.7"/></g><g class="aw-point aw-no-recent-data"><title>2019: 0 of 1 detected (0.0%)</title><circle cx="585.6" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2021: 0 of 72 detected (0.0%) — recent window</title><circle cx="706.0" cy="183.8" r="4.6"/></g><text class="aw-tick" x="44.0" y="208">2010</text><text class="aw-tick" x="164.4" y="208">2012</text><text class="aw-tick" x="284.7" y="208">2014</text><text class="aw-tick" x="405.1" y="208">2016</text><text class="aw-tick" x="525.5" y="208">2018</text><text class="aw-tick" x="645.8" y="208">2020</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
 
 ## Records reaching the statistics
 
@@ -186,6 +171,29 @@ This matters because a record with one diverged primer is scored as a failure wh
 |---|---|
 | `truncated` | 145 |
 | `no_site` | 1 |
+
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+*3 of 391 diverged, with no site to cluster on.*
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2010 to 2021."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2010 — uncultured Perkinsea: 1 of 1 records (100%), 0 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2015 — diverged (no site): 1 of 225 records (0%), 0 detected</title><rect x="331.9" y="10.0" width="26.0" height="0.4" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2015 — other: 1 of 225 records (0%), 0 detected</title><rect x="331.9" y="10.4" width="26.0" height="0.4" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2015 — uncultured Perkinsea: 223 of 225 records (99%), 196 detected</title><rect x="331.9" y="10.8" width="26.0" height="91.2" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2017 — uncultured Perkinsea: 92 of 92 records (100%), 0 detected</title><rect x="452.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2019 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="572.6" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2021 — diverged (no site): 1 of 72 records (1%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="1.3" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2021 — other: 1 of 72 records (1%), 0 detected</title><rect x="693.0" y="11.3" width="26.0" height="1.3" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2021 — uncultured Perkinsea: 70 of 72 records (97%), 0 detected</title><rect x="693.0" y="12.6" width="26.0" height="89.4" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2010</text><text class="aw-tick" x="164.4" y="117">2012</text><text class="aw-tick" x="284.7" y="117">2014</text><text class="aw-tick" x="405.1" y="117">2016</text><text class="aw-tick" x="525.5" y="117">2018</text><text class="aw-tick" x="645.8" y="117">2020</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| diverged (no site) | 3 | 1% |  | uncultured Perkinsea 3 | small, subunit, F2, PL89, 2.7 |
+| other | 2 | 1% |  | uncultured Perkinsea 2 | 2015, Barcelona, D1, BIB1, small |
+| uncultured Perkinsea | 386 | 99% |  | uncultured Perkinsea 386 | NWHC |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 2%, 2020 0%, 2021 0%, 2022 72%, 2023 95%, 2024 100%, 2025 98%, 2026 26% (best year 100%). A low share is a fact about the query, not about the taxon.
 
 
 ## Curation record
@@ -201,7 +209,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Perkinsea_18S_Smilansky_2021_cladeAC%3A%20&body=Entry%3A%20Perkinsea_18S_Smilansky_2021_cladeAC%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Perkinsea_18S_Smilansky_2021_cladeAC/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Perkinsea_18S_Smilansky_2021_cladeAC%3A%20&body=Entry%3A%20Perkinsea_18S_Smilansky_2021_cladeAC%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Perkinsea_18S_Smilansky_2021_cladeAC/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Perkinsea_18S_Smilansky_2021_cladeAC.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Perkinsea_18S_Smilansky_2021_cladeAC.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

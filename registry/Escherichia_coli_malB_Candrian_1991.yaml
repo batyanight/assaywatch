@@ -11,20 +11,23 @@ chemistry: conventional
 oligos:
   forward:
     name: Eco1
-    seq: GACCTCGGTTTAGTTCACAGA
+    seq: TTACATGACCTCGGTTTAGTTCACAGA
   reverse:
     name: Eco-2
-    seq: CACACGCTGACGCTGACCA
-amplicon_bp: 585
+    seq: TCGCCACACGCTGACGCTGACCA
+amplicon_bp: 595
 citation:
   doi: 10.1016/0168-1605(91)90148-I
   design_year: 1991
   n_sequences_at_design: null
   doi_verified: true
   reference: Candrian U et al. 1991. Int J Food Microbiol 12:339-351
+  claim: Escherichia coli, malB region.
+  description: Conventional PCR of a 595 bp malB-region fragment, read by gel, EcoRI digestion and hybridization. 
+    Designed to identify E. coli, pathogenic or not, because biochemical typing is unreliable.
 conditions:
-  cycles: 50
-  annealing_c: 55.0
+  cycles: 40
+  annealing_c: 65.0
 use_context:
 - public_health
 - veterinary
@@ -32,6 +35,9 @@ submitted_by: null
 status: active
 source:
   nested_round: null
+  notes_curator: "CORRECTED 2026-11-06: the stored primers were the printed ones with their 5' ends cut off, undisclosed;
+    both are now as printed, 595 bp as the paper says. The restored bases match all 326 measured products. Annealing 65 C
+    and 40 cycles are the paper's; 50 cycles was its sensitivity analysis only."
 needs_review:
 - flag: orientation_inferred
   note: the archive yields 327 products and 150 none under this orientation (2026-10-27 run), so the inference stands

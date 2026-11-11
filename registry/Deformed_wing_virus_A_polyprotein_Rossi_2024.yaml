@@ -1,11 +1,14 @@
 id: Deformed_wing_virus_A_polyprotein_Rossi_2024
 name: Deformed wing virus A — polyprotein (Rossi 2024)
 target:
-  taxid: 2951794
+  taxid: 198112
   gene: polyprotein
   genome_type: ssRNA+
   taxon_name: Deformed wing virus A
   query: null
+  scope_taxids:
+  - 2951794
+  - 260684
 chemistry: mgb
 oligos:
   forward:
@@ -22,7 +25,7 @@ oligos:
   alternates: []
 amplicon_bp: 139
 citation:
-  claim: "Deformed wing virus A, told apart from B. The paper says the test also matches Kakugo."
+  claim: "Deformed wing virus A, polyprotein gene, as a type-specific test that also matches the Kakugo variant."
   doi: 10.3390/microorganisms12061105
   design_year: 2024
   n_sequences_at_design: 110
@@ -30,6 +33,10 @@ citation:
     Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
   doi_verified: true
   oligos_designed_here: null
+  description: One-step RT-qPCR with a hydrolysis (MGB or BHQ) probe, redesigned from earlier honeybee virus tests so 
+    the primers and probe match more published sequences of the virus. It was built for duplex use (ABPV/BQCV, 
+    DWVA/DWVB, CBPV/SBV) with an exogenous extraction control. Polyprotein gene; forward primer and probe new, reverse 
+    primer from Kevill et al.
 conditions:
   annealing_c: 54.0
   cycles: 50
@@ -71,9 +78,13 @@ source:
     says was not foreseen from its BLASTN check). In silico the tool scores the B-labelled records as fail for this assay
     (primer penalty above its limit), which is not the same as no signal in the wet lab. About 80% of DWV records carry no
     A/B label, so a variant-node taxid retrieves only the labelled minority; whether to scope by label or by species is a
-    lead decision (flag VARIANT_SCOPE). Kakugo virus is matched by this test per the paper.'
+    lead decision (flag VARIANT_SCOPE). Kakugo virus is matched by this test per the paper. CORRECTED 2026-11-06: scope broadened
+    to Kakugo virus (260684): the paper says this test matches it. It sits beside DWV-A under 198112, so retrieval moves there
+    and the scope keeps DWV-B out.'
 needs_review:
 - flag: oligos_from_secondary_source
   note: design provenance is mixed across the oligos in this entry
 - flag: scope_narrower_than_taxid
   note: scoped to a variant, not the whole taxon
+- flag: scope_wider_than_paper_tested
+  note: Kakugo rests on the paper's BLAST statement, not a wet test

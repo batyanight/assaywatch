@@ -111,7 +111,7 @@ show.
    reverse binding, and detection needs the probe as well. These conditions are
    serial. Three trivial mismatches, one per oligonucleotide, score the same as
    one near-terminal mismatch with a large effect.
-3. **A single table covers every chemistry** — 153 conventional PCRs and 60
+3. **A single table covers every chemistry** — 152 conventional PCRs and 61
    probe assays. A hundredfold yield loss is a missed Ct in qPCR and often
    still a visible band after 40 cycles of endpoint PCR. Both receive `fail`.
 4. **Probe geometry is not modeled.** A minor-groove binder adds

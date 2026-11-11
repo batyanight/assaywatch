@@ -22,6 +22,7 @@ citation:
   doi_verified: true
   reference: Pallister J et al. 2007. J Fish Dis 30:427-438
   oligos_designed_here: false
+  claim: Ranavirus variable intergenic region, for sequencing rather than detection.
 conditions:
   cycles: 30
 use_context:
@@ -51,8 +52,8 @@ source:
     (config.yaml amplicon: the measured size wins). PROMOTION STILL WAITS ON THE FULL RESCREEN, now for a different reason:
     the old 90.0%% stable counted only the BIV-scale products that detect well; including the ~700 bp end, much of which scores
     reduced or fail, will LOWER the real detected share, so the status has to be re-read on the next run before this is promoted.
-    A related case, though not the identical defect: Alphavirus_nsP4_Sanchez-Seco_2001_round2 had a wrong SCALAR hiding
-    31 records on 2026-10-21 and was corrected to a scalar, not a range. OLIGO ATTRIBUTION, established 2026-10-21: Pallister
+    A related case, though not the identical defect: Alphavirus_nsP4_Sanchez-Seco_2001_round2 had a wrong SCALAR hiding 31
+    records on 2026-10-21 and was corrected to a scalar, not a range. OLIGO ATTRIBUTION, established 2026-10-21: Pallister
     credits 16R and 16F to Jancovich et al. 2005 in five places - twice in Methods ("the PCR primers used to amplify the variable
     region - 16R and 16F (Jancovich et al. 2005)") and in the legends of Figures 2, 3 and 4 - so this entry cites the paper
     the sequences were READ FROM, not one shown to have designed them, and oligos_designed_here is false. The credited paper,
@@ -63,8 +64,8 @@ source:
     primer sequences in this entry were read from Pallister''s own Methods text, and Pallister''s Introduction describes Jancovich
     2005 as having USED this variable region "to assign four different isotypes to salamander viruses" rather than as having
     designed primers for it. 16F/16R may trace back further still. Re-cite only once the Jancovich paper is on disk and its
-    DOI is Crossref-verified, following Vairimorpha_bombi_18S_Klee_2006, which moved to Klee 2006 on exactly that evidence and
-    still left oligos_designed_here null because Klee was unread.'
+    DOI is Crossref-verified, following Vairimorpha_bombi_18S_Klee_2006, which moved to Klee 2006 on exactly that evidence
+    and still left oligos_designed_here null because Klee was unread.'
 needs_review:
 - flag: amplicon_multimodal
   note: the variable intergenic region is species- and isolate-dependent; 324 products span 196-739 bp (BIV ~200 to 

@@ -28,7 +28,10 @@ citation:
   reference: Elia G, Decaro N, Martella V, Cirone F, Lucente MS, Lorusso E, Di Trani L, Buonavoglia C. Detection of 
     canine distemper virus in dogs by real-time RT-PCR. J Virol Methods 2006;136:171-176.
   doi_verified: true
-  oligos_designed_here: null
+  oligos_designed_here: true
+  claim: Canine distemper virus N gene, for detecting and quantifying virus in clinical samples.
+  description: One-step RT-qPCR with a FAM/TAMRA hydrolysis probe in the N gene of canine distemper virus. Designed to 
+    give a sensitive, quantitative diagnosis from blood, swabs, urine and tissues.
 conditions:
   cycles: 45
   rt: one_step
@@ -76,12 +79,9 @@ source:
     TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical
     id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
     release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in
-    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.
+    CORRECTED 2026-11-06: the paper is held and prints these oligos, so the second-hand flags are removed. Its text and Table
+    1 positions give 83 bp and its size column 87; 664 of 664 measure 83.'
 needs_review:
-- flag: citation_is_indirect
-  note: DOI found 2026-10-06 by a Crossref title search, not printed in either citing paper; the top hit matched title, 
-    journal, volume, pages, year and first author
 - flag: amplicon_disagrees_with_paper
-  note: measured 83 bp in 663 of 663 records; both citing papers say 87 bp
-- flag: oligos_from_secondary_source
-  note: read from Halecker 2021 and Brown 2020, not from Elia's own table
+  note: measured 83 bp in 664 of 664; the paper's text and Table 1 positions give 83, its size column prints 87

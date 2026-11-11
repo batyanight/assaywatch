@@ -29,6 +29,11 @@ citation:
     Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
   doi_verified: true
   oligos_designed_here: true
+  claim: Acute bee paralysis virus, capsid gene.
+  description: One-step RT-qPCR with a hydrolysis (MGB or BHQ) probe, redesigned from earlier honeybee virus tests so 
+    the primers and probe match more published sequences of the virus. It was built for duplex use (ABPV/BQCV, 
+    DWVA/DWVB, CBPV/SBV) with an exogenous extraction control. Capsid protein gene, 143 bp product, degenerate primers 
+    and probe; new in this paper.
 conditions:
   annealing_c: 54.0
   cycles: 50

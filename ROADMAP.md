@@ -28,6 +28,258 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
 
 # Open work
 
+## Release plan: v0.3.0 (grilled 2026-11-06)
+
+The finish line is the next release, not the whole of this file. Items below keep their detail
+where they already sit; this section is the order and the rules.
+
+| Decision | Choice |
+|---|---|
+| Finish line | one release; everything else is parked on the post-release list with its reason |
+| RefSeq `NC_`-style copies | fixed by a stored map, on whole-sequence identity within an assay; `NZ_` keeps its accession rule |
+| Live run | one frozen run: all retrieval, registry and verdict changes land first, then run, gate, publish together. The weekly job is paused until then (see "Operations") |
+| Scope reread | all ~86 papers and the scope report |
+| Features | species synonyms, failures a per-base chart can't show, assay page narrative, per-assay composition cuts |
+| Narrative | description drafted in the reread batches and skimmed by the maintainer; lineage text scripted from what the records show, with no outbreak named without a source in the record |
+| Method | query fixes and the gate script, the pathotype assembly filter, C1b, the validation reads |
+| C1b output | priced 2026-11-06 and stopped; a journal entry, and nothing shipped |
+| Stall rule | blockers hold the freeze; droppable items wait for the next release with a recorded reason |
+| Merging | a PR merges when green, stopping only for interfaces, the live run and publishing |
+| Merge target | **`next-release`, not `main`.** `site.yml` deploys on any push to `main` touching `website/`, the theme, `site*.py` or the registry, so merging to `main` would publish piecemeal. `main` takes one merge, at the publish go |
+
+**Blockers:** steps 0-5, 6a, 12-15. **Droppable:** 6b (the stable and undecided papers), 7-11. A
+droppable step that changes retrieval or a verdict lands before step 12 or waits; a site-only one
+may land after the run, before step 15.
+
+**Stop for the maintainer at:** each interface below, before its internals; the reread batches' skim;
+the reads in step 9; the go for step 13; the go for step 15. Verdict and registry PRs are held to
+tests and CI rather than a human review, by decision: the status diff in each PR's description, and
+the whole-run `report_diff` at step 14, are what stand in for it.
+
+Every step: its own branch off `next-release`, failing test first where there is logic, pytest, the
+validator, ruff and `check_citations` before the PR, `pytest -m slow` where the Snakefile or a
+hashed section is touched. Named-path staging only. Confirm at step 0 that `validate.yml` runs on
+PRs into `next-release`; extend its trigger if it doesn't, or "green" means nothing.
+
+### Verdict and registry work (blockers)
+
+- [x] **0. Reconcile this file and open `next-release`.** Done 2026-11-06: the influenza bullet, the
+  Zimmermann duplicate and the 1994 scan, the composition heading, the blank-chart fallback and nest
+  links, the Chlamydia assemblies item, the backfill's stopping point. `validate.yml` runs on every
+  pull request, so PRs into `next-release` get CI without a change.
+- [x] **1. RefSeq copies.** Done 2026-11-06: 3,285 curated records have a twin, and the extract equals
+  the simulation's byte for byte. `build` also takes `workers`, and `beside(calls_path)` finds a run's
+  map. `docs/journal/2026-11-06-refseq-twins.md`. **Interface, approved:**
+  ```python
+  # assaywatch/refseq_twins.py (new): the map's only writer and reader
+  build(retrieved: Path, out: Path) -> None     # whole-sequence digests over every archive
+  read(path: Path) -> dict[str, frozenset[str]] # RefSeq accession -> identical non-RefSeq accessions
+  # assaywatch/calls.py: drop a row when any twin is in the same assay's calls
+  key_calls_by_accession(calls, twins: Mapping[str, frozenset[str]] | None = None)
+  ```
+  Changes: `Snakefile` (rule `refseq_twins`, output `results/<date>/refseq-twins.tsv.gz`, an input of
+  `report`, `site_drift`, `composition`), `report.py`, `sitedrift.py`, `scripts/retrospective.py`,
+  `GLOSSARY.md`. With no map (an older run) `twins` is None, only `NZ_` applies, and it warns.
+- [x] **2. Hellgren.** Done 2026-11-06, no assay status moves and two protocols appear, both `declining`
+  (HaemF 73/178, Leucocytozoon 22/81). Leucocytozoon's 478 had the same primers-excluded problem, now 524. As planned: the
+  `oligos_not_in_cited_paper` flag and 618 bp on HaemNFI (moving `tests/test_report.py`'s example to
+  `Salmonella_enterica_invA_Rahn_1992`), 525 bp on HaemF with its disclosure, then the nest and the
+  wording, including one first round feeding two parallel second rounds.
+- [x] **3. Query fixes.** Done 2026-11-06. Crocodilepox was already in the RPO147 query (`1285599`). RaHV-5 joins the
+  Batravirus pan pair: the genome carries the primer sites for the expected 200 bp. Each is a new retrieval, so nothing
+  moves until the frozen run. As planned: Ophidiomyces IGS, Crocodilepox for Li 2010 RPO147 (Leporipoxvirus into IMV
+  is already on `next-run-prep`), `Ranavirus micropterus1` (3432136) into LMBV Grizzle, RaHV-5 for the
+  Batravirus pan pair (decide from the paper's claim whether a second taxid is warranted).
+- [x] **4. Gate script.** Built 2026-11-06, `assaywatch/scope_check.py`, tested on hand-given counts, not yet run for real;
+  run it before step 12. As planned: The release scope verification as one command, tests 1-4 including scored
+  verdicts, with the scratch version's flags (under "Method debts"). **Interface, for approval at
+  the step:** `assaywatch scope-check [--registry] [--calls] --out <tsv>`, one row per assay x flag;
+  no flag is a verdict. Reads `retrieve.year_counts`. Run it now to find problems while they can
+  still land.
+- [x] **5. Declare the rules' memory.** Done 2026-11-06: 4.5, 6 and 6 GB, each commented. `lineage_analysis` is
+  still 3 GB and unmeasured, so the frozen run's timing should check it. As planned: `rule report` and `site_drift` at `mem_mb=3000` against a
+  3.17 GB table: measure and redeclare. Needed before step 13's run, not after.
+- [x] **6a. Reread the papers behind `declining` and `low coverage`.** Done 2026-11-06,
+  `docs/journal/2026-11-06-scope-reread-negative-verdicts.md`. Narrower claims still to test as one pass. As planned: 71 assays, at most 46 papers,
+  ≤ ~1.1M subagent tokens. Each batch returns `citation.claim` sentences, checked quotes, scope
+  changes with their effect on recent counts, and the page description (step 10). Includes the
+  contradicted curator notes, the Messmer *C. trachomatis* question and the BCV, CCV, PCV and RCV
+  question for Reid and Neill.
+
+### Droppable
+
+- [x] **6b. Reread the stable and undecided papers.** Done 2026-11-10, `docs/journal/2026-11-10-scope-reread-rest.md`: all 60 read and verified, two duplicates withheld, Mangombi's nest withdrawn, three primer pairs restored to print, 93 claims applied. As it stood: 52 of 60 read on 2026-11-06, notes unverified and nothing applied: Haynes 2023, Johnson 2008, Rahn 1992, Renteria-Solis 2020, Ibrahim 1992, Mangombi, Li 2025 and Kutkiene remain. Needs verifying as batches 1-4 were, then applying. Reported, to check: Sethabutr's primers truncated, Bohuski's quencher, Entamoeba 572 bp against about 490 measured, Blooi's probe, Deckers round 2, Grizzle's query against its note. As planned: The rest of the ~86, ~0.9M tokens, same batch
+  shape, ending in the written scope report with the Chlamydia 16S share in it. If it's dropped, the
+  report covers what was read and says so.
+- [x] **7. C1b, priced before built.** Stopped 2026-11-06 by maintainer decision: it flags what a plain
+  interval flags, and all 3 refused `fails` rows stay uncaught. `docs/journal/2026-11-06-c1b-priced.md`. As planned: Both kill tests on the 2026-11-01 calls with a script:
+  reproduce every clearing assay's status; promote no `works` case (Salmonella invA, Shigella ipaH,
+  pan-mycoplasma 16S, Bd) to `declining`. Either fires: journal, stop. Both pass: interface for
+  approval, then a lens in `drift`/`hierarchical.py`, `report.py`, `site.py`, `site_render.py`.
+  Must not move a status or a tier-2 figure; a test holds that.
+- [ ] **8. Pathotype assembly filter.** Decided 2026-11-06: a page note on E. coli LT and hlyA now, and the filter post-release. As first planned: A short grill on the retrieve interface first: BioSample
+  serovar filter plus contig-level assemblies for E. coli LT and hlyA, and how it generalises to a
+  plasmid-borne target. Changes `retrieve.py`, the schema, `config.yaml`. Fallback if it stalls: a
+  disclosure on the status.
+- [x] **9. Validation reads. APPLIED 2026-11-10**, `docs/journal/2026-11-10-pre-freeze-reads.md`. 15 of the 34
+  rows carry a taxid and are in the three case files; 19 stay blank, by the draft's rule that a paper naming no
+  single lineage leaves the row pooled. **Every headline tier-2 figure is unchanged in all three sets**, because
+  the four rows that now score on a named clade all agree with the pooled verdict. The question this line asked
+  -- whether a genus or subfamily taxid can be honoured -- turned out to have a larger answer: **no scope of any
+  rank had ever been honoured**, `LineageStats.taxid` being unset on real data, and the clade sum is the second
+  half of the fix. Both are in the journal and were shipped with tests before the rows landed.
+  **The Messmer row is NOT applied and stays the maintainer's call**: its own draft conditions itself on
+  reopening the development set, which is frozen, and the decisions table below already says no row.
+  **Found while doing this, still open:** the development set cannot be scored against the 2026-11-01 calls at
+  all -- `Mycoplasma_16S_unpublished` has no rows there and no rename reaches one, so `retrospective.py` refuses
+  rather than hiding it in the undecided count. Needs a `local/rename-mapping.tsv` entry or the frozen run.
+  As planned: The 34 `scope_taxid` rows, a decision on the Messmer
+  bench row. No run needed, so these can arrive any time before step 14, if the release quotes tier-2 figures.
+- [ ] **10. Assay page narrative.** Descriptions from step 6, held in the registry through
+  `registry.edit()`, not yet a schema field: propose it. **Interface, for approval:** a lineage-text
+  function reading `composition.json` and the archives' metadata: spike years, each spike's GenBank
+  REFERENCE, submitting study and collection dates, worded "may". Changes `composition_build.py` (or
+  a sibling, watching the `triggers` closure), `site.py`, `site_render.py`. Text is drafted from
+  the frozen run, so the generator lands before step 13 and its output is checked at step 14.
+  Built on `page-narrative`, for review: `citation.description` at the top of the page and
+  `source.page_note` near the status, neither a screen field and no entry filled in yet.
+  `composition.lineage_narrative` finds the spikes and `composition_build.reference_lookup` reads
+  each largest batch's first REFERENCE, into `data/retrieved/.references.json.gz`; a Direct
+  Submission reads as no study. Tried on two assays of the 2026-11-01 run: Chlamydia 16S round 1
+  has spikes in 1997 and 2021, and Orf virus RPO147 has none. The `spike_*` thresholds are placeholders.
+- [ ] **11. Synonyms, cuts, failures.** (a) Species synonyms: counted 2026-11-06, of the 42 groups 4 collapse
+  to one species (two AAV, two elephant herpesvirus), 20 are really mixed, 18 unclear, and taxonomy resolves none.
+  Decided: a small curated table, a source per row, read in `composition.resolve_species`; the unclear stay as they are.
+  (a) is done: merged 2026-11-07 as PR #9, `composition.SPECIES_SYNONYMS` (AAV and the two EEHV renames, ICTV-sourced).
+  **(b)'s average-linkage trial is DEFERRED to the next release, 2026-11-10, with its reason.** It is a droppable
+  step and the stall rule says a droppable item waits with a recorded reason rather than holding the freeze. The
+  reason is cost against value: trying average linkage across all assays means a second full clustering pass, about
+  four hours and 13 GB, and its only output is a journal entry, since the decision of 2026-11-06 was already that
+  this release ships one fixed cut with no per-assay overrides. Nothing about the release depends on the answer.
+  The fixed cut and the no-overrides decision ship as decided; only the comparison waits.
+  **(c) is done**, merged 2026-11-10 with `page-narrative`: `site.failure_reasons` under the mismatch chart, and
+  the G2R WA_F page note. (b) Per-assay cuts, decided 2026-11-06: no overrides, one fixed cut this release, and average linkage
+  tried once across all assays and recorded in a journal.
+  (c) Failures a per-base chart can't show, from the calls `reason` column: `site.py`,
+  `site_render.py`. G2R WA_F is checked: of 3,122 records with an 82 bp product, 2,643 are clade I by this project's own
+  F3L calls, 5 clade II, 474 uncalled; among clade II records detection is 9,656 of 9,661. The paper's Fig. 1 shows the
+  3-base deletion. Decided: a page note with these numbers now, keeping the status. Filtering the denominator by clade
+  is a new verdict rule and goes post-release.
+  (c) built on `page-narrative`, for review: `site.failure_reasons` puts the top reasons under the
+  mismatch chart, with `site.failure_reasons_min_records` and `failure_reasons_shown` in `config.yaml`.
+  The 2026-11-01 run has one reason, 'no probe site inside amplicon', on 30 assays, and G2R WA_F
+  reads 3,120 records. The page note with the clade numbers above is still to be written.
+
+### The frozen run (blockers)
+
+- [x] **12. Freeze. DONE 2026-11-10.** `next-run-prep` is merged: the Zimmermann corrected primer, the
+  Francisella FT443 probe and the Chlamydia assembly decision are on `next-release`, and from that commit
+  nothing under `assaywatch/`, `config.yaml`, `registry/` or `Snakefile` changes until step 14.
+  **It is knowingly red, as planned:** `test_the_extract_still_describes_the_registry_it_was_taken_from`
+  fails because FT443 makes the Francisella entry a `hybridization_probe` and the committed extract
+  predates it. 2,240 tests pass; that one is step 14's to turn green.
+  **A fourth conflict the 2026-11-09 test did not predict:** `registry/Francisella_tularensis_tul4_Long_1993.yaml`,
+  resolved to this branch's probe and cleared flag, keeping the 2026-11-10 size correction it predates.
+  **And one the merge did not flag at all:** Lozano's two entries and Li 2010 IMV were corrected on both
+  branches five days apart, and git merged both corrections silently because they sit in different parts
+  of one note, so each entry said the same thing twice. Folded into one. Where they differed the older was
+  wrong: it listed the Lozano alignment set as ending "Oliveros, Sabia", and Fig. 2's lanes are JUN-MC2,
+  JUN-XJ, MAC, TAC, OLV, PIC, LCM-WE, LCM-Arm, LAS-Jos, LAS-Nig and MOP, so Machupo is in and Sabia is not.
+  As planned: Merge `next-run-prep` into `next-release`, resolving its conflicts (tested 2026-11-09: `ROADMAP.md`,
+  `docs/INDEX.md` and `docs/RESUME-HERE.md` all conflict; `page-narrative` merges clean).
+  Its one extract test fails until a run exists, so this one merges knowingly red, and step 14 has
+  to turn it green. Rerun step 4. Nothing under `assaywatch/`, `config.yaml`, `registry/` or
+  `Snakefile` changes from here until step 14.
+- [ ] **13. Live run, on the maintainer's go.** `caffeinate -i snakemake --cores 4 ...` from
+  `next-release`, mains power, lid open: ~50 minutes plus a rescreen of the changed queries and ~4 h
+  of composition (13 GB declared).
+- [x] **14. Check it. DONE 2026-11-11**, `docs/journal/2026-11-11-frozen-run-check.md`. The run is
+  `results/2026-11-10/`: 664 of 664 steps, 4 h 8 min, after a first attempt that NCBI's "Search
+  Backend failed" ended at 32 minutes. Ten status moves, every one attributed: seven to the fixes
+  (the two vcpA and BUNS_5_U_6 exactly as predicted, the two Uccellini, both Hellgren), two to step
+  6a's DWV-B scope, and **one to new data: Barrett 1993's P-gene primers miss all 43 genomes of
+  the 2024-2025 European PPRV incursion**, deposited as one batch on 2026-10-31 (PZ271096-PZ271138),
+  so `Morbillivirus_P_Barrett_1993_Grosh_F` reads `declining` on a lineage override while its pooled
+  share stays 96.8%. Invariant 0 mismatches over 6,078 assay-years; the knowingly-red extract test
+  is green; 2,241 tests and the slow suite pass; three pages read by eye. The gate ran for real for
+  the first time: 120 flags, none a stop, read one by one in the journal. `website/index.md`'s
+  status table was wrong for 2026-11-01 already and is corrected to the 2026-11-10 `run.json`.
+  **No surprise that is a stop.** As planned: `report_diff` against 2026-11-01, with every status move attributed to a
+  step above. Invariant: composition cells sum to the graph, 0 mismatches. The gate, read in full.
+  Extract and render; `website/index.md` counts; three pages by eye; `pytest -m slow`. Expected from
+  the fixes alone: the two vcpA assays and `Orthobunyavirus_S_Briese_2007_BUNS_5_U_6` read
+  `insufficient data`. A surprise here is a stop, not a note.
+- [ ] **15. Publish, on the maintainer's go.** `next-release` into `main`, CHANGELOG, tag `v0.3.0`,
+  Zenodo, confirm Pages deployed. Then re-enable the weekly job, and move what's left to the
+  post-release list.
+
+### Asked for 2026-11-06
+
+- [x] **Audit the whole repository for documents the audience doesn't need. DONE 2026-11-10**,
+  `docs/journal/2026-11-10-document-audit.md`. Nothing moved or removed: the deliverable is the list.
+  All 151 journals triaged and kept, with no credential, no named employer, no pasted PDF text and no
+  duplicate among them. **Six want a decision**, each with a recommendation in the journal:
+  (1) `docs/2026-10-06-lab-leads.tsv` names research groups in a `lab_named_by_search` column, against
+  the scope rule that no lab is ever a source -- recommend dropping the column;
+  (2) `docs/RESUME-HERE.md` is 294 KB of 27 stacked resume points, 1 of them live -- recommend keeping
+  the newest three and archiving the rest to a journal;
+  (3) `papers/papers-still-needed.md` and `papers/papers-still-needed-2026-10-24.md` are superseded by a
+  fetch list whose first line says it is empty -- recommend `local/`;
+  (4) `docs/INDEX.md` has two rows describing the one `example-run-2026-11-01/report.md` as two different
+  runs, which is a defect, not a preference;
+  (5) `ROADMAP.md` line 1923 prints `/Users/batya/assaywatch`, the only absolute home path in any tracked
+  file -- recommend rewording to "the repository root";
+  (6) `journal/2026-10-06-lab-leads.md` prints a public institutional address -- recommend keeping.
+  As asked: Maintainer request. Go through every
+  tracked document, decide who it's for, and list what to keep, move to `local/` or remove, for the maintainer's decision.
+
+### Sizes to read, from the verifier's table
+
+- [x] **Ten of the eleven settled 2026-11-10.** One rule over the list: `amplicon_bp` takes the measured mode
+  where one dominates and the measured median where none does; the flag says whether the CITED paper publishes a
+  size (`amplicon_disagrees_with_paper`) or does not (`amplicon_measured_not_published`); and a value only moves
+  where the new +/-25% window still admits every product measured. Applied: Mueller 1F 567 -> 552, 2F 570 -> 560,
+  3F 563 -> 544, Bourhy round 1 460 -> 462 (inside the paper's printed 456-462, so no disagreement flag) and
+  round 2 260 -> 249, Garner 350 -> 391, Tsukamoto H5 261 -> 258, Spackman 100 -> 101, Briese L 630 -> 584 (the
+  MEDIAN, not the modal 505, which would window out the measured 641 and 642 bp products), BUN_S5_F 961 -> 948.
+  One consequence, expected at step 14: Bourhy round 2 drops three products of 7,165, at 314 and 317 bp, all
+  already `fail`, so they read `no_amplicon`.
+- [ ] **Briese BUN_M_IXf could not be settled, and needs a rescreen with the size window opened.** Its products
+  run 251-417 bp against a 251-418 window, hard against both edges, so the window is clipping a pan-genus segment
+  continuum by an unknown amount and the modal 283 is measured through the very constraint in question. Its
+  `M3560_F` and `BUNS_5_U_6` siblings carry `amplicon_bp_range` for this reason and were settled that way on
+  2026-10-21. `amplicon_bp` is left at 335 and the entry carries `amplicon_multimodal` saying so.
+
+### Found by the 2026-11-10 reads, for the maintainer
+
+- [ ] **`Plasmodium_18S_Li_1995` has an unstored probe.** Oligo 842, `TAACACAAGGAAGTTTAAGGC`, is genus-conserved,
+  sense, and sits between the primers: the pair "includes an internal genus-conserved sequence located between V7
+  and V8 which can serve to confirm the identification of the sequence as Plasmodium-related". Same shape as the
+  Francisella tul4 FT443 item above, and adding a probe needs a rescreen.
+- [ ] **`Plasmodium_18S_Li_1995` may want `amplicon_bp_range`.** 719 products over 59 distinct lengths, 280-466 bp,
+  median 374 (the stored scalar), mode 284. The spread is the design: the pair was chosen because it "covers the
+  two most variable regions (V7 and V8)". A range changes which records are evaluable, so the scalar stands until
+  this is decided. Its flags are corrected either way: the paper does publish "about 400 bp", so
+  `amplicon_measured_not_published` was wrong and is now `amplicon_disagrees_with_paper` plus `amplicon_multimodal`.
+
+### Post-release list
+
+Not in this release, each still detailed where it sits. **Added at step 14, 2026-11-11:** rebuild
+`drift.scope_taxonomy`, which lacks six taxids NCBI created after it was built (1336684, 3904487,
+3904488, 3904489, 3904934, 3467847; 42 records matched exactly on the 2026-11-10 run), and re-run
+the report stages it hashes; watch the two scopes that gained a species parent (Uccellini's
+`1986118` under `3240428`, DWV-B's `232800` under `3047792`), neither of which holds a window record
+yet; warm the six spike references the cache lacked (`results/2026-11-10/references-missing.txt`);
+decide which status-count basis the site quotes, `run.json`'s or `report.md`'s, since the two differ
+by construction and the home page table had matched neither; the average-linkage trial (step 11b);
+and whether the Barrett P-gene set is in use for PPRV anywhere, since on the 2025 European genomes
+it would read negative. Then: S5/C2 and its 40-negatives gate; the
+drift-mechanism search's remaining sources; S3b's identity pricing and the mid-window boundary;
+finishing the collection-date backfill; filtering G2R's denominator by clade; test across scope; test for submission error; sources beyond GenBank (MalAvi, GISAID, PR2/SILVA,
+UNITE); the `printed.py` quencher fix; `target.exclusivity_taxids`; the reread's deferred scope moves (Clewley to HIV-1/HIV-2, Muller to E. bieneusi, Pallister's narrower scope, raccoonpox out of Meyer) and retiring one of each duplicate pair (Gao `_2`, Barrett `MorbF`), `docs/journal/2026-11-10-scope-reread-rest.md`; the conditions proposals and
+`panels`; the 17 open `needs_review` flags beyond those above; the three pending Hantavirus nests;
+registry coverage; the Greene SLURM profile; nest-level `needs_review` and `report_diff` wording.
+
 ## Before the next release
 
 - **Scope verification**, the standing gate in `CONTRIBUTING.md` under "Releasing". It
@@ -68,7 +320,7 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
     and `low coverage` with a scope, before the release that quotes them. The
     `CONTRIBUTING.md` gate says which assays; widen it to these if the test finds
     anything.
-- **Narrow the Ophidiomyces query to the IGS.**
+- [x] **Narrow the Ophidiomyces query to the IGS.** Done 2026-11-06, takes effect at the frozen run.
   `Ophidiomyces_ophidiicola_IGS_Bohuski_2015` targets the 28S-18S intergenic
   spacer, but its `target.query` fetches ITS, SSU and LSU titles: about 185 of the 196
   archive records (2026-11-01) can never carry the product. Change it to
@@ -88,6 +340,239 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
     Neither has an exact primer match.
   A new query is a new retrieval group, so re-fetch and rescreen it, and do not change it
   during a run.
+
+## PRD decisions and candidate features (asked for 2026-11-09)
+
+A product requirements document was written for this project on 2026-11-09 and is not in the
+repository. It left four decisions, taken by the maintainer the same day, and thirteen candidate
+features. The decisions are decided and not built. The candidates are accepted for planning: each
+still needs its design grilled and its interface approved before any code. What is below is the
+plan for all seventeen, in the order to do them.
+
+Rules every item here follows, so they are not repeated seventeen times:
+
+- **Interface first, and it is the maintainer's to approve.** Each item names a proposed flag,
+  function or config key. None is settled. The implementation behind an approved interface can
+  be delegated.
+- **A failing test before the code**, on a fixture, in `pytest -m fast` wherever the function is
+  pure.
+- **A new word goes into `GLOSSARY.md` before it is used.** The words proposed below are
+  proposals: `base rate`, `rule-out line`, `status change`, `overlay registry`, `country lens`.
+- **No number in code.** A new setting lives in `config.yaml` with its justification or the
+  admission that it has none.
+- **Nothing here moves a status.** Every output is printed beside the verdict. An item that would
+  move one says so in bold, and none does.
+
+### Order, size and what each waits on
+
+| step | item | waits on | size |
+|---|---|---|---|
+| 1 | Decision 4: override ablation | a calls table and archives on the Mac | small |
+| 2 | Decision 1: base rate beside precision | nothing | small |
+| 3 | Decision 2: rule-out line | nothing | small |
+| 4 | Decision 3: the data-resource paper | steps 1 and 2 for its validation section | writing |
+| 5 | Status-change feed | nothing | small |
+| 6 | Status as a stated contract, and a badge | nothing | small |
+| 7 | Issue-form submissions | an NCBI key as a repository secret | small |
+| 8 | Suggested replacement oligo | nothing | small to medium |
+| 9 | Overlay registry | nothing | medium |
+| 10 | Country lens | a backfill of several hours | medium |
+| 11 | Tree view per assay | alignment and tree tools in the environment | medium to large |
+| 12 | Bench confirmation | a bench, a collaborator, step 8 | large |
+| 13-17 | five candidates this file already records | see "Already recorded" below | none new |
+
+Steps 1 to 3 come first because the paper quotes them. Steps 5 to 8 are independent of each other
+and of the paper. Do not start 9 to 12 before the next release.
+
+### The four decisions
+
+- **1. Decision 4: the lineage-conditional estimand is described, not claimed, until an
+  ablation.** README already says it is "designed and only partly built, so it is not yet a
+  contribution". The ablation is what could change that sentence.
+  - What exists: `AssayDrift.status_pooled` keeps the verdict from before the override
+    (`drift.py`), and `scripts/lineage_override_audit.py` lists every assay whose status comes
+    from one. So no second run is needed. One calls table gives both readings.
+  - Proposed interface: `scripts/retrospective.py --verdict {final,pooled}`, default `final`.
+    `pooled` scores each case on `status_pooled`.
+  - Test first: a fixture where one override fires. The two matrices differ in that row and in no
+    other.
+  - Then: run both on the development set and on each held-out set, with the Jeffreys intervals
+    `precision_lines` already prints. Report, per set, the catches the override adds and the
+    false alarms it adds.
+  - **The problem to settle before running.** Held-out sets 1 and 2 are spent and set 3 has been
+    scored (`docs/INDEX.md`). An ablation tunes nothing, so reading them again breaks no rule, but
+    a claim of contribution made on rows already read is in-sample in the way that matters. Write
+    the kill criterion into the journal before the run. A form to argue with: claim the estimand
+    only if, on rows not read before, the override adds at least one documented catch and no more
+    false alarms than catches.
+  - Done when: one journal holds both matrices for every set, `website/validation.md` shows the
+    pair, and the README sentence either stands with a number beside it or is rewritten.
+- **2. Decision 1: `declining` is judged against the base rate of failure, not a fixed
+  precision.** The target: on a held-out set, the lower bound of the precision interval exceeds
+  the share of judged cases that were real failures.
+  - Why a base rate. Precision alone cannot say whether a flag carries information. If a quarter
+    of judged assays have failed, a flag that is right a quarter of the time is a coin weighted
+    like the deck. On the development set (2026-10-31 run) the base rate is 11 of 43, 26%, and
+    precision is 4 of 10 with a 95% interval of 15% to 70%, which does not clear it.
+  - Proposed interface: `precision_lines` gains one line per set: the base rate as k of n, and
+    `clears` or `does not clear`.
+  - Test first: a hand-built matrix of four rows prints the base rate and the right word.
+  - A caveat to print with it: the comparison sets an interval against a point. The base rate is
+    itself estimated from the same few rows and has its own uncertainty, which this first version
+    ignores. Say so in the output.
+  - What the target costs in cases. With a Jeffreys interval, clearing 26% needs about 5 of 8
+    flagged held-out cases if true precision is near 60%, and about 7 of 14 if it is near 50%.
+    Set 3 has two rows. So the target is not measurable until a fourth held-out set exists, and
+    `scripts/find_retrospective_cases.py` (the `late_redesign` family) is the route to it.
+  - Done when: every set's precision line carries its base rate, `docs/state-of-the-project.md`
+    states the target and that it is unmet, and the size of the next held-out set is written down
+    before it is opened.
+- **3. Decision 2: one threshold for the status, and a stricter line that is only read.**
+  `drift.detect_fraction_threshold` stays at 0.90 for every `use_context`. No per-context
+  thresholds, because each would be one more number set by eye.
+  - Proposed interface: `report.rule_out_line: 0.95`, under `report:` and not `drift:`, for the
+    reason `report.collection_sidecar` gives: it must not enter the drift hash. `null` turns it
+    off.
+  - What is printed: beside each scored assay, whether its recent interval sits above the line,
+    below it, or across it. A sentence in the report's preamble says what the line is for: an
+    assay missing 1 in 10 targets is fine for prevalence and useless for ruling out disease in
+    one animal.
+  - Tests first: the golden report gains the column; a second test changes the value and asserts
+    that no status moves.
+  - The honest cost: 0.95 is a twentieth placeholder set by eye. Add it to "The placeholders,
+    for the record" and change "Nineteen" in `docs/state-of-the-project.md` and README in the
+    same commit.
+  - The website follows: `site.py` writes the field into `run.json`, which is a schema change
+    (step 6).
+  - Done when: the line is in `report.md`, `report.html` and the assay pages, and the placeholder
+    count is right everywhere it is quoted.
+- **4. Decision 3: a short data-resource paper, drafted now, not waiting on a collaborator.**
+  Framed on the registry and the deposit-year axis. The classifier is reported with its measured
+  weakness and is not the claim.
+  - Outline, in the order to write it: what the registry holds and how an entry is verified
+    (Crossref, measured amplicons, oligos read against the paper); the deposit-year axis and
+    `docs/design-era.tsv`; one run's results; validation, with steps 1 and 2; limitations, lifted
+    from `docs/state-of-the-project.md`; related work from `docs/related-work.md`.
+  - Figures that already exist: `forest.svg`, `site-positions.svg`, the influenza M1 pair.
+  - Read before choosing a journal, none of it checked yet: the article type's length and data
+    requirements, and the journal's policy on AI-written code and text. `docs/ai-involvement.md`
+    already states what was written by Claude; the submission has to match it.
+  - The collaborator is asked for one thing: a statistical critique of the drift-correlated
+    denominator (`docs/state-of-the-project.md`, "Known limitations", item 1).
+  - Done when: a preprint has a DOI and `CITATION.cff` carries it as `preferred-citation`.
+
+### The eight candidates not recorded before
+
+- **5. Status-change feed.** `scripts/report_diff.py` already prints one line per assay whose
+  status changed between two runs and follows renames. What is missing is publication.
+  - Proposed interface: `report_diff.py --format atom --out website/feed.xml`, run by
+    `scripts/weekly_run.sh --live` after the report.
+  - Test first: two fixture reports give one entry per changed assay; a quiet week gives none; a
+    renamed assay is not a change.
+  - The trap: a status can move because the entry, its scope or the scoring changed, not because
+    GenBank did. Each feed entry must say which of those differed between the two runs, read from
+    the screen signature. A feed that reports a scope edit as drift is worse than no feed.
+  - Done when: the site publishes the feed and one real weekly run has appended to it.
+- **6. Status as a stated contract, and a badge.** `website/data/run.json` already carries a
+  `schema` version and, per assay, the status, the recent and baseline shares and their
+  intervals. Nothing says a reader may depend on it.
+  - Proposed interface: a page documenting each key; a contract test pinning the keys so a rename
+    fails CI; `site render` writes `assays/<id>/badge.json` in the shields.io endpoint format.
+  - Decide first: a withheld assay's badge reads "no status", never a colour. The badge label
+    carries the run date, so a stale badge reads as stale.
+  - Done when: the page exists, the test is in `fast`, and one assay page shows its own badge.
+- **7. Issue-form submissions.** A form under `.github/ISSUE_TEMPLATE/` with the fields of the
+  `CONTRIBUTING.md` template, and a workflow that turns the issue into a YAML, runs
+  `scripts/check_submission.py` and comments the result.
+  - Test first: the parser, on a fixture issue body, gives a YAML the validator accepts with
+    `--pending`.
+  - Security, before anything else: an issue body is untrusted text. It is never interpolated
+    into a shell command, the workflow's permissions are pinned to commenting, and nothing is
+    committed by the workflow. An entry still reaches `pending/` by a maintainer's pull request.
+  - Needs: the NCBI key as a repository secret, and a decision on whether a public workflow may
+    spend it on anyone's submission.
+  - Done when: a test issue on a fork gets a correct comment and writes nothing.
+- **8. Suggested replacement oligo.** `sitedrift.py` already names the base to order at each
+  drifted position and refuses to recommend `N`. This assembles the whole oligo.
+  - Proposed interface: `sitedrift.suggested_oligo(sites)` returning the sequence, the positions
+    changed, and the degeneracy before and after with its tier from `degeneracy.py`. It returns
+    nothing when any position would be `N` or the entry's oligo provenance is in doubt.
+  - Tests first: positions to string; a reverse primer comes back in the orientation it is
+    ordered in; never `N`.
+  - Then, optionally: screen the suggestion against the assay's own archive and print its
+    detected share beside the original's. Same records, same config, one variable changed, which
+    is the control the influenza M1 pair has.
+  - Wording: "a candidate to test at the bench". Nothing in silico makes it a recommendation.
+  - Done when: `site-drift.md` shows a candidate for each declining assay that has one.
+- **9. Overlay registry.** A second directory of entries, outside the repository, screened
+  against the same archives and never published. For in-house or modified oligos that have no
+  DOI and so can never be live.
+  - Proposed interface: `registry.overlay: null` in `config.yaml`, a path. Entries validate under
+    the `--pending` rules. Results go to their own directory.
+  - Tests first: `site extract` refuses an overlay entry; an overlay id cannot collide with a
+    live one; a run with no overlay is byte for byte what it is today.
+  - The risk to design against: unpublished oligos reaching a committed file
+    (`docs/example-run-*`, `website/data/`). The guard is a test, not a habit.
+  - Done when: one overlay entry gets a report locally and a grep of the committed tree for its
+    oligos finds nothing.
+- **10. Country lens.** Detected share by country of collection, for the recent window, printed
+  beside the verdict.
+  - What blocks it today: retrieval metadata carries accession, dates, length and title and
+    nothing else (`sitedrift.py`, "No host or country breakdown").
+  - The pattern to copy: `scripts/backfill_collection_dates.py` and `report.collection_sidecar`.
+    A backfill writes a gitignored sidecar of accession to country, from the BioSample location
+    or the source feature's country qualifier. The report says when it was rendered without one.
+  - Tests first: the parser on the forms the field takes ("USA: New York", "missing", absent);
+    the lens table on a fixture; no status moves.
+  - Statistics to respect: assays times countries is a great many comparisons. Print intervals,
+    set a minimum of records per country in `config.yaml`, flag nothing.
+  - Cost: one pass over every unique accession, hours at NCBI's rate limit. On a cluster this is
+    an array job, one task per retrieval group, and worth doing after the Greene profile's first
+    submission (step 17), not before.
+  - Done when: the sidecar covers every record of one run and the lens is on the assay pages.
+- **11. Tree view per assay.** A phylogeny of the target's records coloured by call, so clade
+  structure the footprint count cannot see is visible ("Known limitations", records are not
+  independent).
+  - Input: composition windows, which already mask the primer sites, with one representative per
+    cluster to bound the size.
+  - Needs: an aligner and a tree builder in `environment.yml` and the lock file.
+  - Spike first, one assay: `Influenza_A_virus_M1_Ward_2004`. Kill criterion, written before the
+    spike: stop if the tree shows nothing the composition panel does not already show.
+  - Output: a static SVG, as the report's figures are.
+  - Done when: the spike is read and either killed or scheduled for every assay with enough
+    records.
+- **12. Bench confirmation of `declining` calls.** The one source of ground truth that does not
+  wait on the literature. The Bayesian per-record model needs at least 40 within-family negatives
+  and has 11.
+  - Design document first, grilled, and pre-registered: for each chosen assay, the scoring rule's
+    predicted call for each template, written down before anything is run.
+  - Templates: synthetic fragments of the amplicon carrying the observed footprints, beside a
+    perfect-match control. Run the published oligos and the step 8 candidate.
+  - Rows go to `docs/bench-panels/` in the existing format and count toward the model's
+    negatives.
+  - Before ordering: the institution's rules for synthetic sequence from the pathogens involved.
+  - Needs a bench and a collaborator. Nothing in this repository can start it.
+  - Done when: the design document exists and someone with a bench has agreed to it.
+
+### Already recorded: five candidates that get no new plan
+
+These were listed as future ideas in the PRD and are already in this file. They stay where they
+are. Each line says what would reopen it.
+
+- **13. Thermodynamic engine as a second opinion.** Tested and not adopted: its measured
+  advantage over the penalty rule went from p = 0.019 to p = 0.071 once its register was fixed
+  (2026-10-27, "The scoring rule's own test plan"). The TNTBLAST arm is deferred. Reopens when
+  enough entries carry annealing conditions for `thermo` to be more than inert.
+- **14. Sequence-cluster sublineages for every assay.** Covered by "Lineage composition over
+  time": one clustering, composition's, replaces Mode C's all-pairs path. No separate work.
+- **15. A scheme object for tiled amplicon panels.** Out of scope since 2026-10-04 ("Known
+  limitations"). Reopens only with a licence decision, since the public schemes are CC BY-SA 4.0
+  and the registry is CC-BY-4.0.
+- **16. GISAID for the influenza HA entries.** Under "Method debts": a licence question
+  first. Read the terms before any measurement.
+- **17. First submission of the Greene SLURM profile.** Under "Hygiene": written, untested, and
+  closed by one submission from a login node. It is also the prerequisite for step 10's backfill
+  as an array job.
 
 ## Website and review (asked for 2026-11-04)
 
@@ -115,27 +600,29 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   of them read `low coverage`. These are
   genome-walking primers, so decide first whether they stay in the registry. If they do, scope
   them, reading `Serpentovirinae sp.` first, since that node may hold the same virus.
-- [ ] **Zimmermann round 2: score the corrected forward primer, at the next run.** Maintainer decision,
-  2026-11-04. Store `GCCTTGTGTTTCTATGTTTG`, show the printed `...CTTTC` beside it, keep the status
-  withheld with a note that the correction is ours, and warn that the printed primer mismatches every
-  record at the 3' end. Evidence: the page prints `CTT TC`; all 303 records with the site read
-  otherwise; the design source's own deposit M99375 reads `GTTTG`; the product is 441 bp against a
-  published 444. Inference, since nothing shows what the authors synthesized. Sorg 1995 and Kohno
-  1999 might reprint it and were not readable; check them. Set `amplicon_bp` from the measurement.
-- [ ] **Francisella tul4 Long 1993: add probe FT443, at the next run.** `TCGTAATGTTAGCTGTATCATCATT`,
-  read from the page, exact in all 1,021 products at product position 50, which is gene position 443.
-  The entry's "8 mismatches" does not hold up, so its `oligo_sequence_uncertain` flag comes off and
-  it stops being withheld. Correct the note. Adding a probe needs a rescreen.
-- [ ] **Add 810, 813, 83554 and 83558 to `assemblies.taxa`, for the next run.** Maintainer decision,
-  2026-11-04. About 490 genomes exist (981 counting GCF and GCA twice; 15 or so *C. pneumoniae*, not
-  the 30 recorded earlier), sampled at the existing 20 per year. First check that a genome already
-  reached through the "complete genome" query term is not counted twice. Verdicts may move.
+- [x] **Zimmermann round 2: score the corrected forward primer.** Entered 2026-11-05 and takes effect
+  at the next screen. The status stays withheld, and the printed form shows on the page. Measured 441 bp
+  in all 248 records with exact sites, against a published 444. Still open: Sorg 1995 and Kohno 1999
+  might reprint the primer and have not been read.
+- [x] **Francisella tul4 Long 1993: add probe FT443.** Entered 2026-11-05 and takes effect at the next
+  screen, as `hybridization_probe`, because the paper reads a labelled probe by dot blot. Scored with
+  penalties set for hydrolysis probes, which is an assumption and doesn't change this entry's calls.
+- [x] **Chlamydia assemblies: not added.** Maintainer decision, 2026-11-05. The `"complete genome"[Title]`
+  term already reaches 379 of 493 assemblies under 810, so sampling on top would count those twice. 114
+  stay missing, 42 of them *C. trachomatis*. `docs/journal/2026-11-05-next-run-prep.md`.
+- [x] **RefSeq and GenBank copies of one genome count as two records.** Fixed 2026-11-06 as
+  step 1 of the release plan, `NZ_` by accession and the curated prefixes by a stored map
+  (`docs/journal/2026-11-06-refseq-twins.md`), after this branch recorded it. As first
+  written: `NZ_CP017733` and `CP017733`
+  have different accessions, so nothing dedupes them. On the 2026-11-01 calls 17 of 219 assays hold such
+  pairs, 14 of them at 5% or more: *Mycoplasma* 16S 1,651 of 24,246, MTB IS1081 377 of 1,468, Messmer 127
+  of 1,668. Only `complete genome` style queries reach them. Verdict effect not measured.
 - [x] **Add *B. dendrobatidis* to `assemblies.taxa`, and give the Ghosh 2021 mtDNA entries a query?**
   Done 2026-11-04: neither. Tested in `docs/journal/2026-11-04-scope-reread.md`. A query would
   lose 30 of the 43 mitochondrial records, whose titles don't say so. At the current levels the
   assemblies add only JEL423, already archived. The low counts are honest; most records are
   `XM_` predicted mRNAs, not ITS.
-- [ ] **Do BCV, CCV, PCV and RCV sit inside the Reid and Neill scope (3433198)?** Reread 2026-11-04:
+- [x] **Do BCV, CCV, PCV and RCV sit inside the Reid and Neill scope (3433198)?** Decided, and folded into step 6a (done 2026-11-06). Reread 2026-11-04:
   the one-species scope matches both papers; SMSV-8, SMSV-12 and mink failed in Reid and stay out.
   Family retrieval stays by maintainer decision: the archives are 14 and 10 MB, and the out-of-scope
   calls are what the eventual test across scope would read.
@@ -144,16 +631,20 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   names mislead. Left out: 117 with mammal or reptile hosts, 20 mixed, 109 mosquito-only, 295 with
   no host field, 23 unresolved. HaemNFI baseline stays near 88%; the whole node would have read 80%.
   The list goes stale as NCBI adds lineages, like the others.
-- [ ] **Apply at the next fetch: Leporipoxvirus into the Li 2010 IMV query.** Table 1 of the paper
-  settles it. A query edit changes the archive group, so it goes in with a new retrieval. Crocodilepox
-  for Li 2010 RPO147 is the same shape; check it first.
+- [x] **Leporipoxvirus into the Li 2010 IMV query.** Entered 2026-11-05 as `txid10270`, taking effect at
+  the next fetch. Crocodilepox needs no edit: `txid1285599` is already in the RPO147 query, and the
+  2026-11-04 journal line saying otherwise was wrong.
 - [x] **The narrowing proposals.** Decided 2026-11-04: Uccellini narrowed; Baek, Ahmed, Steyn, Nix,
   Scaramozzino, Quan and Li left as they are, with the paper's narrower claim on the page instead.
   Tested table in `docs/journal/2026-11-04-scope-reread.md`.
-- [ ] **Correct the curator notes the reread contradicted.** Lozano's "amplified" list is the
-  alignment set; Li 2010 IMV's note says the paper doesn't place the crossover, and Table 1 does.
-  Also unexplained: Messmer reports *C. trachomatis* amplified and round 1 reads 0 of 301.
-- [ ] **Reread the remaining papers on scope, in batches.** Maintainer decision, 2026-11-04. About 86
+- [x] **Correct the curator notes the reread contradicted.** All four done: Grizzle's and Chua's 2026-11-10 with
+  step 6b, Lozano's and Li 2010 IMV's 2026-11-10 against the papers. Lozano: the list the note called "amplified"
+  is Fig. 2, a HinfI pattern CALCULATED from published sequence; ARS1/ARS16V amplified four viruses (Fig. 3a) and
+  ARS6C/ARS3V three, not shown. Li 2010 IMV: for Leporipoxvirus the paper DOES place the crossover, in Table 1,
+  which files myxoma (43.6%) and rabbit fibroma (39.5%) under "Low GC", designs the low-GC primers on that set and
+  amplifies both; Macropopoxvirus keeps the old wording, being in no part of Table 1. Still unexplained, and the
+  Messmer bench-case item below: Messmer reports *C. trachomatis* amplified and round 1 reads 0 of 301.
+- [x] **Reread the remaining papers on scope, in batches.** Done 2026-11-10 as steps 6a and 6b of the release plan; this line is the origin. Maintainer decision, 2026-11-04. About 86
   papers, starting with `declining` and `low coverage` assays. Budget about 24,000 subagent tokens
   a paper, 2 million in all, stoppable at any batch. Each batch brings claim sentences
   (`citation.claim`) for the maintainer to skim, and quotes checked against the paper.
@@ -180,7 +671,12 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   says it detects, written up as a report, with the fixes made. 64 entries are done
   (`docs/journal/2026-11-04-scope-reread.md`, 21 broadened); the other live entries have not
   been reread. Two pieces belong to it:
-  - **The nested malaria assay.** Read as the Hellgren 2004 haemosporidian nest; whether
+  - **The nested malaria assay. CLOSED 2026-11-10.** Hellgren's nest is done (step 2, 2026-11-06), and
+    `Plasmodium_18S_Li_1995` is now read: it describes NO nest, so its `nested_family` and `nested_round` stay
+    null and it is unrelated to the Hellgren nest. One 30-cycle round; Table I's other nine oligos are
+    hybridisation probes, not a second pair; and 566/570, which is genuinely outside 841/844 on the gene, is used
+    as an ALTERNATIVE pair for cloning, never in series. Two findings it turned up are under "Found by the
+    2026-11-10 reads" above. As first asked: Read as the Hellgren 2004 haemosporidian nest; whether
     the paper behind `Plasmodium_18S_Li_1995` also describes a nest has not been checked:
     `Haemosporida_cytb_Hellgren_2004_HaemNFI`, `Haemosporida_cytb_Hellgren_2004_HaemF` and
     `Leucocytozoon_cytb_Hellgren_2004`, all three `nested_round: null`, so the site shows
@@ -194,7 +690,7 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
     assay is meant to detect, what it is scored against, and how that differs between
     rounds of a nest. The Chlamydia 16S query's falling share of its genus (0.4% of 2023's
     deposits, `docs/RESUME-HERE.md`) belongs in this report.
-- [ ] **Assay page narrative.** At the top of each assay page, a description of the assay.
+- [ ] **Assay page narrative.** Tracked as step 10 in the release plan, built on `page-narrative` for review; this line is the origin. At the top of each assay page, a description of the assay.
   Beside the lineage graph, a description of the lineages deposited over time and how the
   deposits may reflect outbreaks or other papers being published. Linking a deposit spike
   to an outbreak or a paper is an inference, so the page has to say what the evidence is
@@ -209,7 +705,8 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   lists in the name, all already in each entry's `notes_curator`. A test holds the rule. Display
   only, but it edits registry files, so the next run re-screens those assays; it re-screens every
   assay anyway, because the screens' ids are stale.
-- [ ] **`rule report` declares less memory than its table takes.** `mem_mb=3000`, against a
+- [x] **`rule report` declares less memory than its table takes.** Fixed 2026-11-06: `report` measured 3.64 GB,
+  `site_drift` 4.95 GB, and `figures` runs both; now 4.5, 6 and 6 GB. As first written: `mem_mb=3000`, against a
   3.17 GB peak from `load_calls_as_reported` alone on the 2026-11-01 calls (3,448,385 rows,
   measured 2026-11-04); its comment's 2.7M rows date from 2026-10-22. On SLURM that job is
   killed. Measure the whole rule and redeclare; `site_drift` reads the same table.
@@ -217,14 +714,16 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   first case is the Hellgren haemosporidian pairs on gorilla and chimpanzee *Plasmodium*, which are
   left out of the bird scope on purpose. A question about cross-reactivity, reported apart from the
   drift verdict. Down the road, not for this release.
-- [ ] **Per-assay composition cuts?** On the 2026-11-01 run at 0.05, 17 of 199 assays have a largest group of 3+ named
+- [x] **Per-assay composition cuts?** Decided 2026-11-06 under step 11b: no overrides this release, one fixed cut, average linkage tried once and journaled. As asked: On the 2026-11-01 run at 0.05, 17 of 199 assays have a largest group of 3+ named
   species with no species at 80%, and the same-mix line can't see a shift inside it. Messmer gains
   from 0.02; Hellgren and *Leptospira* lose. Any override needs a stated reason in `config.yaml`,
   since tuning an assay until it looks right is the risk. Average linkage is the other thing to try.
 - [x] **Security review and code review once the new lineage graphs are live.** Done 2026-11-05:
   no security finding at confidence 8 or above, 14 code review findings all fixed.
   `docs/journal/2026-11-05-review-fixes-rebuilt.md`.
-- [ ] **Reconcile species names in the lineage groups.** Title names and taxonomy names don't match
+- [x] **RefSeq copies count as separate deposits.** Fixed 2026-11-06, `NZ_` by accession and the curated
+  prefixes by a stored map. It publishes with the frozen run. `docs/journal/2026-11-06-refseq-twins.md`.
+- [x] **Reconcile species names in the lineage groups.** Done 2026-11-07 as step 11a (PR #9): 4 of 42 groups were renames, the rest are mixed or unclear and stay. As asked: Title names and taxonomy names don't match
   for one virus (*Human bocavirus* and *Bocaparvovirus primate1*), so a group can show a percent
   though it holds one species. Pages word this as several names until then. On the 2026-11-01 run, 42 of 201 assays have a
   largest group with a percent; how many are synonyms hasn't been counted.
@@ -243,7 +742,9 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   tested on 2026-10-23 against 308 of 456 for the removed form. That entry now needs a
   human to re-read the 1994 scan: if the printed sequence is right, the assay fails and
   that is a real finding; if the scan is wrong, the entry has no usable published source.
-- **Batravirus pan pair and Ranid herpesvirus 5.** A complete RaHV-5 genome (PV243667,
+  **Read 2026-11-04** (the Zimmermann item below): the page prints `CTT TC`, and the correction is on
+  `next-run-prep`. The rescreen comes with the frozen run.
+- ~~**Batravirus pan pair and Ranid herpesvirus 5.**~~ **Done 2026-11-06:** broadened, retrieval moved to the order. As first written: A complete RaHV-5 genome (PV243667,
   2025-11-21, 221 kb) sits in "unclassified Herpesvirales" (taxid 3467605), outside
   txid3044671, so neither Licheri 2020 entry can see it. Found 2026-11-01 by a free-text
   search (`batravirus[All Fields]` over the window: 8 hits, 7 of them under the taxid).
@@ -256,7 +757,9 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
 - **The G9R North American orthopox scope and borealpox.** Done 2026-11-04: borealpox (2602439)
   and the three NCBI species nodes are in scope, flagged `scope_wider_than_paper_tested`. Its one
   genome, MN240300, reads `fail`. No status moved (`docs/journal/2026-11-04-scope-reread.md`).
-- **The Zimmermann 1994 Borna inner pair is entered twice.** `BORNA_VIRUS_N_gene` (live)
+- ~~**The Zimmermann 1994 Borna inner pair is entered twice.**~~ **Done:** merged 2026-11-01 into
+  `Bornaviridae_N_Zimmermann_1994_round2`, which declares `nested_family` and `nested_round`; only
+  its corrected primer is left, on `next-run-prep`. As first written: `BORNA_VIRUS_N_gene` (live)
   and `Bornaviridae_N_Zimmermann_1994_round2` (draft) are the same inner pair (445 bp).
   The draft stores the forward primer as printed (`...TCTATCTTTC`), which the live entry
   measured on 2026-10-23 against no binding site in 1,516 Orthobornavirus records, so as
@@ -270,13 +773,14 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   lists it as low GC, its abstract counts it among seven genera, and it amplified. The query edit
   goes in with the next fetch, listed above. Measured 2026-11-01: 36 records in the window, all
   Leporipoxvirus, would come in.
-- **`Haemosporida_cytb_Hellgren_2004_HaemF` stores `amplicon_bp: 480`; the
-  product measures 525** (4,269 of 4,274 products, `docs/journal/2026-10-05-amplicon-audit.md`).
+- ~~**`Haemosporida_cytb_Hellgren_2004_HaemF` stores `amplicon_bp: 480`; the
+  product measures 525**~~ **Done 2026-11-06** (the paper's 480 excludes primers, in its own words) (4,269 of 4,274 products, `docs/journal/2026-10-05-amplicon-audit.md`).
   480 appears to be the length with primers excluded, the convention MalAvi and
   depositors use. The registry rule is that the measurement wins and the difference is
   disclosed (`amplicon_disagrees_with_paper`); this entry has neither. A registry change
   that may move calls, so rescreen and compare.
-- **Describe the Hellgren haemosporidian assay as nested, not hemi-nested** (noted
+- ~~**Describe the Hellgren haemosporidian assay as nested, not hemi-nested**~~ **Done 2026-11-06,
+  with the nest declared; the wording is in `notes_curator` until the page description lands.** (noted
   2026-11-03). Wording for `Haemosporida_cytb_Hellgren_2004_HaemNFI`,
   `Haemosporida_cytb_Hellgren_2004_HaemF` and `Leucocytozoon_cytb_Hellgren_2004`: "a nested
   PCR with a shared first round (HaemNFI/HaemNR3) and two parallel second-round reactions:
@@ -284,8 +788,8 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   The rounds share no oligo. The schema has no description field, so choose where it goes
   (`name` or `source.notes`). All three entries still have `nested_round: null`; declare the
   nest in the same change.
-- **`Haemosporida_cytb_Hellgren_2004_HaemNFI` carries a wrong `oligos_not_in_cited_paper`
-  flag** (noted 2026-11-03). Batya read Hellgren 2004 and the oligos are in it, as the entry's
+- ~~**`Haemosporida_cytb_Hellgren_2004_HaemNFI` carries a wrong `oligos_not_in_cited_paper`
+  flag**~~ **Done 2026-11-06.** (noted 2026-11-03). Batya read Hellgren 2004 and the oligos are in it, as the entry's
   `notes_curator` already records; the flag's note is about the product size, since the paper's
   617 bp belongs to HaemNF/HaemNR2. Remove the flag, set `amplicon_bp` from 617 to the measured
   618, add `amplicon_measured_not_published` (the paper gives no size for this pair) and a dated
@@ -330,8 +834,10 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   this set is 1/1 and failures caught 1/2; both intervals are one row wide and are not
   precision estimates.
 
-- **THE INFLUENZA RETRIEVAL QUERIES NEED A DECISION, AND TWO LIVE ENTRIES ARE AFFECTED.**
-  Measured 2026-10-30: every influenza group whose query names subtype taxids has an archive
+- ~~**THE INFLUENZA RETRIEVAL QUERIES NEED A DECISION, AND TWO LIVE ENTRIES ARE AFFECTED.**~~
+  **Settled, checked 2026-11-06:** the four HA entries share one broad query and restrict by
+  `target.title_requires`, the strain name in the title, as this item proposed. On the 2026-11-01
+  calls H5 reads `stable` at 20,094 of 20,890 recent records. As first written, measured 2026-10-30: every influenza group whose query names subtype taxids has an archive
   that ended years ago — H5 Tsukamoto `q6552a5c4af` newest deposit **2021** (8,490 records),
   H7 Tsukamoto `q3b4e39b708` newest **2020** (3,425) — while the title/gene groups are current
   to 2026 (matrix 187,534; NP 194,149). NCBI has stopped assigning subtype taxids to new
@@ -495,6 +1001,11 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Operations
 
+- **The weekly re-screen is PAUSED until the v0.3.0 release** (2026-11-06, maintainer's decision):
+  `launchctl` shows `com.assaywatch.weekly` unloaded and disabled, and the plist is unchanged. It runs
+  `--live` on whatever is checked out and only warns off `main`. Step 15 restores it:
+  `launchctl enable gui/$(id -u)/com.assaywatch.weekly`, then `launchctl bootstrap gui/$(id -u)
+  ~/Library/LaunchAgents/com.assaywatch.weekly.plist`.
 - **The weekly re-screen is installed on this machine only** (2026-10-27, live,
   Sunday 09:00, lid open; `docs/journal/2026-10-27-live-run-and-schedule.md`). It is
   machine-local state: the other MacBooks are not scheduled, and README's "re-screens
@@ -680,7 +1191,8 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   is to strip bracketed or slash-delimited modification markers before scanning, which is a
   change to a verification path and wants its own test. Not built.
 
-- **The 30 refused assays are refused on the POOLED recent count, not per lineage**, so
+- ~~**The 30 refused assays are refused on the POOLED recent count, not per lineage**~~ **C1b priced and
+  stopped 2026-11-06** (`docs/journal/2026-11-06-c1b-priced.md`; 35 are refused now). As first written: so
   the hierarchical layer cannot reach them: `min_records_for_drift` gates `finalise`
   before any lineage is looked at. **Designed 2026-10-27 as C1b** in
   `docs/bayesian-scoring-plan.md`, with its two kill tests pre-registered, the
@@ -730,7 +1242,10 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   - 425 record ids are shaped `pdb|29TK|N` and are not accessions at all; they are now
     settled unasked.
 
-  **Left**: the fetch itself, resumed 2026-10-30 against the correct run. The date rate is
+  **Left**: the fetch itself, resumed 2026-10-30 against the correct run. **It stopped that night
+  and was not resumed**, checked 2026-11-06: the sidecar holds 685,733 rows against 1,394,917
+  accessions on the 2026-11-01 calls, last written 2026-10-30, and `collection_sidecar` is still null.
+  Post-release. The date rate is
   **not** the 75% first sampled -- of 147,200 records settled so far, 50,963 carry a date
   and 96,207 do not, because the early accession blocks are patent-era deposits that carry
   none. `report.collection_sidecar` stays null until the fetch finishes.
@@ -877,9 +1392,9 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   keeping**: a `near:1` on a degenerate oligo is usually the CITING paper's transcription
   error, not ours. Only the 73 paywalled rows could still move, and the yield looks low.
 
-## Lineage composition over time (designed 2026-11-02, grilled; not built)
+## Lineage composition over time (designed 2026-11-02, grilled; built 2026-11-03 to 11-04)
 
-- [ ] **Separate "the mix of lineages sequenced changed" from "detection within lineages
+- [x] **Separate "the mix of lineages sequenced changed" from "detection within lineages
   changed" in every assay's per-year detection graph.** An assay's graph can move for
   either reason (a large LGV study one year, a wave of H3N2 deposits another), and nothing
   today tells them apart. What exists: per-lineage statistics pooled over the recent window
@@ -1436,7 +1951,7 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 The design was interviewed and settled on 2026-10-29; the decisions below are taken
 and are not reopened by the steps. Vocabulary is `GLOSSARY.md`. Every step is its
-own branch and PR into `main`, merged when pytest, the validator, ruff and
+own branch and PR into `main` (into `next-release` while the v0.3.0 plan above is open), merged when pytest, the validator, ruff and
 `check_citations` pass; the weekly run keeps using `main`. The principles this
 answers are in `~/.claude/CLAUDE.md` (Engineering principles 2 to 5, Reproducibility).
 
@@ -1544,8 +2059,33 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
         format-specific payloads, which is a redesign of the report, not a cleanup. Left
         as two renderers over one model, which is what they are. The package is NOT
         reorganised into stage subpackages; the CLI gives one entry point per stage.
+- [ ] **6. Entropy found by the 2026-11-09 audit** (`docs/journal/2026-11-09-planning-audit-and-defaults.md`).
+  - [x] 6a. Defaults that mirror a config key under another name read the model, and a second pin test
+        holds all 28 of them; five had drifted (`min_decline` 0.0 among them). One `metadata.read_column`
+        replaces four hand-rolled archive scans. Done 2026-11-09, every gate green.
+  - [ ] 6b. **The per-lineage concept lives in three modules.** `lineage.per_lineage_stats` and
+        `lineage_report` each turn calls into a per-assay, per-lineage table, and `drift._lineage_check`
+        decides from it. **Interface, for approval:** `lineage.table(calls, taxa_cache, taxid_sidecar,
+        *, min_records, resolvers, detected_calls) -> list[LineageStats]` as the one builder, with
+        `lineage_report` rendering from it and `drift` reading from it. Byte-for-byte on `report-golden`
+        and `lineage.md` before and after. Not before step 12 of the release plan.
+  - [ ] 6c. **`report.py` is 3,000 lines** and seven siblings import it lazily to stay out of its hash.
+        Propose the seam before cutting: the readers (`read_calls`, `read_dates`, `load_calls_as_reported`,
+        `assessment_inputs`) into `calls.py`, which already owns the table's shape, leaving the model and
+        the two renderers. Same guard as 6b. Not before step 12.
+  - [ ] 6d. **Three `pct` helpers** (`drift.pct`, `sitedrift._pct`, `site_render._pct`) with two dashes and
+        two rounding rules. Decide the one spelling; `site-drift.md` and the site change by a character.
+  - [ ] 6e. **`gapped.py`** has no caller in the package, the Snakefile or the CLI; `scripts/indel_check.py`
+        and the archive use it. Either it is a library and stays, or it moves beside its script. Decide.
 
 ## Hygiene
+
+- [x] **A missing taxid backfill silently changes verdicts** (found and fixed 2026-11-06: `lineage.read_taxid_backfill`, no status moves). `lineage.taxid_backfill`
+  is a path relative to the working directory, and `report.py` carries on without the file, where a
+  missing `drift.scope_taxonomy` raises. Run from a git worktree on the 2026-11-01 calls, without the
+  file, it moved 25 statuses with no warning, because records lost the taxids that scope and lineage
+  read (Perkinsea cladeD: `out_of_scope` 1,389 to 0). It should fail as the taxonomy does, and it should
+  follow `--retrieved`. Fix before step 13, or the frozen run has only the checkout's layout protecting it.
 
 - [x] **`registry.edit()` unfolded long quoted scalars** (found and fixed 2026-10-30,
   `docs/journal/2026-10-30-registry-edit-fold-width.md`). The dumper's width was
@@ -1569,12 +2109,14 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
   no position reaches `sitedrift.min_records_for_position` (20): 19 have fewer than 20
   evaluable records, and 9 of the 46 have no mismatch at all. Withheld pages draw no chart
   and are not affected.
-  - [ ] **Show the fallback.** `mismatch_track` returns `""` when `positions` is empty, so
+  - [x] **Show the fallback.** Done 2026-11-04 (see "Check every assay's primer graph"), saying
+    how many records were missed rather than the highest count reached. As first written: `mismatch_track` returns `""` when `positions` is empty, so
     the "No position carried..." message in `site_render._charts_block`, which no page
     shows today, can appear. Reword it to state the threshold and the highest count
     reached, and print the legend and caption only when bars are drawn. Tests that call
     `mismatch_track` in `tests/test_site.py` will probably need updating.
-  - [ ] **Link nest pages to each round's map.** Replace the blank chart with those links.
+  - [x] **Link nest pages to each round's map.** Done 2026-11-04 (`site_render._rounds_block`). As
+    first written: Replace the blank chart with those links.
     A protocol-level map would be new analysis, not a rendering fix, because the record
     sets differ (Chu 2008 astrovirus: 2,889 for the nest, 3,313 for round 2).
   - [ ] **Report failures a per-base chart cannot show**, on the page and from the calls
@@ -1629,6 +2171,16 @@ centre/outer 2.0 / 1.0, `detect_max` 1.0, `reduced_max` 3.0,
 (`detect_fraction_threshold` 0.90, `recent_window_months` 24,
 `min_records_for_drift` 15, `min_records_for_coverage` 10, `min_decline` 0.05);
 `degeneracy.tiers` (8 / 128 / 4096); `assemblies.per_year` 20.
+
+**Eight more were added 2026-11-10 with steps 10 and 11c, and they are listed here by
+decision rather than left out because they reach no verdict.** None hashes into a screen
+and none can move a status; what they decide is what a PAGE asserts, and the standard that
+put the list above in public is about a number set by eye, not about where it lands.
+`site` (`failure_reasons_min_records` 10, `failure_reasons_shown` 3, `spike_min_fold` 5.0,
+`spike_min_records` 30, `spike_evidence_min_records` 10, `spike_batch_min_share` 0.5,
+`spike_token_min_share` 0.5, `spikes_shown` 3). The two that matter most are
+`spike_min_fold` and `spike_min_records`, which together decide whether a deposit year gets
+a sentence at all; `config.yaml` carries the reasoning, or the admission of none, for each.
 
 One of those is no longer only eyeballed. `drift.min_decline` 0.05 has regulatory
 precedent: FDA's *Policy for Evaluating Impact of Viral Mutations on COVID-19 Tests

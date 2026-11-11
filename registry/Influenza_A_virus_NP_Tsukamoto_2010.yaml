@@ -30,6 +30,10 @@ citation:
     and probe sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
   doi_verified: true
   oligos_designed_here: true
+  claim: Nucleoprotein gene of avian influenza viruses.
+  description: Real-time RT-PCR with mixed-base (degenerate) primers and a FAM/BHQ hydrolysis probe, redesigned from the
+    group's earlier primers so that more Eurasian and American avian influenza sequences match. ; NP-1200F, NP-1529R and
+    probe, 329 bp, designed on 218 NP genes; reverse primer has no mixed bases.
 conditions:
   cycles: 35
 use_context:

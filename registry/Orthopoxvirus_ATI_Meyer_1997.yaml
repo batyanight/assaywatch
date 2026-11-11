@@ -120,6 +120,7 @@ citation:
     reaction assay to differentiate orthopoxviruses. J Virol Methods 64:217-221 (1997).
   doi_verified: true
   oligos_designed_here: null
+  claim: Orthopoxvirus species, A-type inclusion body protein gene, told apart by product length.
 conditions:
   mg_mm: 2.5
   annealing_c: 40.0

@@ -24,6 +24,7 @@ citation:
   doi_verified: true
   reference: Clewley JP et al. 1998. J Virol 72:10305-10309
   oligos_designed_here: false
+  claim: Primate lentiviruses (HIV-1, HIV-2 and simian immunodeficiency viruses), pol gene, second round.
 use_context:
 - wildlife
 submitted_by: null

@@ -8,6 +8,7 @@
         "hydrolysis_probe",
         "mgb",
         "lna",
+        "hybridization_probe",
         "rpa"
       ],
       "title": "Chemistry",
@@ -27,6 +28,18 @@
           ],
           "default": null,
           "title": "Claim"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
         },
         "design_year": {
           "anyOf": [
@@ -327,6 +340,11 @@
           "default": null,
           "title": "Orientation"
         },
+        "print_error": {
+          "default": false,
+          "title": "Print Error",
+          "type": "boolean"
+        },
         "seq": {
           "title": "Seq",
           "type": "string"
@@ -613,6 +631,11 @@
           "default": null,
           "title": "Orientation"
         },
+        "print_error": {
+          "default": false,
+          "title": "Print Error",
+          "type": "boolean"
+        },
         "quencher": {
           "anyOf": [
             {
@@ -814,6 +837,18 @@
           ],
           "default": null,
           "title": "Notes Curator"
+        },
+        "page_note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page Note"
         },
         "predict_protocol": {
           "anyOf": [

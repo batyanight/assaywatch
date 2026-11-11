@@ -24,6 +24,7 @@ citation:
     for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
   oligos_designed_here: true
+  claim: Orthobunyaviruses of the California encephalitis and Bunyamwera serogroups, M segment.
 conditions:
   cycles: 45
 use_context:
@@ -56,5 +57,19 @@ source:
     Potosi virus. Screened on 2026-10-04: 662 evaluable of 2,056, the most of any orthobunyavirus assay in the registry, which
     is the expected payoff of being internal rather than terminal. 80 detected (12%), and the breakdown is again scope rather
     than drift: Anadyr 16/16, Cache Valley 15/15, Keystone 9/9, Ngari 7/7, Maguari 4/4, La Crosse 5/9 - the BUN and CE serogroups
-    it was designed from.'
-needs_review: null
+    it was designed from. CORRECTED 2026-11-06: the paper states its alignment for the M segment only; the design basis of
+    the S and L primers isn''t stated. SIZE READ AND SETTLED 2026-11-10 (ROADMAP, "Sizes to read, from the verifier''s table").
+    One rule over all eleven entries on that list: amplicon_bp takes the measured modal product length where one mode holds
+    a clear majority, and the measured median where none does, with amplicon_multimodal in the second case; the flag says
+    whether the CITED paper publishes a size (amplicon_disagrees_with_paper) or does not (amplicon_measured_not_published);
+    and a value is only moved where the new +/-25% window still admits every product measured, so a correction cannot silently
+    delete calls. Measured on the 2026-11-01 calls. Briese BUN_M_IXf: NOT CHANGED, and it is the one of the eleven that could
+    not be settled from the calls. The stored 335 windows 251-418 bp, and the products measured run 251 to 417 -- hard against
+    both edges -- so the window is clipping an unknown amount of a pan-genus segment continuum, exactly the condition that
+    put amplicon_bp_range on the M3560_F and BUNS_5_U_6 siblings. Those two were settled by rescreening their archives with
+    the size window opened, which is what this one needs and what a frozen run under an unchanged registry cannot do. Left
+    for the maintainer, on the roadmap.'
+needs_review:
+- flag: amplicon_multimodal
+  note: 'measured modes 283 (319 of 531) and 335 (161), but the measurement is TRUNCATED and the true span is unknown: see
+    the note. amplicon_bp is NOT changed. 2026-11-10.'

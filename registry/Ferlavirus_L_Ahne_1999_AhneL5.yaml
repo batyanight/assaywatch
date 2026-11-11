@@ -20,6 +20,8 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Ahne W et al. 1999. Virus Res 63:65-74
+  claim: Reptilian paramyxoviruses (Fer-de-Lance virus and related isolates), L polymerase gene, outer round, for 
+    sequencing rather than detection.
 conditions:
   cycles: 30
 use_context:

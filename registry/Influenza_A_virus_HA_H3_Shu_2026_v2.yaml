@@ -33,6 +33,10 @@ citation:
   doi_verified: true
   reference: Shu B et al. 2026. J Clin Microbiol
   oligos_designed_here: true
+  claim: H3 hemagglutinin of seasonal and swine-variant influenza A(H3N2), redesigned version of the assay.
+  description: Redesigned version of the H3 hydrolysis-probe RT-qPCR, with a new reverse primer closer to the probe and 
+    mixed bases at positions that had drifted. Made to keep detecting circulating A(H3N2), including subclade K, and 
+    swine-origin H3 variants.
 conditions:
   annealing_c: 55
   rt: one_step
@@ -125,7 +129,8 @@ source:
     be known to be the target and a specific assay failing on unknown records reads as drift.
 
     The old archive q2fad34153e is orphaned by this change: nothing rescreens it and `scripts/storage_report.py` will list
-    it. Full record and the before/after shares: docs/journal/2026-10-30-set3-scored.md and the subtype-filter journal.'
+    it. Full record and the before/after shares: docs/journal/2026-10-30-set3-scored.md and the subtype-filter journal. CORRECTED
+    2026-11-06: the ''same seven H3Nx subtype taxids'' scope line above is stale; see RETRIEVAL RETARGETED.'
 needs_review:
 - flag: oligos_modified
   note: forward and probe are degenerate modifications of the CDC H3 originals; the reverse is a new primer at a new 

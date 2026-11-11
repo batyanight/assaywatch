@@ -10,18 +10,19 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: Shi-1
-    seq: CTTGACCGCCTTTCCGATAC
+    name: primer III
+    seq: GTTCCTTGACCGCCTTTCCGATACCGTC
   reverse:
-    name: Shi-2
-    seq: CAGCCACCCTCTGAGAGTA
-amplicon_bp: 610
+    name: primer IV
+    seq: GCCGGTCAGCCACCCTCTGAGAGTAC
+amplicon_bp: 620
 citation:
   doi: 10.1093/infdis/167.2.458
   design_year: 1993
   n_sequences_at_design: null
   doi_verified: true
   reference: Sethabutr O et al. 1993. J Infect Dis 167:458-461
+  claim: Shigella and enteroinvasive Escherichia coli, ipaH gene.
 conditions:
   annealing_c: 50.0
   cycles: 35
@@ -32,6 +33,13 @@ submitted_by: null
 status: active
 source:
   nested_round: null
+  notes_curator: "CORRECTED 2026-11-10: both primers are now as printed (primer III and primer IV, p2); the stored Shi-1/Shi-2
+    were cut short at both ends (III lost 4 bases 5' and 4 bases 3', IV lost 6 and 1). On the 202 measured products the restored
+    bases add a mismatch in 2, and existing mismatches move away from the 3' end, so some reduced calls may become detect
+    at the rescreen; the status does not move. 620 bp by construction; the paper prints no size. The paper claims Shigella
+    and EIEC; EIEC is not retrieved."
 needs_review:
 - flag: orientation_inferred
   note: the archive yields 235 products and 54 none under this orientation (2026-10-27 run), so the inference stands
+- flag: amplicon_measured_not_published
+  note: 620 bp by construction from the printed primers; the paper prints no size; confirm at the rescreen

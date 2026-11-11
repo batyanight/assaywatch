@@ -19,16 +19,18 @@ cluster id — before falling back to the taxid. The chain is opt-in: with
 Phase 1, so an assay with no sub-lineage config is untouched.
 """
 
+import gzip
 import json
 import re
 from collections import defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from assaywatch.accession import strip_version
 from assaywatch.interval import wilson_interval
+from assaywatch.settings import Lineage
 
 if TYPE_CHECKING:
     from assaywatch.taxonomy import Taxonomy
@@ -69,6 +71,35 @@ class LineageStats:
 DETECTED_DEFAULT: tuple[str, ...] = ("detect", "reduced")
 
 
+def read_taxid_backfill(lineage_cfg: dict[str, Any], retrieved: Path) -> dict[str, int]:
+    """Accession -> taxid from the backfill sidecar, for records retrieved before the taxid field.
+
+    `lineage.taxid_backfill` is relative to `retrieved`. A missing file is an error when an
+    archive still needs it, as a missing `drift.scope_taxonomy` is: those records lose their
+    taxids, so scopes and lineages stop applying. Run from a checkout without the file on
+    2026-11-06, that moved 25 statuses with no warning. An archive whose metadata all carries
+    the column, as any fresh fetch does, needs no sidecar.
+    """
+    path = retrieved / (lineage_cfg.get("taxid_backfill") or ".meta.taxid.backfill.tsv.gz")
+    if not path.exists():
+        for meta_path in sorted(retrieved.rglob("*.meta.tsv.gz")):
+            with gzip.open(meta_path, "rt") as f:
+                if "taxid" not in (f.readline() or "").rstrip("\n").split("\t"):
+                    raise FileNotFoundError(
+                        f"{meta_path} has no taxid column and the backfill {path} is missing; "
+                        "build it with `python scripts/backfill_taxids.py`"
+                    )
+        return {}
+    out: dict[str, int] = {}
+    with gzip.open(path, "rt") as f:
+        next(f, None)  # skip header
+        for line in f:
+            acc, _, tx = line.rstrip("\n").partition("\t")
+            if tx.isdigit():
+                out[strip_version(acc)] = int(tx)
+    return out
+
+
 def load_taxa_cache(cache_file: Path | str) -> dict[int, str]:
     """Load taxid -> name mapping from docs/taxa-cache.json."""
     try:
@@ -77,6 +108,28 @@ def load_taxa_cache(cache_file: Path | str) -> dict[int, str]:
         return {int(k): v for k, v in data.get("taxa", {}).items()}
     except FileNotFoundError:
         return {}
+
+
+def taxid_from_lineage_label(label: str) -> int | None:
+    """The taxid a lineage label carries, or None when it names no taxon.
+
+    Two forms are generated in this package and both must answer: the bare
+    `taxid_10245` of `lineage_for_taxid`, and the `Name (10245)` that
+    `name_lineages_from_taxonomy` relabels it to. A resolver's sub-lineage
+    (`H5N1`) and `unresolved` name no taxon and give None, which is the whole
+    point of returning None rather than raising.
+    """
+    if label.startswith("taxid_"):
+        try:
+            return int(label.split("_", 1)[1])
+        except ValueError:
+            return None
+    if label.endswith(")") and "(" in label:
+        try:
+            return int(label[label.rindex("(") + 1 : -1])
+        except ValueError:
+            return None
+    return None
 
 
 def name_lineages_from_taxonomy(taxa_cache: dict[int, str], taxonomy: "Taxonomy | None") -> dict[int, str]:
@@ -89,9 +142,13 @@ def name_lineages_from_taxonomy(taxa_cache: dict[int, str], taxonomy: "Taxonomy 
     never overwritten. The taxid stays in the label: it is what a reader needs
     to look the lineage up.
 
-    The label is only ever displayed or used as a grouping key, both of which
-    one name per taxid satisfies. Nothing reads `LineageStats.taxid`, which a
-    named label leaves unset.
+    The label is displayed and used as a grouping key, both of which one name
+    per taxid satisfies. It is ALSO where `LineageStats.taxid` comes from, via
+    `taxid_from_lineage_label`: this docstring said "Nothing reads
+    `LineageStats.taxid`" until 2026-11-10, and by then the case-row scope
+    (`scripts/retrospective.scope_verdict`) did, so every `scope_taxid` row was
+    skipped for want of a field this function had quietly left unset. Keep the
+    taxid in the label.
     """
     if taxonomy is None:
         return taxa_cache
@@ -386,7 +443,7 @@ def per_lineage_stats(
     calls: list[dict],
     taxa_cache: dict[int, str],
     taxid_sidecar: dict[str, int],
-    min_records: int = 20,
+    min_records: int = Lineage().min_records_per_lineage,
     resolvers: list[Resolver] | None = None,
     detected_calls: tuple[str, ...] = DETECTED_DEFAULT,
 ) -> list[LineageStats]:
@@ -424,13 +481,7 @@ def per_lineage_stats(
         share = n_det / n_eval if n_eval > 0 else 0
         ci_lower, ci_upper = confidence_interval(n_det, n_eval)
 
-        # Extract taxid from lineage name if present
-        taxid_val = None
-        if lineage.startswith("taxid_"):
-            try:
-                taxid_val = int(lineage.split("_")[1])
-            except (IndexError, ValueError):
-                pass
+        taxid_val = taxid_from_lineage_label(lineage)
 
         results.append(
             LineageStats(

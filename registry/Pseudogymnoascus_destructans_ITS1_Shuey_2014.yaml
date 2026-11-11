@@ -30,6 +30,10 @@ citation:
     Environmental Microbiology 80, 1726-1731 (2014).
   doi_verified: true
   oligos_designed_here: true
+  claim: Pseudogymnoascus destructans, ITS1, distinguished from related Pseudogymnoascus and Geomyces.
+  description: Primers and a minor groove binder hydrolysis probe over a single-base deletion in the ITS1 of the 
+    white-nose syndrome fungus. The FAM probe is specific to P. destructans; a second VIC probe (not stored) marks 
+    relatives.
 conditions:
   annealing_c: 62.0
 use_context:

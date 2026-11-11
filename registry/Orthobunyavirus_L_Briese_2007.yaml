@@ -16,7 +16,7 @@ oligos:
   reverse:
     name: BUNL650R
     seq: ACCAKGGTGCTGTMARAGTGAARTCWCCAT
-amplicon_bp: 630
+amplicon_bp: 584
 citation:
   doi: 10.1007/s00705-007-1069-z
   design_year: 2007
@@ -25,6 +25,7 @@ citation:
     for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
   oligos_designed_here: true
+  claim: Orthobunyaviruses of the California encephalitis and Bunyamwera serogroups, L segment.
 conditions:
   cycles: 45
 use_context:
@@ -54,5 +55,21 @@ source:
     on Simbu-serogroup viruses (Oropouche 0/24, Akabane 0/7, Schmallenberg 0/7, Manzanilla 0/4). Left unscoped pending the
     registry-wide decision on lineage scoping. The L segment was not covered by the registry before this entry. Its own retrieval
     query, so it fetches a separate archive from the S/M assays. BUNL-5n''s authentic part is 15 nt, exactly at the oligo
-    floor.'
-needs_review: null
+    floor. CORRECTED 2026-11-06: the paper states its alignment for the M segment only; the design basis of the S and L primers
+    isn''t stated. SIZE READ AND SETTLED 2026-11-10 (ROADMAP, "Sizes to read, from the verifier''s table"). One rule over
+    all eleven entries on that list: amplicon_bp takes the measured modal product length where one mode holds a clear majority,
+    and the measured median where none does, with amplicon_multimodal in the second case; the flag says whether the CITED
+    paper publishes a size (amplicon_disagrees_with_paper) or does not (amplicon_measured_not_published); and a value is only
+    moved where the new +/-25% window still admits every product measured, so a correction cannot silently delete calls. Measured
+    on the 2026-11-01 calls. Briese L: 630 -> 584, the MEDIAN and not the modal 505 the verifier''s table noted, because a
+    505 declaration would window 379-631 bp and drop the 641 and 642 bp products that are measured and real. 584 windows 438-730
+    bp and admits all 158. Unlike its M3560_F and BUNS_5_U_6 siblings this entry gets no amplicon_bp_range: those were declared
+    where a scalar CLIPPED the species continuum, and here the old window did not clip, so a range would only widen the window
+    with nothing measured to justify it.'
+needs_review:
+- flag: amplicon_measured_not_published
+  note: measured median 584 bp of 158 products; the paper publishes 3' positions, not product sizes, so the stored 630 
+    was computed on its reference virus. 2026-11-10.
+- flag: amplicon_multimodal
+  note: 'no mode dominates: 505 (40 of 158), 641 (21), 584 (17), 508 (12), 618 (10), spanning 505-642 bp across the genus.
+    2026-11-10.'

@@ -14,13 +14,17 @@ oligos:
   reverse:
     name: Garner-1503R
     seq: CYTCCYTRCRTTARACACGCAA
-amplicon_bp: 350
+amplicon_bp: 391
 citation:
   doi: 10.1354/vp.43-3-311
   design_year: 2006
   n_sequences_at_design: null
   doi_verified: true
   reference: Garner MM et al. 2006. Vet Pathol 43:311-320
+  claim: Coccidian parasites, 18S rRNA gene, for sequencing rather than detection.
+  description: Conventional PCR with degenerate primers against a conserved region of the coccidian small subunit rRNA 
+    gene (about 350 bp). It was designed to amplify and sequence an unknown intranuclear coccidium from formalin-fixed 
+    tortoise tissue.
 conditions:
   cycles: 40
 use_context:
@@ -30,3 +34,17 @@ submitted_by: null
 status: active
 source:
   nested_round: null
+  notes_curator: "None SIZE READ AND SETTLED 2026-11-10 (ROADMAP, \"Sizes to read, from the verifier's table\"). One rule
+    over all eleven entries on that list: amplicon_bp takes the measured modal product length where one mode holds a clear
+    majority, and the measured median where none does, with amplicon_multimodal in the second case; the flag says whether
+    the CITED paper publishes a size (amplicon_disagrees_with_paper) or does not (amplicon_measured_not_published); and a
+    value is only moved where the new +/-25% window still admits every product measured, so a correction cannot silently delete
+    calls. Measured on the 2026-11-01 calls. Garner: 350 -> 391, the mode, with the median at 394 one of a tight cluster.
+    New window 293-489 bp admits every product measured (341-424)."
+needs_review:
+- flag: amplicon_disagrees_with_paper
+  note: measured mode 391 bp of 4,475 products; the paper says "an approximately 350-basepair segment corresponding to 
+    bases 1,018-1,377" of T. gondii L37415, whose own coordinates give 360 bp. 2026-11-10.
+- flag: amplicon_multimodal
+  note: 'no mode dominates: 391 (969), 394 (872), 399 (690), 392 (621), spanning 341-424 bp across the coccidia, median 394.
+    2026-11-10.'

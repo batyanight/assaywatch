@@ -13,7 +13,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from assaywatch.accession import strip_version, version_of
+from assaywatch.accession import refseq_source, strip_version, version_of
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -81,3 +81,11 @@ def test_the_guard_can_actually_see_the_pattern_it_forbids():
     assert ACCESSION_SPLIT.search('acc = row["accession"].split(".")[0]')
     assert ACCESSION_SPLIT.search('base = rid.split(".")[0]')
     assert not ACCESSION_SPLIT.search('stem = path.name.split(".")[0]')
+
+
+def test_only_an_nz_accession_names_its_genbank_source():
+    assert refseq_source("NZ_CP017733") == "CP017733"
+    assert refseq_source("NZ_JAAAAA010000001") == "JAAAAA010000001"
+    # An NC_ number has no relation to the record it was curated from.
+    assert refseq_source("NC_000962") is None
+    assert refseq_source("CP017733") is None

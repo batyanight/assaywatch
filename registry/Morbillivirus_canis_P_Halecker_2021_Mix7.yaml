@@ -29,6 +29,7 @@ citation:
     on a Double-Check Strategy. Viruses 2021;13:1632.
   doi_verified: true
   oligos_designed_here: true
+  claim: Canine distemper virus, P gene.
 conditions:
   rt: one_step
   annealing_c: 56.0

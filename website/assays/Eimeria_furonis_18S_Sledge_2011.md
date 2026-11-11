@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Sledge DG et al. 2011. J Am Vet Med Assoc 239:1584-1588
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Eimeria_furonis_18S_Sledge_2011</span></p>
+<p class="aw-assay-line"><span class="aw-id">Eimeria_furonis_18S_Sledge_2011</span></p>
 
 **Eimeria furonis — 18S rRNA (Sledge 2011)**
 
@@ -18,8 +18,18 @@
 | Chemistry | conventional |
 | Amplicon | 247 bp |
 | Registry status | active |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | E-furonis-F | `ACAATTGGAGGGCAAGTCTG` | 20 nt |
+| reverse | E-furonis-R | `GGCGACAAGCCTGCTTGAAAC` | 21 nt |
 
 ## Mismatch distribution
+
+<svg class="aw-track" viewBox="0 0 437 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">E-furonis-F</text><rect class="aw-zone" x="329.4" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.4" y1="44.0" x2="404.4" y2="44.0"/><text class="aw-base" x="111.9" y="57">A</text><text class="aw-base" x="126.9" y="57">C</text><text class="aw-base" x="141.9" y="57">A</text><text class="aw-base" x="156.9" y="57">A</text><text class="aw-base" x="171.9" y="57">T</text><text class="aw-base" x="186.9" y="57">T</text><text class="aw-base" x="201.9" y="57">G</text><text class="aw-base" x="216.9" y="57">G</text><text class="aw-base" x="231.9" y="57">A</text><text class="aw-base" x="246.9" y="57">G</text><text class="aw-base" x="261.9" y="57">G</text><text class="aw-base" x="276.9" y="57">G</text><text class="aw-base" x="291.9" y="57">C</text><text class="aw-base" x="306.9" y="57">A</text><text class="aw-base" x="321.9" y="57">A</text><text class="aw-base" x="336.9" y="57">G</text><text class="aw-base" x="351.9" y="57">T</text><text class="aw-base" x="366.9" y="57">C</text><text class="aw-base" x="381.9" y="57">T</text><text class="aw-base" x="396.9" y="57">G</text><text class="aw-tick" x="396.9" y="71">1</text><text class="aw-tick" x="336.9" y="71">5</text><text class="aw-tick" x="261.9" y="71">10</text><text class="aw-tick" x="186.9" y="71">15</text><text class="aw-tick" x="111.9" y="71">20</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="408" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">E-furonis-R</text><rect class="aw-zone" x="344.4" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.4" y1="126.0" x2="419.4" y2="126.0"/><text class="aw-base" x="111.9" y="139">G</text><text class="aw-base" x="126.9" y="139">G</text><text class="aw-base" x="141.9" y="139">C</text><text class="aw-base" x="156.9" y="139">G</text><text class="aw-base" x="171.9" y="139">A</text><text class="aw-base" x="186.9" y="139">C</text><text class="aw-base" x="201.9" y="139">A</text><text class="aw-base" x="216.9" y="139">A</text><text class="aw-base" x="231.9" y="139">G</text><text class="aw-base" x="246.9" y="139">C</text><text class="aw-base" x="261.9" y="139">C</text><text class="aw-base" x="276.9" y="139">T</text><text class="aw-base" x="291.9" y="139">G</text><text class="aw-base" x="306.9" y="139">C</text><text class="aw-base" x="321.9" y="139">T</text><text class="aw-base" x="336.9" y="139">T</text><text class="aw-base" x="351.9" y="139">G</text><text class="aw-base" x="366.9" y="139">A</text><text class="aw-base" x="381.9" y="139">A</text><text class="aw-base" x="396.9" y="139">A</text><text class="aw-base" x="411.9" y="139">C</text><text class="aw-tick" x="411.9" y="153">1</text><text class="aw-tick" x="351.9" y="153">5</text><text class="aw-tick" x="276.9" y="153">10</text><text class="aw-tick" x="201.9" y="153">15</text><text class="aw-tick" x="126.9" y="153">20</text><text class="aw-tick" x="111.9" y="153">21</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="423" y="139">3′</text></svg>
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
 penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
@@ -36,12 +46,56 @@ as the fall in detection between records that differ there and records that do n
 Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
 bar is a position that matters.
 
-<svg class="aw-track" viewBox="0 0 437 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">E-furonis-F</text><rect class="aw-zone" x="329.4" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.4" y1="44.0" x2="404.4" y2="44.0"/><text class="aw-base" x="111.9" y="57">A</text><text class="aw-base" x="126.9" y="57">C</text><text class="aw-base" x="141.9" y="57">A</text><text class="aw-base" x="156.9" y="57">A</text><text class="aw-base" x="171.9" y="57">T</text><text class="aw-base" x="186.9" y="57">T</text><text class="aw-base" x="201.9" y="57">G</text><text class="aw-base" x="216.9" y="57">G</text><text class="aw-base" x="231.9" y="57">A</text><text class="aw-base" x="246.9" y="57">G</text><text class="aw-base" x="261.9" y="57">G</text><text class="aw-base" x="276.9" y="57">G</text><text class="aw-base" x="291.9" y="57">C</text><text class="aw-base" x="306.9" y="57">A</text><text class="aw-base" x="321.9" y="57">A</text><text class="aw-base" x="336.9" y="57">G</text><text class="aw-base" x="351.9" y="57">T</text><text class="aw-base" x="366.9" y="57">C</text><text class="aw-base" x="381.9" y="57">T</text><text class="aw-base" x="396.9" y="57">G</text><text class="aw-tick" x="396.9" y="71">1</text><text class="aw-tick" x="336.9" y="71">5</text><text class="aw-tick" x="261.9" y="71">10</text><text class="aw-tick" x="186.9" y="71">15</text><text class="aw-tick" x="111.9" y="71">20</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="408" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">E-furonis-R</text><rect class="aw-zone" x="344.4" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.4" y1="126.0" x2="419.4" y2="126.0"/><text class="aw-base" x="111.9" y="139">G</text><text class="aw-base" x="126.9" y="139">G</text><text class="aw-base" x="141.9" y="139">C</text><text class="aw-base" x="156.9" y="139">G</text><text class="aw-base" x="171.9" y="139">A</text><text class="aw-base" x="186.9" y="139">C</text><text class="aw-base" x="201.9" y="139">A</text><text class="aw-base" x="216.9" y="139">A</text><text class="aw-base" x="231.9" y="139">G</text><text class="aw-base" x="246.9" y="139">C</text><text class="aw-base" x="261.9" y="139">C</text><text class="aw-base" x="276.9" y="139">T</text><text class="aw-base" x="291.9" y="139">G</text><text class="aw-base" x="306.9" y="139">C</text><text class="aw-base" x="321.9" y="139">T</text><text class="aw-base" x="336.9" y="139">T</text><text class="aw-base" x="351.9" y="139">G</text><text class="aw-base" x="366.9" y="139">A</text><text class="aw-base" x="381.9" y="139">A</text><text class="aw-base" x="396.9" y="139">A</text><text class="aw-base" x="411.9" y="139">C</text><text class="aw-tick" x="411.9" y="153">1</text><text class="aw-tick" x="351.9" y="153">5</text><text class="aw-tick" x="276.9" y="153">10</text><text class="aw-tick" x="201.9" y="153">15</text><text class="aw-tick" x="126.9" y="153">20</text><text class="aw-tick" x="111.9" y="153">21</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="423" y="139">3′</text></svg>
 <p class="aw-empty">No position carried a mismatch in enough records to report.</p>
+
+## Verdict
+
+**no recent data** — no deposits within the window
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (24 months, from Nov 2024) | 0 | 0 | — | 0.0% – 100.0% |
+| baseline (everything earlier) | 5 | 5 | 100.0% | 56.6% – 100.0% |
+
+Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.0%**.
+
+*no evaluable records deposited since Nov 2024*
+
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+
+
+## Scope
+
+**Meant to detect:** Eimeria furonis small-subunit rRNA gene, to confirm the species in ferret tissue.  
+**Scored against:** every record retrieved.  
+**Retrieved from:** Eimeria furonis (taxid 352384), limited by a query on the title or gene.
+
+This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
+
+Retrieval query:
+
+```
+18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
+```
+
+A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
 ## Predicted detection by deposit year
 
 **all 5 evaluable records**, deposited between 2005 and 2018, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
+
+
+## Records reaching the statistics
+
+17 records were screened for this assay and **5 (29%)** were evaluable, meaning both primers landed in the right orientation and size range. 12 produced no amplicon at all.
+
+This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
+
+| why a record was not evaluable | records |
+|---|---|
+| `truncated` | 12 |
 
 ## What was deposited, by lineage
 
@@ -64,56 +118,10 @@ detects.
 
 Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2005 100%, 2008 100%, 2018 38%, 2025 100% (best year 100%). A low share is a fact about the query, not about the taxon.
 
-## Oligos
 
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | E-furonis-F | `ACAATTGGAGGGCAAGTCTG` | 20 nt |
-| reverse | E-furonis-R | `GGCGACAAGCCTGCTTGAAAC` | 21 nt |
+## Curation record
 
-## Verdict
-
-**no recent data** — no deposits within the window
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 0 | 0 | — | 0.0% – 100.0% |
-| baseline (everything earlier) | 5 | 5 | 100.0% | 56.6% – 100.0% |
-
-Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.0%**.
-
-*no evaluable records deposited since Nov 2024*
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-
-## Scope
-
-**Scored against:** every record retrieved.  
-**Retrieved from:** Eimeria furonis (taxid 352384), limited by a query on the title or gene.
-
-This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
-
-Retrieval query:
-
-```
-18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
-```
-
-A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
-
-
-## Records reaching the statistics
-
-17 records were screened for this assay and **5 (29%)** were evaluable, meaning both primers landed in the right orientation and size range. 12 produced no amplicon at all.
-
-This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
-
-| why a record was not evaluable | records |
-|---|---|
-| `truncated` | 12 |
+CORRECTED 2026-11-10: annealing 58 C (p3).
 
 
 ## Corrections
@@ -123,7 +131,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Eimeria_furonis_18S_Sledge_2011%3A%20&body=Entry%3A%20Eimeria_furonis_18S_Sledge_2011%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Eimeria_furonis_18S_Sledge_2011/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Eimeria_furonis_18S_Sledge_2011%3A%20&body=Entry%3A%20Eimeria_furonis_18S_Sledge_2011%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Eimeria_furonis_18S_Sledge_2011/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Eimeria_furonis_18S_Sledge_2011.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Eimeria_furonis_18S_Sledge_2011.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

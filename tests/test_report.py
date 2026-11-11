@@ -41,6 +41,33 @@ def test_calls_are_deduplicated_to_one_row_per_accession():
     assert {r["record_id"] for r in out} == {"AB1"}
 
 
+def test_a_refseq_copy_of_a_genbank_record_counts_once_and_the_deposit_is_kept():
+    """`NZ_CP1` is RefSeq's copy of `CP1`. Counted as two records, one genome weighs double,
+    and the copy's later date moves it toward the recent window."""
+    rows = [
+        {"assay_id": "A", "record_id": "NZ_CP1.1", "call": "fail"},
+        {"assay_id": "A", "record_id": "CP1.2", "call": "detect"},
+        {"assay_id": "A", "record_id": "CP2.1", "call": "detect"},
+    ]
+    assert sorted(r["record_id"] for r in key_calls_by_accession(rows)) == ["CP1", "CP2"]
+    assert {r["call"] for r in key_calls_by_accession(rows)} == {"detect"}
+
+
+def test_a_refseq_record_stays_when_its_source_is_not_in_that_assay():
+    rows = [
+        {"assay_id": "A", "record_id": "NZ_CP1.1", "call": "fail"},
+        {"assay_id": "B", "record_id": "CP1.1", "call": "detect"},
+        {"assay_id": "A", "record_id": "NC_000962.3", "call": "detect"},
+        {"assay_id": "A", "record_id": "000962.1", "call": "detect"},
+    ]
+    assert {(r["assay_id"], r["record_id"]) for r in key_calls_by_accession(rows)} == {
+        ("A", "NZ_CP1"),
+        ("B", "CP1"),
+        ("A", "NC_000962"),
+        ("A", "000962"),
+    }
+
+
 def test_read_years_prefers_the_latest_revision(tmp_path):
     d = tmp_path / "109871"
     d.mkdir(parents=True)
@@ -519,13 +546,15 @@ def test_a_recorded_caveat_does_not_hold_the_status_back_but_is_printed():
     showed none of them.
     """
     drifts = _drifting()
-    drifts["Haemosporida_cytb_Hellgren_2004_HaemNFI"] = drifts.pop("A")
-    drifts["Haemosporida_cytb_Hellgren_2004_HaemNFI"].assay_id = "Haemosporida_cytb_Hellgren_2004_HaemNFI"
-    assay = _assay("Haemosporida_cytb_Hellgren_2004_HaemNFI")
+    drifts["Morbillivirus_canis_H_Muller_2011_Mueller_2F"] = drifts.pop("A")
+    drifts[
+        "Morbillivirus_canis_H_Muller_2011_Mueller_2F"
+    ].assay_id = "Morbillivirus_canis_H_Muller_2011_Mueller_2F"
+    assay = _assay("Morbillivirus_canis_H_Muller_2011_Mueller_2F")
     caveats = {i.flag.value for i in assay.needs_review or [] if not i.flag.value.endswith("unresolved")}
     assert "oligos_not_in_cited_paper" in caveats, "fixture no longer carries the flag under test"
 
-    md = render_markdown(drifts, {"Haemosporida_cytb_Hellgren_2004_HaemNFI": assay}, [], "2026-10-03")
+    md = render_markdown(drifts, {"Morbillivirus_canis_H_Muller_2011_Mueller_2F": assay}, [], "2026-10-03")
     assert "## Not scoreable" not in md, "a recorded caveat is a disclosure, not a defect"
     assert "## Declining" in md
     assert "Entry flags:" in md and "oligos_not_in_cited_paper" in md

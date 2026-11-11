@@ -29,6 +29,10 @@ citation:
     real-time PCR detects Avipoxvirus DNA in blood of Hawai'i 'Amakihi (Hemignathus virens). PLoS ONE 5, e10745 (2010).
   doi_verified: true
   oligos_designed_here: true
+  claim: Avipoxviruses, 4b core protein gene, as the real-time step of a nested PCR.
+  description: Real-time PCR with a FAM hydrolysis probe for the avipoxvirus 4b core protein gene, run as the second 
+    step of a nested reaction (55-cycle outer PCR first). It was built to detect avian pox DNA in blood without sampling
+    lesions.
 conditions:
   cycles: 55
   mg_mm: 1.5
@@ -63,7 +67,8 @@ source:
     1R cannot be checked here, because no PDF is held in papers/. Nothing to re-investigate here: an invariant 250 bp product
     across 6 independent records with the probe site present in all 6 cannot arise from a wrong reverse primer. Written down
     because `absent` otherwise reads as evidence that an oligo is not this paper''s, which is the opposite of the truth in
-    this case.'
+    this case. CORRECTED 2026-11-06: the held PDF prints 1R (p5), identical to the stored form. ''Designed here'' is inferred:
+    the paper cites sources for its outer primers and none for these.'
 needs_review:
 - flag: amplicon_disagrees_with_paper
   note: measured 250 bp; the paper says 234

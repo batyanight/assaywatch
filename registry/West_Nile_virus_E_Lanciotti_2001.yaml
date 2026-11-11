@@ -20,8 +20,12 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Lanciotti RS, Kerst AJ. 2001. J Clin Microbiol 39:4506-4513
+  claim: West Nile virus, envelope gene, as a NASBA primer pair.
+  description: Two primers for NASBA (isothermal RNA amplification) of a 162 bp piece of the West Nile virus envelope 
+    gene, each with a non-templated tail (T7 promoter on the reverse, a capture sequence on the forward). Designed with 
+    the NASBA kit manual's guidelines so a molecular beacon or ECL probe can read the product in under an hour.
 conditions:
-  cycles: 45
+  cycles: null
 use_context:
 - wildlife
 - veterinary
@@ -48,6 +52,11 @@ source:
     and it is 162 bp in every single one - no spread at all - which is also exactly what Lanciotti''s own table states for
     this pair, and what its printed positions give (1333 to 1494 inclusive). amplicon_bp was 161 and is now 162. COVERAGE
     IS HEALTHY, worth recording beside the drift findings elsewhere today: the forward primer is exact in 5,190 of the 5,785
-    and the reverse in 5,349, so this twenty-five-year-old assay still sits on the consensus of its target.'
+    and the reverse in 5,349, so this twenty-five-year-old assay still sits on the consensus of its target. CORRECTED 2026-11-06:
+    the paper runs these two only as NASBA primers, isothermal at 41 C (Table 1); its RT-PCR and TaqMan use a different, earlier
+    set (ref 10), and the 45 cycles were that assay''s. So the earlier ''ordinary RT-PCR'' reading is unsupported, and the
+    status is withheld because the penalties are calibrated on PCR.'
 needs_review:
 - flag: oligos_modified
+- flag: not_screenable
+  note: the stored pair is NASBA, isothermal at 41 C with T7 transcription; the penalties are calibrated on PCR

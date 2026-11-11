@@ -580,6 +580,43 @@ def test_an_unpublished_oligo_is_refused_outright():
         Assay(**kwargs)
 
 
+def test_a_hybridization_probe_is_a_probe_chemistry():
+    """Long 1993 reads its product on a dot blot with a labelled probe: a probe, but not a
+    hydrolysis one. It has to be storable without claiming a chemistry it doesn't use."""
+    probe = {"seq": "TCGTAATGTTAGCTGTATCATCATT"}
+    kwargs = _ati_kwargs(chemistry="hybridization_probe")
+    kwargs["oligos"] = {**kwargs["oligos"], "probe": probe}
+    assert Assay(**kwargs).oligos.probe.seq == probe["seq"]
+    del kwargs["oligos"]["probe"]
+    with pytest.raises(ValidationError, match="no probe given"):
+        Assay(**kwargs)
+
+
+def _corrected_print_error(needs_review):
+    return _ati_kwargs(
+        oligos={
+            "forward": {"seq": "AATACAAGGAGGATCT", "modified_from": "AATACAAGGAGGATCC", "print_error": True},
+            "reverse": {"seq": "CTTAACTTTTTCTTTCTC"},
+        },
+        needs_review=needs_review,
+    )
+
+
+def test_a_corrected_print_error_is_accepted_only_while_its_status_is_withheld():
+    """The one exception to published sequences only (maintainer, 2026-11-04). Printed form
+    fails every record and the design source's deposit reads otherwise, so the correction
+    is an inference, and `oligo_sequence_uncertain` keeps any verdict from publishing."""
+    flag = [{"flag": "oligo_sequence_uncertain", "note": "the correction is ours"}]
+    assert Assay(**_corrected_print_error(flag)).oligos.forward.print_error is True
+    with pytest.raises(ValidationError, match="no publication prints it"):
+        Assay(**_corrected_print_error([]))
+
+
+def test_print_error_needs_the_printed_sequence():
+    with pytest.raises(ValidationError, match="print_error without modified_from"):
+        Oligo(seq="AATACAAGGAGGATCT", print_error=True)
+
+
 def _round(**kw):
     """An entry in a nest; tests override only the field under test."""
     base = dict(_ati_kwargs())

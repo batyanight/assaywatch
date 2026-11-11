@@ -23,6 +23,7 @@ citation:
     Medina-Jaszek CA, Plotkin JB, Wilson JM. 2009. Isolation and characterization of adenoviruses persistently shed from
     the gastrointestinal tract of non-human primates. PLoS Pathog 5:e1000503 (nested DNA polymerase PCR, outer primers)
   oligos_designed_here: true
+  claim: Primate adenoviruses, DNA polymerase gene, as a first round.
 use_context:
 - wildlife
 - veterinary
@@ -33,9 +34,9 @@ source:
   nested_family: Mastadenovirus_POL_Roy_2009
   notes_curator: 'SOURCE FOUND AND RE-CITED 2026-10-05. The entry cited Casas et al. 2005 J Clin Microbiol 43:6176, and that
     paper does not print these primers: its local PDF carries exactly four oligo-like runs, all of them the hexon primers
-    held by Adenoviridae_hexon_Casas_2005_round1 and its round 2 sibling, which verify exact. The polymerase pairs are absent from
-    it. A Europe PMC full-text search finds both pairs in Roy S et al. 2009 PLoS Pathog 5:e1000503 (PMC2698151), which prints
-    them in one sentence as a single nested polymerase PCR - ''outer primers, TGATGCGYTTCTTACCTYTGGTYTCCATGAG and AGTTYTACATGCTGGGCTCTTACCG,
+    held by Adenoviridae_hexon_Casas_2005_round1 and its round 2 sibling, which verify exact. The polymerase pairs are absent
+    from it. A Europe PMC full-text search finds both pairs in Roy S et al. 2009 PLoS Pathog 5:e1000503 (PMC2698151), which
+    prints them in one sentence as a single nested polymerase PCR - ''outer primers, TGATGCGYTTCTTACCTYTGGTYTCCATGAG and AGTTYTACATGCTGGGCTCTTACCG,
     and inner primers, GTGACAAAGAGGCTGTCCGTGTCCCCGTA and TCACGTGGCCTACACTTACAAGCCAATCAC'' - matching the registry base for
     base. Roy gives no citation of its own for them, and it is the earliest publication of them that is findable: the only
     other open texts printing them are later and downstream (Roy 2011 PLoS One 6:e24859, Medkour 2020 Viruses 12:657 ''Fw/Rw
@@ -57,4 +58,6 @@ source:
     primate adenovirus. Not demonstrated, though - the isolates Roy recovered fell into species B, C and E, and no species
     F was amplified there, so this is a weaker in-range verdict than the other cases and the 45.6 percent deserves a look
     at the oligo level before it is read as drift.'
-needs_review: null
+needs_review:
+- flag: scope_wider_than_paper_tested
+  note: the paper designs for and tests primate adenoviruses

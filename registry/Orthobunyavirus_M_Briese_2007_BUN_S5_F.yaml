@@ -16,7 +16,7 @@ oligos:
   reverse:
     name: M940C-R
     seq: CTRGCWGCTCTWAGRCTTTTRTAMCC
-amplicon_bp: 961
+amplicon_bp: 948
 citation:
   doi: 10.1007/s00705-007-1069-z
   design_year: 2007
@@ -25,6 +25,7 @@ citation:
     for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
   oligos_designed_here: true
+  claim: Orthobunyaviruses of the California encephalitis and Bunyamwera serogroups, M segment.
 conditions:
   cycles: 45
 use_context:
@@ -54,5 +55,17 @@ source:
     on Simbu-serogroup viruses (Oropouche 0/24, Akabane 0/7, Schmallenberg 0/7, Manzanilla 0/4). Left unscoped pending the
     registry-wide decision on lineage scoping. Anchored on the conserved M-segment terminus, like the S-segment assay already
     in the registry, so most partial-CDS deposits will return no_amplicon however well the primers match. Screened on 2026-10-04:
-    93 evaluable of 2,056, 8 detected. The low evaluable count is the terminal anchoring, as expected.'
-needs_review: null
+    93 evaluable of 2,056, 8 detected. The low evaluable count is the terminal anchoring, as expected. CORRECTED 2026-11-06:
+    the paper states its alignment for the M segment only; the design basis of the S and L primers isn''t stated. SIZE READ
+    AND SETTLED 2026-11-10 (ROADMAP, "Sizes to read, from the verifier''s table"). One rule over all eleven entries on that
+    list: amplicon_bp takes the measured modal product length where one mode holds a clear majority, and the measured median
+    where none does, with amplicon_multimodal in the second case; the flag says whether the CITED paper publishes a size (amplicon_disagrees_with_paper)
+    or does not (amplicon_measured_not_published); and a value is only moved where the new +/-25% window still admits every
+    product measured, so a correction cannot silently delete calls. Measured on the 2026-11-01 calls. Briese BUN_S5_F: 961
+    -> 948. New window 711-1,185 bp admits every product measured (935-1,053).'
+needs_review:
+- flag: amplicon_measured_not_published
+  note: measured mode 948 bp of 87 products, median 950; the paper publishes 3' positions, not product sizes, so the 
+    stored 961 was computed on its reference virus. 2026-11-10.
+- flag: amplicon_multimodal
+  note: 'no mode dominates: 948 (27 of 87), 953 (11), 951 (9), 960 (8), spanning 935-1,053 bp. 2026-11-10.'

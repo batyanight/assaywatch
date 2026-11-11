@@ -191,6 +191,10 @@ with no `modification_doi` is a sequence that exists only here, and the schema r
 it: the entry's citation still resolves, so no other check would catch it, and the screen
 would report a verdict about an oligo nobody published. Store the printed sequence.
 
+The one exception is a print error the evidence settles, by maintainer decision only:
+`print_error: true` with the printed form in `modified_from`, and `oligo_sequence_uncertain`
+on the entry, so its status stays withheld. Zimmermann 1994 round 2 is the one case.
+
 If the printed sequence then fails against real records, that is a finding and it is
 reported as one — flag `oligo_sequence_uncertain`, which withholds the status until a
 human re-reads the source, rather than storing a corrected sequence. Four oligos across

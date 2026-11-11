@@ -339,6 +339,15 @@ class Report(Block):
     collection_sidecar: str | None = None
 
 
+class Site(Block):
+    """What the website shows. Display only: no rule hashes this block and no status reads it."""
+
+    #: Fewest records a failure reason needs before the page names it.
+    failure_reasons_min_records: int = Field(default=10, gt=0)
+    #: Most failure reasons a page names.
+    failure_reasons_shown: int = Field(default=3, gt=0)
+
+
 class Lineage(Block):
     #: FWER, not FDR: the rule is "any lineage below threshold fails the assay",
     #: so what needs controlling is the chance of at least one false rejection.
@@ -401,6 +410,17 @@ class Composition(Block):
     show_clusters: int = Field(default=8, gt=0)
     n_boot: int = Field(default=2000, gt=0)
     boot_seed: int = 0
+    #: A spike year: at least this many times the assay's median year, and this many records.
+    spike_min_fold: float = Field(default=5.0, gt=1.0)
+    spike_min_records: int = Field(default=30, gt=0)
+    #: Fewest records a batch, or a set of collection years, needs to count as evidence.
+    spike_evidence_min_records: int = Field(default=10, gt=0)
+    #: Least share of its year a batch must hold for "may reflect one study".
+    spike_batch_min_share: float = Field(default=0.5, gt=0.0, le=1.0)
+    #: Least share of a year's titles a token must appear in.
+    spike_token_min_share: float = Field(default=0.5, gt=0.0, le=1.0)
+    #: Most spike years an assay's text names, largest first.
+    spikes_shown: int = Field(default=3, gt=0)
     #: Calendar years re-counted by esearch each run; older years come from the cache.
     coverage_refresh_years: int = Field(default=2, ge=1)
     #: Failed esearch calls in a row before a coverage count stops asking NCBI.
@@ -434,6 +454,7 @@ class Settings(Block):
     sitedrift: SiteDrift = Field(default_factory=SiteDrift)
     figures: Figures = Field(default_factory=Figures)
     report: Report = Field(default_factory=Report)
+    site: Site = Field(default_factory=Site)
     lineage: Lineage = Field(default_factory=Lineage)
     composition: Composition = Field(default_factory=Composition)
 

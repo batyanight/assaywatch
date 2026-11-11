@@ -14,6 +14,7 @@ from assaywatch.lineage import (
     lineage_for_taxid,
     lineages_never_covered,
     per_lineage_stats,
+    read_taxid_backfill,
     resolve_sublineage,
     sublineage_resolvers,
     subtaxid_resolver,
@@ -477,3 +478,49 @@ def test_holm_does_not_fail_an_assay_on_marginal_lineages_bh_would():
     assert worst_lineage_verdict(stats, 0.9, "holm", 0.05) == ("detecting", None)
     # and the default is Holm, so a caller that passes nothing gets FWER control
     assert worst_lineage_verdict(stats, 0.9) == ("detecting", None)
+
+
+def _meta(path, header):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with gzip.open(path, "wt") as fh:
+        fh.write(header + "\nAB1.1\t" + "9\n")
+
+
+def test_the_backfill_is_found_under_the_archive_root_given(tmp_path):
+    with gzip.open(tmp_path / "bf.tsv.gz", "wt") as fh:
+        fh.write("accession\ttaxid\nAB1.2\t9\nAB2.1\tnot a taxid\n")
+    assert read_taxid_backfill({"taxid_backfill": "bf.tsv.gz"}, tmp_path) == {"AB1": 9}
+
+
+def test_a_missing_backfill_is_an_error_while_an_archive_needs_it(tmp_path):
+    """Without it those records lose their taxids, and scopes and lineages silently stop applying."""
+    _meta(tmp_path / "1/all/a.meta.tsv.gz", "accession\tcreated")
+    with pytest.raises(FileNotFoundError, match="no taxid column"):
+        read_taxid_backfill({"taxid_backfill": "bf.tsv.gz"}, tmp_path)
+
+
+def test_a_missing_backfill_is_fine_when_every_archive_carries_taxids(tmp_path):
+    _meta(tmp_path / "1/all/a.meta.tsv.gz", "accession\ttaxid")
+    assert read_taxid_backfill({"taxid_backfill": "bf.tsv.gz"}, tmp_path) == {}
+
+
+def test_a_lineage_keeps_its_taxid_whichever_label_form_it_carries():
+    """Why this exists (2026-11-10). `LineageStats.taxid` was parsed only out of the bare
+    `taxid_10245` label, and `name_lineages_from_taxonomy` relabels almost every lineage
+    `Name (10245)` before the stats are built, so on real data the field was None for every
+    lineage. Its own docstring recorded the assumption that made that safe -- "Nothing reads
+    `LineageStats.taxid`" -- and that stopped being true when the case-row scope was added
+    (`scripts/retrospective.scope_verdict`). The effect was silent: every `scope_taxid` row
+    fell back to the pooled status with "no per-lineage statistics for taxid N", which reads
+    like a fact about the records and was a fact about a label.
+    """
+    from assaywatch.lineage import per_lineage_stats, taxid_from_lineage_label
+
+    assert taxid_from_lineage_label("taxid_10245") == 10245
+    assert taxid_from_lineage_label("Simplexvirus humanalpha2 (3050293)") == 3050293
+    assert taxid_from_lineage_label("unresolved") is None
+    assert taxid_from_lineage_label("H5N1") is None  # a resolver's sub-lineage, not a taxon
+
+    calls = [{"record_id": f"r{i}", "call": "detect", "taxid": 3050293} for i in range(20)]
+    stats = per_lineage_stats(calls, {3050293: "Simplexvirus humanalpha2 (3050293)"}, {}, min_records=5)
+    assert [s.taxid for s in stats] == [3050293]

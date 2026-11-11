@@ -25,12 +25,13 @@ from assaywatch.lineage import (
     load_taxa_cache,
     name_lineages_from_taxonomy,
     per_lineage_stats,
+    read_taxid_backfill,
     sublineage_resolvers,
     title_assays,
 )
-from assaywatch.metadata import read_titles
+from assaywatch.metadata import read_column, read_titles
 from assaywatch.score import load_config
-from assaywatch.settings import Composition
+from assaywatch.settings import Composition, Drift, Lineage
 from assaywatch.taxonomy import taxonomy_from_config
 
 
@@ -72,11 +73,11 @@ def render_lineage_report(
     calls_by_assay: dict[str, list[dict]],
     taxa_cache: dict[int, str],
     taxid_sidecar: dict,
-    min_records: int = 20,
+    min_records: int = Lineage().min_records_per_lineage,
     resolvers: dict[str, list] | None = None,
     detected_by_assay: dict[str, tuple[str, ...]] | None = None,
     years: dict[str, int] | None = None,
-    threshold: float = 0.90,
+    threshold: float = Drift().detect_fraction_threshold,
     max_year_blocks: int = 5,
     composition: Any | None = None,
     thin_of_best: float = Composition().coverage_thin_of_best,
@@ -370,50 +371,17 @@ def main(argv: list[str] | None = None) -> int:
     # the backfill sidecar (one file, covers records retrieved before the taxid
     # field existed), then any archive metadata that already carries a taxid
     # column. Archives live at <retrieved>/<taxid>/<group>/, so this is rglob.
-    taxid_sidecar = {}
-    # From config (`lineage.taxid_backfill`), which until 2026-10-21 was declared
-    # and read nowhere while this path was hardcoded here and in report.py.
-    sidecar_path = Path(lineage_cfg.get("taxid_backfill") or args.retrieved / ".meta.taxid.backfill.tsv.gz")
-    if sidecar_path.exists():
-        with gzip.open(sidecar_path, "rt") as f:
-            next(f, None)
-            for line in f:
-                acc, _, tx = line.rstrip("\n").partition("\t")
-                if tx.isdigit():
-                    taxid_sidecar[strip_version(acc)] = int(tx)
-    print(f"{len(taxid_sidecar)} taxids from {sidecar_path.name}", file=sys.stderr)
+    taxid_sidecar = read_taxid_backfill(lineage_cfg, args.retrieved)
+    print(f"{len(taxid_sidecar)} taxids from the backfill", file=sys.stderr)
 
-    n_from_meta = 0
-    # Deposit years come out of the same pass, from the `created` column every archive
-    # metadata table carries: one extra lookup per line and no extra I/O, which is why
-    # the per-year block below costs nothing. `updated` is the later date and is not
-    # what a drift axis means; report.py windows on the same `created` field.
-    years: dict[str, int] = {}
-    for meta_path in sorted(args.retrieved.rglob("*.meta.tsv.gz")):
-        with gzip.open(meta_path, "rt") as f:
-            header = (f.readline() or "").rstrip("\n").split("\t")
-            if "accession" not in header:
-                continue
-            ai = header.index("accession")
-            ci = header.index("created") if "created" in header else None
-            if ci is not None:
-                for line in f:
-                    parts = line.rstrip("\n").split("\t")
-                    if len(parts) <= max(ai, ci):
-                        continue
-                    acc, created = strip_version(parts[ai]), parts[ci][:4]
-                    if created.isdigit():
-                        years[acc] = int(created)
-                f.seek(0)
-                f.readline()
-            if "taxid" not in header:
-                continue  # pre-taxid archive; the sidecar covers it
-            ti = header.index("taxid")
-            for line in f:
-                parts = line.rstrip("\n").split("\t")
-                if len(parts) > max(ai, ti) and parts[ti].isdigit():
-                    taxid_sidecar[strip_version(parts[ai])] = int(parts[ti])
-                    n_from_meta += 1
+    # Deposit years come from the `created` column every archive metadata table carries.
+    # `updated` is the later date and is not what a drift axis means; report.py windows
+    # on the same `created` field. A pre-taxid archive has no taxid column and is skipped
+    # by the reader; the sidecar covers it.
+    years = {acc: int(c[:4]) for acc, c in read_column(args.retrieved, "created").items() if c[:4].isdigit()}
+    from_meta = {acc: int(tx) for acc, tx in read_column(args.retrieved, "taxid").items() if tx.isdigit()}
+    taxid_sidecar.update(from_meta)
+    n_from_meta = len(from_meta)
     print(f"{n_from_meta} taxids and {len(years)} deposit years from archive metadata", file=sys.stderr)
 
     metadata = {}

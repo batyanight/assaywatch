@@ -23,6 +23,10 @@ citation:
   doi_verified: true
   reference: Sánchez-Seco MP et al. 2001. J Virol Methods 95:153-161 (Alpha1/Alpha2 nsP4 nested PCR)
   oligos_designed_here: true
+  claim: Alphaviruses, nsP4 gene, as the first round of a nested pair.
+  description: Nested conventional RT-PCR with degenerate, inosine-containing primers in the nsP4 gene, followed by 
+    sequencing. Designed as a genus-wide screen that can also catch alphaviruses not yet described. ; round 1 (outer 
+    pair, Alpha1+/Alpha1-).
 conditions:
   annealing_c: 52
   cycles: 40
@@ -39,12 +43,12 @@ source:
   nested_family: Alphavirus_nsP4_Sanchez-Seco_2001
   notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0166-0934_01_00306-8.pdf). Alpha1+ and
     Alpha1- are the outer (round 1) primers of the nested RT-PCR described by Sánchez-Seco et al. 2001. Round 2 (Alpha2+/Alpha2-)
-    is already in the registry as Alphavirus_nsP4_Sanchez-Seco_2001_round2. Inosine (I) in the published sequences
-    has been replaced with N in the seq field per registry convention; the original notation is preserved in seq_as_written.
-    AMPLICON_BP (superseded, see below): the paper gives genome positions (Alpha1+ 6137-6172, Alpha1- 6509-6485 on Sindbis)
-    suggesting ~373 bp, but this needs measurement against GenBank records. AMPLICON MEASURED 2026-10-21: 481 bp, the modal
-    product on 8,127 of 8,281 detected-or-reduced records in the 2026-10-20 calls (was not set). the PREDICT protocol book
-    (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-019, prints 481 bp; the measurement is what is entered.'
+    is already in the registry as Alphavirus_nsP4_Sanchez-Seco_2001_round2. Inosine (I) in the published sequences has been
+    replaced with N in the seq field per registry convention; the original notation is preserved in seq_as_written. AMPLICON_BP
+    (superseded, see below): the paper gives genome positions (Alpha1+ 6137-6172, Alpha1- 6509-6485 on Sindbis) suggesting
+    ~373 bp, but this needs measurement against GenBank records. AMPLICON MEASURED 2026-10-21: 481 bp, the modal product on
+    8,127 of 8,281 detected-or-reduced records in the 2026-10-20 calls (was not set). the PREDICT protocol book (Anthony et
+    al. 2015 supplement, Nat Commun 6:8147), P-019, prints 481 bp; the measurement is what is entered.'
 needs_review:
 - flag: oligos_modified
   note: inosine in the source is entered as N; seq_as_written keeps the I

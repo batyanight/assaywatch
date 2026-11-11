@@ -1,6 +1,5 @@
 id: Bovine_papular_stomatitis_virus_RPO147_Zhao_2013
-name: Bovine papular stomatitis virus — RPO147 (RNA polymerase subunit) (Zhao 
-  2013)
+name: Bovine papular stomatitis virus — RPO147 (RNA polymerase subunit) (Zhao 2013)
 target:
   taxid: 129727
   gene: RPO147 (RNA polymerase subunit)
@@ -21,6 +20,8 @@ oligos:
   probe:
     name: BPSV_J6R probe
     seq: ATCATCGCGCGCTGGATCAC
+    reporter: FAM
+    quencher: BHQ1
   alternates: []
 amplicon_bp: 91
 citation:
@@ -31,6 +32,7 @@ citation:
     virus and bovine papular stomatitis virus. J Virol Methods 194:229-234
   doi_verified: true
   oligos_designed_here: true
+  claim: Bovine papular stomatitis virus, RNA polymerase subunit RPO147 gene, species-specific.
 conditions:
   annealing_c: 60
   cycles: 45
@@ -92,7 +94,8 @@ source:
     probe plays a major role for the differentiation ... the primers used in these assays may not be species-specific but
     are genus-specific". The `cross_reactive` flag STAYS, because a product forming in 82 of 85 orf virus records is a real
     property of this assay and would be a band on a gel; what changes is that it is no longer a disagreement with the publication.
-    See docs/journal/2026-10-28-bpsv-exclusivity-reconciled.md.'
+    See docs/journal/2026-10-28-bpsv-exclusivity-reconciled.md. CORRECTED 2026-11-10: all probes are FAM at 5'' and BHQ1 at
+    3'' (Table 1 footnote and Methods), so the chemistry-detail flag comes off.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: the paper states no product size; 91 bp measured in all 78 genomes that give a product
@@ -102,5 +105,3 @@ needs_review:
   note: the amplicon forms in 82 of 85 evaluable orf virus records (2026-10-27 run), which a gel would show as a band; 
     the assay is predicted to DETECT none of them, because a mismatched hydrolysis probe is not a detection. Not a 
     disagreement with Zhao's panel -- see notes_curator
-- flag: chemistry_detail_missing
-  note: Table 1 names no reporter or quencher for the probe

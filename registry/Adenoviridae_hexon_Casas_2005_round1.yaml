@@ -20,6 +20,9 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Casas I et al. 2005. J Clin Microbiol 43:6176-6182 (ADHEX primers)
+  claim: Human adenoviruses, hexon gene, as the first-round PCR.
+  description: Conventional PCR with two degenerate primers (ADHEX1F, ADHEX1R) on the hexon gene, giving a 475 bp 
+    product that is sequenced for species and serotype.
 conditions:
   mg_mm: 4.0
   cycles: 30
@@ -40,4 +43,5 @@ source:
     Round 1 fires on Mastadenovirus caesari (3241411), whose records are Human mastadenovirus C - a species Casas explicitly
     typed, so IN range even under the narrowest reading, and scoping to human adenovirus would not remove that override. Round
     2 fires on Aviadenovirus hepatitidis (3426530), fowl adenovirus, at 0 of 49 - out of Casas''s range and inside PREDICT''s.
-    So the composite question decides one override and not the other.'
+    So the composite question decides one override and not the other. CORRECTED 2026-11-06: validated on 157 sequences: 47
+    prototype HAdV strains as references, plus 71 clinical samples and isolates, resolving species A to F.'

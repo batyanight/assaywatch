@@ -15,7 +15,7 @@ oligos:
   reverse:
     name: PVO3
     seq: CCADMCBTTTTGYCKYARRCCTTC
-amplicon_bp: 460
+amplicon_bp: 462
 citation:
   claim: "Animal rhabdoviruses broadly, for phylogeny rather than diagnosis."
   doi: 10.1099/vir.0.81128-0
@@ -53,5 +53,13 @@ source:
     rounds keep the same status and the same firing lineage (round1 declining, pooled 11.6 -> 11.7 percent; round2 declining,
     25.1 -> 26.8 percent). The denominator now means what it says; it does not change a call. Rabies is NOT out of scope and
     that finding stands: PVO3''s coordinates are given on the Rabies virus PV genome, RV PV and SAB-B19 are two of the ten
-    design sequences, and RABV 9911/PV/SADB19 were amplified in the paper (AY854660-662).'
+    design sequences, and RABV 9911/PV/SADB19 were amplified in the paper (AY854660-662). SIZE READ AND SETTLED 2026-11-10
+    (ROADMAP, "Sizes to read, from the verifier''s table"). One rule over all eleven entries on that list: amplicon_bp takes
+    the measured modal product length where one mode holds a clear majority, and the measured median where none does, with
+    amplicon_multimodal in the second case; the flag says whether the CITED paper publishes a size (amplicon_disagrees_with_paper)
+    or does not (amplicon_measured_not_published); and a value is only moved where the new +/-25% window still admits every
+    product measured, so a correction cannot silently delete calls. Measured on the 2026-11-01 calls. Bourhy round 1: 460
+    -> 462, measured in 5,044 of 7,027 products. NO disagreement flag, because 462 is what the paper itself prints: PVO3/PVO4
+    "amplified a 456-462 nucleotide region, conforming to the expected size". The stored 460 was the single figure protocol
+    P-016 carries. New window 346-577 bp admits every product measured (373-564).'
 needs_review: null

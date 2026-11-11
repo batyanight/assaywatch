@@ -15,7 +15,7 @@ oligos:
     name: GRAB2R
     seq: TCYTGHCCNGGCTCRAACAT
     seq_as_written: TCYTGHCCIGGCTCRAACAT
-amplicon_bp: 259
+amplicon_bp: 260
 citation:
   doi: 10.1016/j.jviromet.2006.03.008
   design_year: 2006
@@ -23,6 +23,7 @@ citation:
   reference: Vazquez-Moron, S., Avellon, A. & Echevarria, J. E. RT-PCR for detection of all seven genotypes of 
     Lyssavirus genus. Journal of virological methods 135, 281-287, doi:Doi 10.1016/J.Jviromet.2006.03.008 (2006).
   doi_verified: true
+  claim: Lyssaviruses, all genotypes, nucleoprotein gene, nested second round.
 conditions:
   annealing_c: 53
   cycles: 30
@@ -40,5 +41,5 @@ source:
   nested_parent: Lyssavirus_N_Vazquez-Moron_2006_round1
   notes_curator: 'PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that
     protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel:
-    Vazquez-Moron, S. et al (2006).'
+    Vazquez-Moron, S. et al (2006). CORRECTED 2026-11-10: amplicon_bp 259 -> 260, the mode, as the paper says.'
 needs_review: null

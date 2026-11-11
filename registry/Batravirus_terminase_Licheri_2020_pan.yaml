@@ -1,11 +1,15 @@
 id: Batravirus_terminase_Licheri_2020_pan
 name: Batravirus — terminase (Licheri 2020, pan)
 target:
-  taxid: 3044671
+  taxid: 548681
   gene: terminase
   genome_type: dsDNA
   taxon_name: Batravirus (formerly Batrachovirus)
-  query: terminase[All Fields] OR "complete genome"[Title]
+  query: (txid3044671[Organism:exp] OR txid3467605[Organism:exp]) AND (terminase[All Fields] OR "complete 
+    genome"[Title])
+  scope_taxids:
+  - 3044671
+  - 3467605
 chemistry: conventional
 oligos:
   forward:
@@ -65,5 +69,12 @@ source:
     2 detect and 2 reduced. That matches the paper''s ordering: LOD 10^3 copies for RaHV-1, RaHV-3 and BfHV-1 and 10^4 for
     RaHV-2, i.e. it amplifies all four but is less sensitive than the European pair on RaHV-3 and BfHV-1. The scope here is
     the whole genus, which is what the paper designed it for. Only four batrachovirus genomes exist in GenBank, so ''all known
-    batrachoviruses'' is four sequences; the screen is a mismatch count against those four, not a coverage estimate.'
-needs_review: null
+    batrachoviruses'' is four sequences; the screen is a mismatch count against those four, not a coverage estimate. SCOPE
+    BROADENED 2026-11-06, Ranid herpesvirus 5 (3467605): the paper claims all known batrachoviruses and possibly undiscovered
+    ones, and the complete genome PV243667 (221 kb, deposited 2025) carries both primer sites at one locus, facing each other,
+    for the expected 200 bp product (reverse 2 mismatches, forward 4, each nearest the 3'' end at 2 nt). NCBI files it in
+    unclassified Herpesvirales, outside 3044671, so retrieval moves to the order (548681) and the query and scope name both
+    taxa. The query returns 9 records where it returned 8.'
+needs_review:
+- flag: scope_wider_than_paper_tested
+  note: Ranid herpesvirus 5 has no site tested by the paper; its claim reaches viruses yet to be discovered

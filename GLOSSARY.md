@@ -164,6 +164,8 @@ word for a concept.
 
 ## Pipeline and runs
 
+**RefSeq twin** — a non-RefSeq record whose whole sequence equals a curated RefSeq record's (`NC_`, `AC_`, `NG_`, `NR_`, `NW_`). The RefSeq row is dropped when its twin is in the same assay's calls, so a copy doesn't count as a deposit (`refseq_twins.py`). Identical sequence doesn't strictly prove a copy. `NZ_` needs no map, because its accession names its source.
+
 **retrieve** — fetch nucleotide records for a retrieval group from NCBI and archive them, incrementally (`retrieve.py`).
 
 **retrieval group** — a (taxid, `target.query`) pair; assays sharing both share one archive, on disk at `data/retrieved/<taxid>/<slug>/` (`retrieve.py`, `groups.py`).
@@ -183,6 +185,12 @@ word for a concept.
 **mix part / within part** — the two numbers Kitagawa's decomposition splits a change in detected share into: how much the lineage mix moved, and how much detection moved within the lineages (`composition.split_change`). They add to the change exactly. A lineage deposited in only one of the two periods has no within part, so its whole effect is mix.
 
 **new since design** — of a species under an assay's target taxon: first deposited in this assay's archive after the year its paper designed it (`composition.species_years`), so the designers could not have had it. Unset where the entry carries no `citation.design_year`.
+
+**spike** — a deposit year at least `composition.spike_min_fold` times an assay's own median year, with what its records show: the largest batch of consecutive accessions, title tokens, collection years, and the batch's first GenBank REFERENCE (`composition.lineage_narrative`). A year with none of these gets no sentence, and the page words all of it "may".
+
+**page note** — `source.page_note`: the curator's free text shown near the status on an assay page, labelled as a note. Moves no status.
+
+**failure reason** — the calls table's `reason` on a `fail` row, a failure with no position for the mismatch chart to draw; counted one per record (`site.failure_reasons`). A blank `reason` is a penalty over budget, which the chart does draw.
 
 **diverged stratum** — in the composition panel, the records whose primers both landed past the mismatch budget: they have no amplicon and so no composition window, and are drawn and counted as a lineage of their own rather than placed by guesswork (`composition.DIVERGED`). Under `drift.count_diverged_as_fail` they are in the denominator, which is why the panel must show them.
 

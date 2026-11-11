@@ -90,6 +90,7 @@ from assaywatch.accession import strip_version
 # that lineage.py, which sits below this module, can use the same ones.
 from assaywatch.hierarchical import HierarchicalFit
 from assaywatch.interval import newcombe_difference, posterior_below, wilson_interval
+from assaywatch.settings import Drift as _DriftModel
 from assaywatch.trend import Trend, cochran_armitage
 
 if TYPE_CHECKING:
@@ -257,9 +258,13 @@ class AssayDrift:
     detected_calls: tuple[str, ...] = DETECTED_CALLS
     years: dict[int, YearStats] = field(default_factory=dict)
     recent_from: int | str = 0  # a year, or an ISO date when records are dated to the day
-    threshold: float = 0.9
-    min_records: int = 20
-    min_decline: float = 0.0  # smallest fall from baseline that counts as declining
+    # Defaults that mirror a config key read the model, so a caller that builds this
+    # without `from_config` gets the shipped value and not a stale copy: `min_records`
+    # said 20 and `min_decline` 0.0 until 2026-11-09, against 15 and 0.05 in config.yaml
+    # (tests/test_settings.py pins every such mirror).
+    threshold: float = _DriftModel().detect_fraction_threshold
+    min_records: int = _DriftModel().min_records_for_drift
+    min_decline: float = _DriftModel().min_decline  # smallest fall from baseline that counts as declining
     # `declining` additionally requires the baseline to have been at or above
     # `threshold`: a fall from a baseline that never cleared it is not drift.
     require_working_baseline: bool = True

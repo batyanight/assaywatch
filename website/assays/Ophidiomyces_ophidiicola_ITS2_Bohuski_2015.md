@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Bohuski E et al. 2015. BMC Vet Res 11:95
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Ophidiomyces_ophidiicola_ITS2_Bohuski_2015</span></p>
+<p class="aw-assay-line"><span class="aw-id">Ophidiomyces_ophidiicola_ITS2_Bohuski_2015</span></p>
 
 **Ophidiomyces ophidiicola — ITS2 (Bohuski 2015)**
 
@@ -15,11 +15,22 @@
 |---|---|
 | Target | Ophidiomyces ophidiicola (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1387563" title="Ophidiomyces ophidiicola">taxid 1387563</a>) |
 | Gene | ITS2 |
-| Chemistry | mgb |
+| Chemistry | hydrolysis_probe |
 | Amplicon | 82 bp |
 | Registry status | active |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | Oo-RT-ITS-F | `GAGTGTATGGGAATCTGTTTC` | 21 nt |
+| reverse | Oo-RT-ITS-R | `GGTCAAACCGGAAAGAATG` | 19 nt |
+| probe | Oo-RT-ITS-PROBE | `TCTCGCTCGAAGACCCGATCG` | 21 nt |
 
 ## Mismatch distribution
+
+<svg class="aw-track" viewBox="0 0 462 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="99" y="52">forward</text><text class="aw-track-name" x="99" y="64">Oo-RT-ITS-F</text><rect class="aw-zone" x="369.2" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="44.0" x2="444.2" y2="44.0"/><text class="aw-base" x="136.7" y="57">G</text><text class="aw-base" x="151.7" y="57">A</text><text class="aw-base" x="166.7" y="57">G</text><text class="aw-base" x="181.7" y="57">T</text><text class="aw-base" x="196.7" y="57">G</text><text class="aw-base" x="211.7" y="57">T</text><text class="aw-base" x="226.7" y="57">A</text><text class="aw-base" x="241.7" y="57">T</text><text class="aw-base" x="256.7" y="57">G</text><text class="aw-base" x="271.7" y="57">G</text><text class="aw-base" x="286.7" y="57">G</text><text class="aw-base" x="301.7" y="57">A</text><text class="aw-base" x="316.7" y="57">A</text><text class="aw-base" x="331.7" y="57">T</text><text class="aw-base" x="346.7" y="57">C</text><text class="aw-base" x="361.7" y="57">T</text><text class="aw-base" x="376.7" y="57">G</text><text class="aw-base" x="391.7" y="57">T</text><text class="aw-base" x="406.7" y="57">T</text><text class="aw-base" x="421.7" y="57">T</text><text class="aw-base" x="436.7" y="57">C</text><text class="aw-tick" x="436.7" y="71">1</text><text class="aw-tick" x="376.7" y="71">5</text><text class="aw-tick" x="301.7" y="71">10</text><text class="aw-tick" x="226.7" y="71">15</text><text class="aw-tick" x="151.7" y="71">20</text><text class="aw-tick" x="136.7" y="71">21</text><text class="aw-end" x="125" y="57">5′</text><text class="aw-end aw-end-3" x="448" y="57">3′</text><text class="aw-track-label" x="99" y="134">reverse</text><text class="aw-track-name" x="99" y="146">Oo-RT-ITS-R</text><rect class="aw-zone" x="339.2" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="126.0" x2="414.2" y2="126.0"/><text class="aw-base" x="136.7" y="139">G</text><text class="aw-base" x="151.7" y="139">G</text><text class="aw-base" x="166.7" y="139">T</text><text class="aw-base" x="181.7" y="139">C</text><text class="aw-base" x="196.7" y="139">A</text><text class="aw-base" x="211.7" y="139">A</text><text class="aw-base" x="226.7" y="139">A</text><text class="aw-base" x="241.7" y="139">C</text><text class="aw-base" x="256.7" y="139">C</text><text class="aw-base" x="271.7" y="139">G</text><text class="aw-base" x="286.7" y="139">G</text><text class="aw-base" x="301.7" y="139">A</text><text class="aw-base" x="316.7" y="139">A</text><text class="aw-base" x="331.7" y="139">A</text><text class="aw-base" x="346.7" y="139">G</text><text class="aw-base" x="361.7" y="139">A</text><text class="aw-base" x="376.7" y="139">A</text><text class="aw-base" x="391.7" y="139">T</text><text class="aw-base" x="406.7" y="139">G</text><text class="aw-tick" x="406.7" y="153">1</text><text class="aw-tick" x="346.7" y="153">5</text><text class="aw-tick" x="271.7" y="153">10</text><text class="aw-tick" x="196.7" y="153">15</text><text class="aw-tick" x="136.7" y="153">19</text><text class="aw-end" x="125" y="139">5′</text><text class="aw-end aw-end-3" x="418" y="139">3′</text><text class="aw-track-label" x="99" y="216">probe</text><text class="aw-track-name" x="99" y="228">Oo-RT-ITS-PROBE</text><rect class="aw-zone" x="234.2" y="174.0" width="105.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="208.0" x2="444.2" y2="208.0"/><text class="aw-base" x="136.7" y="221">T</text><text class="aw-base" x="151.7" y="221">C</text><text class="aw-base" x="166.7" y="221">T</text><text class="aw-base" x="181.7" y="221">C</text><text class="aw-base" x="196.7" y="221">G</text><text class="aw-base" x="211.7" y="221">C</text><text class="aw-base" x="226.7" y="221">T</text><text class="aw-base" x="241.7" y="221">C</text><text class="aw-base" x="256.7" y="221">G</text><text class="aw-base" x="271.7" y="221">A</text><text class="aw-base" x="286.7" y="221">A</text><text class="aw-base" x="301.7" y="221">G</text><text class="aw-base" x="316.7" y="221">A</text><text class="aw-base" x="331.7" y="221">C</text><text class="aw-base" x="346.7" y="221">C</text><text class="aw-base" x="361.7" y="221">C</text><text class="aw-base" x="376.7" y="221">G</text><text class="aw-base" x="391.7" y="221">A</text><text class="aw-base" x="406.7" y="221">T</text><text class="aw-base" x="421.7" y="221">C</text><text class="aw-base" x="436.7" y="221">G</text><text class="aw-tick" x="436.7" y="235">1</text><text class="aw-tick" x="376.7" y="235">5</text><text class="aw-tick" x="301.7" y="235">10</text><text class="aw-tick" x="226.7" y="235">15</text><text class="aw-tick" x="151.7" y="235">20</text><text class="aw-tick" x="136.7" y="235">21</text><text class="aw-end" x="125" y="221">5′</text><text class="aw-end aw-end-3" x="448" y="221">3′</text></svg>
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
 penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
@@ -36,8 +47,43 @@ as the fall in detection between records that differ there and records that do n
 Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
 bar is a position that matters.
 
-<svg class="aw-track" viewBox="0 0 462 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="99" y="52">forward</text><text class="aw-track-name" x="99" y="64">Oo-RT-ITS-F</text><rect class="aw-zone" x="369.2" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="44.0" x2="444.2" y2="44.0"/><text class="aw-base" x="136.7" y="57">G</text><text class="aw-base" x="151.7" y="57">A</text><text class="aw-base" x="166.7" y="57">G</text><text class="aw-base" x="181.7" y="57">T</text><text class="aw-base" x="196.7" y="57">G</text><text class="aw-base" x="211.7" y="57">T</text><text class="aw-base" x="226.7" y="57">A</text><text class="aw-base" x="241.7" y="57">T</text><text class="aw-base" x="256.7" y="57">G</text><text class="aw-base" x="271.7" y="57">G</text><text class="aw-base" x="286.7" y="57">G</text><text class="aw-base" x="301.7" y="57">A</text><text class="aw-base" x="316.7" y="57">A</text><text class="aw-base" x="331.7" y="57">T</text><text class="aw-base" x="346.7" y="57">C</text><text class="aw-base" x="361.7" y="57">T</text><text class="aw-base" x="376.7" y="57">G</text><text class="aw-base" x="391.7" y="57">T</text><text class="aw-base" x="406.7" y="57">T</text><text class="aw-base" x="421.7" y="57">T</text><text class="aw-base" x="436.7" y="57">C</text><text class="aw-tick" x="436.7" y="71">1</text><text class="aw-tick" x="376.7" y="71">5</text><text class="aw-tick" x="301.7" y="71">10</text><text class="aw-tick" x="226.7" y="71">15</text><text class="aw-tick" x="151.7" y="71">20</text><text class="aw-tick" x="136.7" y="71">21</text><text class="aw-end" x="125" y="57">5′</text><text class="aw-end aw-end-3" x="448" y="57">3′</text><text class="aw-track-label" x="99" y="134">reverse</text><text class="aw-track-name" x="99" y="146">Oo-RT-ITS-R</text><rect class="aw-zone" x="339.2" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="126.0" x2="414.2" y2="126.0"/><text class="aw-base" x="136.7" y="139">G</text><text class="aw-base" x="151.7" y="139">G</text><text class="aw-base" x="166.7" y="139">T</text><text class="aw-base" x="181.7" y="139">C</text><text class="aw-base" x="196.7" y="139">A</text><text class="aw-base" x="211.7" y="139">A</text><text class="aw-base" x="226.7" y="139">A</text><text class="aw-base" x="241.7" y="139">C</text><text class="aw-base" x="256.7" y="139">C</text><text class="aw-base" x="271.7" y="139">G</text><text class="aw-base" x="286.7" y="139">G</text><text class="aw-base" x="301.7" y="139">A</text><text class="aw-base" x="316.7" y="139">A</text><text class="aw-base" x="331.7" y="139">A</text><text class="aw-base" x="346.7" y="139">G</text><text class="aw-base" x="361.7" y="139">A</text><text class="aw-base" x="376.7" y="139">A</text><text class="aw-base" x="391.7" y="139">T</text><text class="aw-base" x="406.7" y="139">G</text><text class="aw-tick" x="406.7" y="153">1</text><text class="aw-tick" x="346.7" y="153">5</text><text class="aw-tick" x="271.7" y="153">10</text><text class="aw-tick" x="196.7" y="153">15</text><text class="aw-tick" x="136.7" y="153">19</text><text class="aw-end" x="125" y="139">5′</text><text class="aw-end aw-end-3" x="418" y="139">3′</text><text class="aw-track-label" x="99" y="216">probe</text><text class="aw-track-name" x="99" y="228">Oo-RT-ITS-PROBE</text><rect class="aw-zone" x="234.2" y="174.0" width="105.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="208.0" x2="444.2" y2="208.0"/><text class="aw-base" x="136.7" y="221">T</text><text class="aw-base" x="151.7" y="221">C</text><text class="aw-base" x="166.7" y="221">T</text><text class="aw-base" x="181.7" y="221">C</text><text class="aw-base" x="196.7" y="221">G</text><text class="aw-base" x="211.7" y="221">C</text><text class="aw-base" x="226.7" y="221">T</text><text class="aw-base" x="241.7" y="221">C</text><text class="aw-base" x="256.7" y="221">G</text><text class="aw-base" x="271.7" y="221">A</text><text class="aw-base" x="286.7" y="221">A</text><text class="aw-base" x="301.7" y="221">G</text><text class="aw-base" x="316.7" y="221">A</text><text class="aw-base" x="331.7" y="221">C</text><text class="aw-base" x="346.7" y="221">C</text><text class="aw-base" x="361.7" y="221">C</text><text class="aw-base" x="376.7" y="221">G</text><text class="aw-base" x="391.7" y="221">A</text><text class="aw-base" x="406.7" y="221">T</text><text class="aw-base" x="421.7" y="221">C</text><text class="aw-base" x="436.7" y="221">G</text><text class="aw-tick" x="436.7" y="235">1</text><text class="aw-tick" x="376.7" y="235">5</text><text class="aw-tick" x="301.7" y="235">10</text><text class="aw-tick" x="226.7" y="235">15</text><text class="aw-tick" x="151.7" y="235">20</text><text class="aw-tick" x="136.7" y="235">21</text><text class="aw-end" x="125" y="221">5′</text><text class="aw-end aw-end-3" x="448" y="221">3′</text></svg>
 <p class="aw-empty">No position carried a mismatch in enough records to report. 3 of the 25 records in the recent and baseline windows were not detected. Their mismatches are either spread too thinly to report at any one position, or the record has no site for an oligo (for example no probe site inside the amplicon), which leaves no position to draw.</p>
+
+## Verdict
+
+**insufficient data** — too few evaluable records to support an estimate; reported, never flagged
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (60 months, from Nov 2021) | 5 | 8 | 62.5% | 30.6% – 86.3% |
+| baseline (everything earlier) | 17 | 17 | 100.0% | 81.6% – 100.0% |
+
+Change from baseline, Newcombe interval: **-69.4% to -7.4%**. Threshold: **90.0%**.
+
+*8 evaluable records since Nov 2021, below the minimum of 15; the detected share is 62% (31%-86%), too wide to act on (window widened to 60 months to reach 15 evaluable records)*
+
+Trend across deposit years: by record falling (p = 0.00964, 8 years); by footprint falling (p = 0.105). Reported for context; it is not an input to the verdict.
+
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+
+
+## Scope
+
+**Meant to detect:** Ophidiomyces ophidiicola, the snake fungal disease fungus, ITS2 region.  
+**Scored against:** every record retrieved.  
+**Retrieved from:** Ophidiomyces ophidiicola (taxid 1387563), limited by a query on the title or gene.
+
+This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
+
+Retrieval query:
+
+```
+ITS[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR IGS[Title] OR "intergenic spacer"[Title] OR 28S[Title] OR "large subunit"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]
+```
+
+A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
 ## Predicted detection by deposit year
 
@@ -47,6 +93,18 @@ Bigger markers mean more records behind the point, because 100% of three records
 and 100% of three thousand are very different claims.
 
 <svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2008 to 2026, against a 90 percent threshold."><rect class="aw-window" x="522.1" y="12.0" width="183.9" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 191.1,20.2 227.9,20.2 264.7,20.2 522.1,20.2 558.9,20.2 669.2,20.2 706.0,105.3"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-insufficient-data" points="44.0,20.2 191.1,20.2 227.9,20.2 264.7,20.2 522.1,20.2 558.9,20.2 669.2,20.2 706.0,118.4"/><g class="aw-point aw-insufficient-data"><title>2008: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2012: 1 of 1 detected (100.0%)</title><circle cx="191.1" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2013: 10 of 10 detected (100.0%)</title><circle cx="227.9" cy="20.2" r="3.3"/></g><g class="aw-point aw-insufficient-data"><title>2014: 1 of 1 detected (100.0%)</title><circle cx="264.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2021: 4 of 4 detected (100.0%) — recent window</title><circle cx="522.1" cy="20.2" r="2.7"/></g><g class="aw-point aw-insufficient-data"><title>2022: 2 of 2 detected (100.0%) — recent window</title><circle cx="558.9" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2025: 1 of 1 detected (100.0%) — recent window</title><circle cx="669.2" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2026: 2 of 5 detected (40.0%) — recent window</title><circle cx="706.0" cy="118.4" r="2.8"/></g><text class="aw-tick" x="44.0" y="208">2008</text><text class="aw-tick" x="154.3" y="208">2011</text><text class="aw-tick" x="264.7" y="208">2014</text><text class="aw-tick" x="375.0" y="208">2017</text><text class="aw-tick" x="485.3" y="208">2020</text><text class="aw-tick" x="595.7" y="208">2023</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
+
+## Records reaching the statistics
+
+196 records were screened for this assay and **25 (13%)** were evaluable, meaning both primers landed in the right orientation and size range. 171 produced no amplicon at all.
+
+This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
+
+| why a record was not evaluable | records |
+|---|---|
+| `truncated` | 88 |
+| `no_site` | 83 |
 
 ## What was deposited, by lineage
 
@@ -73,67 +131,12 @@ Of the records the target taxon holds, the share its own retrieval query returne
 Between the baseline and the recent window the detected share went
 100.0% to 62.5%, a change of -0.375. Of that, **-0.107 is the mix** of lineages deposited changing (95% CI -0.338 to +0.000) and **-0.268 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | Oo-RT-ITS-F | `GAGTGTATGGGAATCTGTTTC` | 21 nt |
-| reverse | Oo-RT-ITS-R | `GGTCAAACCGGAAAGAATG` | 19 nt |
-| probe | Oo-RT-ITS-PROBE | `TCTCGCTCGAAGACCCGATCG` | 21 nt |
-
-## Verdict
-
-**insufficient data** — too few evaluable records to support an estimate; reported, never flagged
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (60 months, from Nov 2021) | 5 | 8 | 62.5% | 30.6% – 86.3% |
-| baseline (everything earlier) | 17 | 17 | 100.0% | 81.6% – 100.0% |
-
-Change from baseline, Newcombe interval: **-69.4% to -7.4%**. Threshold: **90.0%**.
-
-*8 evaluable records since Nov 2021, below the minimum of 15; the detected share is 62% (31%-86%), too wide to act on (window widened to 60 months to reach 15 evaluable records)*
-
-Trend across deposit years: by record falling (p = 0.00964, 8 years); by footprint falling (p = 0.105). Reported for context; it is not an input to the verdict.
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-
-## Scope
-
-**Scored against:** every record retrieved.  
-**Retrieved from:** Ophidiomyces ophidiicola (taxid 1387563), limited by a query on the title or gene.
-
-This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
-
-Retrieval query:
-
-```
-ITS[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR IGS[Title] OR "intergenic spacer"[Title] OR 28S[Title] OR "large subunit"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]
-```
-
-A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
-
-
-## Records reaching the statistics
-
-196 records were screened for this assay and **25 (13%)** were evaluable, meaning both primers landed in the right orientation and size range. 171 produced no amplicon at all.
-
-This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
-
-| why a record was not evaluable | records |
-|---|---|
-| `truncated` | 88 |
-| `no_site` | 83 |
-
 
 ## Curation record
 
 A SECOND PAPER PRINTS THIS ENTRY'S REVERSE PRIMER, found 2026-10-28: Allender et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-28</b> A SECOND PAPER PRINTS THIS ENTRY'S REVERSE PRIMER, found 2026-10-28: Allender et al. 2015 (J Vet Diagn Invest, doi:10.1177/1040638715573983, held in papers/) prints Oo-RT-ITS-R verbatim. Both papers are from 2015 and the citation is unchanged -- Bohuski prints the whole assay and is where this entry was read from -- but a second independent printing of a stored sequence is worth recording, because it is the check a transcription error cannot survive. Allender's own assay targets ITS1 rather than ITS2, so it is a different assay sharing a primer and not a duplicate of this entry.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-28</b> A SECOND PAPER PRINTS THIS ENTRY'S REVERSE PRIMER, found 2026-10-28: Allender et al. 2015 (J Vet Diagn Invest, doi:10.1177/1040638715573983, held in papers/) prints Oo-RT-ITS-R verbatim. Both papers are from 2015 and the citation is unchanged -- Bohuski prints the whole assay and is where this entry was read from -- but a second independent printing of a stored sequence is worth recording, because it is the check a transcription error cannot survive. Allender's own assay targets ITS1 rather than ITS2, so it is a different assay sharing a primer and not a duplicate of this entry. CORRECTED 2026-11-10: the probe is printed as (FAM)...(BHQ-1) with no MGB, so the chemistry is hydrolysis_probe and the quencher BHQ1.</p></details>
 
 ## Corrections
 
@@ -142,7 +145,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Ophidiomyces_ophidiicola_ITS2_Bohuski_2015%3A%20&body=Entry%3A%20Ophidiomyces_ophidiicola_ITS2_Bohuski_2015%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Ophidiomyces_ophidiicola_ITS2_Bohuski_2015/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Ophidiomyces_ophidiicola_ITS2_Bohuski_2015%3A%20&body=Entry%3A%20Ophidiomyces_ophidiicola_ITS2_Bohuski_2015%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Ophidiomyces_ophidiicola_ITS2_Bohuski_2015/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Ophidiomyces_ophidiicola_ITS2_Bohuski_2015.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Ophidiomyces_ophidiicola_ITS2_Bohuski_2015.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

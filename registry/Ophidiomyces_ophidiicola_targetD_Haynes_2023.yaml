@@ -30,6 +30,7 @@ citation:
     2023).
   doi_verified: true
   oligos_designed_here: true
+  claim: Ophidiomyces ophidiicola, genomic segment D (one of eleven lineage-typing targets).
 use_context:
 - wildlife
 - veterinary
@@ -73,7 +74,10 @@ source:
     lineages Table 1 says carry it and none in clade III. SPECIFICITY IS NOT TESTED: GenBank holds no Paranannizziopsis or
     other close-relative nuclear genome (the only Paranannizziopsis records are short; none is 100 kb or more), so cross-reactivity
     with relatives could not be measured here. SCOPE: needs_review is set because this is a panel member used as a species
-    marker on this curator''s reading, and a maintainer may prefer to drop the file.'
+    marker on this curator''s reading, and a maintainer may prefer to drop the file. CORRECTED 2026-11-10: the paper does
+    not offer D as a detection assay, but its Table 3 (pp6-8) runs the whole panel, D included, on five non-Ophidiomyces fungi
+    (Paranannizziopsis australasiensis among them) with no target amplification, so specificity is measured there; the thin_evidence
+    flag (too few records) did not apply to 81 evaluable records.'
 needs_review:
 - flag: retrieval_scope_incomplete
   note: the target is absent from the IIa assembly and present in SRA per the paper
@@ -81,5 +85,3 @@ needs_review:
   note: a panel member used as a species marker, on the curator's reading of the source's Table 1
 - flag: chemistry_detail_missing
   note: the source states neither reporter nor quencher
-- flag: thin_evidence
-  note: 'specificity is untestable: no relative genomes in GenBank'

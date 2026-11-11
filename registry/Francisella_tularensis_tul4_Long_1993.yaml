@@ -6,7 +6,7 @@ target:
   genome_type: dsDNA
   taxon_name: Francisella tularensis
   query: lpnA[Gene] OR tul4[Gene] OR "17 kDa"[Title] OR "complete genome"[Title]
-chemistry: conventional
+chemistry: hybridization_probe
 oligos:
   forward:
     name: Ff393
@@ -14,7 +14,9 @@ oligos:
   reverse:
     name: Ff642
     seq: GCATCATCAGAGCCACCTAA
-  probe: null
+  probe:
+    name: FT443
+    seq: TCGTAATGTTAGCTGTATCATCATT
   alternates: []
 amplicon_bp: 250
 citation:
@@ -35,9 +37,13 @@ status: draft
 source:
   predict_protocol: null
   nested_round: null
-  notes_curator: 'Added 2026-10-05 from the paper''s own text, read out of the PDF in papers/. Candidate surfaced by the journal
-    sweep in docs/journal/2026-10-04-literature-audit.md; sequences extracted with scripts/extract_candidate_oligos.py and
-    then checked against real GenBank records before the entry was trusted. Tularemia was absent from the registry. VERIFIED
+  notes_curator: 'CORRECTED 2026-11-05: probe FT443 is now stored, and the statement below that it is deliberately omitted
+    no longer holds. It is read by eye from the page, matches the text layer, and is exact in all 1,021 products at product
+    position 50, gene position 443. The paper labels it with digoxigenin and reads the product by dot blot, so chemistry is
+    hybridization_probe. It is scored with penalties set for hydrolysis probes, an assumption, since no blot tolerance is
+    measured here. Added 2026-10-05 from the paper''s own text, read out of the PDF in papers/. Candidate surfaced by the
+    journal sweep in docs/journal/2026-10-04-literature-audit.md; sequences extracted with scripts/extract_candidate_oligos.py
+    and then checked against real GenBank records before the entry was trusted. Tularemia was absent from the registry. VERIFIED
     on a tul4-containing contig (NZ_RJDA01000027.1): both primers match with ZERO mismatches and span a 250 bp product. amplicon_bp
     is measured; the paper states no size. ORIENTATION, which is worth recording because it looked wrong at first. On that
     contig Ff642 reads on the plus strand and Ff393 only as its reverse complement, i.e. the opposite of the assignment here.
@@ -47,7 +53,9 @@ source:
     al. detect the product by hybridisation with an oligonucleotide probe, FT443, rather than by fluorescence, so this is
     a conventional PCR and a probe is not required. More importantly the probe sequence as read from this 1993 scan carries
     8 mismatches against the same contig where both primers match perfectly, which means the OCR mangled it. Entering a sequence
-    known to be corrupt would be worse than leaving it out. A clean copy of Table/text would let it be added. CORRECTED 2026-11-04: the probe was not mangled. The page prints FT443 as TCGTAATGTTAGCTGTATCATCATT, read by eye and matching the text layer, and it is exact in all 1,021 products at product position 50, which is gene position 443. The 8 mismatches recorded above do not hold up. It goes in with the next screen.'
-needs_review:
-- flag: curation_decision_pending
-  note: Probe FT443 is to be added and screened at the next run; this page shows the primers only.
+    known to be corrupt would be worse than leaving it out. A clean copy of Table/text would let it be added. CORRECTED 2026-11-04:
+    the probe was not mangled. The page prints FT443 as TCGTAATGTTAGCTGTATCATCATT, read by eye and matching the text layer,
+    and it is exact in all 1,021 products at product position 50, which is gene position 443. The 8 mismatches recorded above
+    do not hold up. It goes in with the next screen. CORRECTED 2026-11-10, on next-release and carried into this merge: the
+    paper gives a 250-bp predicted size (p2), equal to the measured mode, so the stored 250 is the paper''s and the measurement''s
+    alike.'

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Ghosh, P. N., Verster, R., Sewell, T. R., O'Hanlon, S. J., Brookes, L. M., Rieux, A., Garner, T. W. J., Weldon, C. & Fisher, M. C. Discriminating lineages of Batrachochytrium dendrobatidis using quantitative PCR. Molecular Ecology Resources 21, 1452-1459 (2021).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE</span></p>
+<p class="aw-assay-line"><span class="aw-id">Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE</span></p>
 
 **Batrachochytrium dendrobatidis — mitochondrial DNA (Ghosh 2021, BdCAPE)**
 
@@ -18,8 +18,19 @@
 | Chemistry | mgb |
 | Amplicon | 64 bp |
 | Registry status | active |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | BdCAPE_Fwd | `CACCAACACCCCACCACTTTAG` | 22 nt |
+| reverse | BdCAPE_Rev | `AAAGTCAATCGGTGATATCGTAGCT` | 25 nt |
+| probe | MGB_BdCAPE | `CCAGGCCTTAATTCA` | 15 nt |
 
 ## Mismatch distribution
+
+<svg class="aw-track" viewBox="0 0 497 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">BdCAPE_Fwd</text><rect class="aw-zone" x="359.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="434.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">C</text><text class="aw-base" x="126.5" y="57">A</text><text class="aw-base" x="141.5" y="57">C</text><text class="aw-base" x="156.5" y="57">C</text><text class="aw-base" x="171.5" y="57">A</text><text class="aw-base" x="186.5" y="57">A</text><text class="aw-base" x="201.5" y="57">C</text><text class="aw-base" x="216.5" y="57">A</text><text class="aw-base" x="231.5" y="57">C</text><text class="aw-base" x="246.5" y="57">C</text><text class="aw-base" x="261.5" y="57">C</text><text class="aw-base" x="276.5" y="57">C</text><text class="aw-base" x="291.5" y="57">A</text><text class="aw-base" x="306.5" y="57">C</text><text class="aw-base" x="321.5" y="57">C</text><text class="aw-base" x="336.5" y="57">A</text><text class="aw-base" x="351.5" y="57">C</text><text class="aw-base" x="366.5" y="57">T</text><text class="aw-base" x="381.5" y="57">T</text><text class="aw-base" x="396.5" y="57">T</text><text class="aw-base" x="411.5" y="57">A</text><text class="aw-base" x="426.5" y="57">G</text><text class="aw-tick" x="426.5" y="71">1</text><text class="aw-tick" x="366.5" y="71">5</text><text class="aw-tick" x="291.5" y="71">10</text><text class="aw-tick" x="216.5" y="71">15</text><text class="aw-tick" x="141.5" y="71">20</text><text class="aw-tick" x="111.5" y="71">22</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="438" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">BdCAPE_Rev</text><rect class="aw-zone" x="404.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="479.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">A</text><text class="aw-base" x="126.5" y="139">A</text><text class="aw-base" x="141.5" y="139">A</text><text class="aw-base" x="156.5" y="139">G</text><text class="aw-base" x="171.5" y="139">T</text><text class="aw-base" x="186.5" y="139">C</text><text class="aw-base" x="201.5" y="139">A</text><text class="aw-base" x="216.5" y="139">A</text><text class="aw-base" x="231.5" y="139">T</text><text class="aw-base" x="246.5" y="139">C</text><text class="aw-base" x="261.5" y="139">G</text><text class="aw-base" x="276.5" y="139">G</text><text class="aw-base" x="291.5" y="139">T</text><text class="aw-base" x="306.5" y="139">G</text><text class="aw-base" x="321.5" y="139">A</text><text class="aw-base" x="336.5" y="139">T</text><text class="aw-base" x="351.5" y="139">A</text><text class="aw-base" x="366.5" y="139">T</text><text class="aw-base" x="381.5" y="139">C</text><text class="aw-base" x="396.5" y="139">G</text><text class="aw-base" x="411.5" y="139">T</text><text class="aw-base" x="426.5" y="139">A</text><text class="aw-base" x="441.5" y="139">G</text><text class="aw-base" x="456.5" y="139">C</text><text class="aw-base" x="471.5" y="139">T</text><text class="aw-tick" x="471.5" y="153">1</text><text class="aw-tick" x="411.5" y="153">5</text><text class="aw-tick" x="336.5" y="153">10</text><text class="aw-tick" x="261.5" y="153">15</text><text class="aw-tick" x="186.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">25</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="483" y="139">3′</text><text class="aw-track-label" x="74" y="216">probe</text><text class="aw-track-name" x="74" y="228">MGB_BdCAPE</text><rect class="aw-zone" x="179.0" y="174.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="208.0" x2="329.0" y2="208.0"/><text class="aw-base" x="111.5" y="221">C</text><text class="aw-base" x="126.5" y="221">C</text><text class="aw-base" x="141.5" y="221">A</text><text class="aw-base" x="156.5" y="221">G</text><text class="aw-base" x="171.5" y="221">G</text><text class="aw-base" x="186.5" y="221">C</text><text class="aw-base" x="201.5" y="221">C</text><text class="aw-base" x="216.5" y="221">T</text><text class="aw-base" x="231.5" y="221">T</text><text class="aw-base" x="246.5" y="221">A</text><text class="aw-base" x="261.5" y="221">A</text><text class="aw-base" x="276.5" y="221">T</text><text class="aw-base" x="291.5" y="221">T</text><text class="aw-base" x="306.5" y="221">C</text><text class="aw-base" x="321.5" y="221">A</text><text class="aw-tick" x="321.5" y="235">1</text><text class="aw-tick" x="261.5" y="235">5</text><text class="aw-tick" x="186.5" y="235">10</text><text class="aw-tick" x="111.5" y="235">15</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="333" y="221">3′</text></svg>
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
 penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
@@ -36,12 +47,51 @@ as the fall in detection between records that differ there and records that do n
 Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
 bar is a position that matters.
 
-<svg class="aw-track" viewBox="0 0 497 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">BdCAPE_Fwd</text><rect class="aw-zone" x="359.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="434.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">C</text><text class="aw-base" x="126.5" y="57">A</text><text class="aw-base" x="141.5" y="57">C</text><text class="aw-base" x="156.5" y="57">C</text><text class="aw-base" x="171.5" y="57">A</text><text class="aw-base" x="186.5" y="57">A</text><text class="aw-base" x="201.5" y="57">C</text><text class="aw-base" x="216.5" y="57">A</text><text class="aw-base" x="231.5" y="57">C</text><text class="aw-base" x="246.5" y="57">C</text><text class="aw-base" x="261.5" y="57">C</text><text class="aw-base" x="276.5" y="57">C</text><text class="aw-base" x="291.5" y="57">A</text><text class="aw-base" x="306.5" y="57">C</text><text class="aw-base" x="321.5" y="57">C</text><text class="aw-base" x="336.5" y="57">A</text><text class="aw-base" x="351.5" y="57">C</text><text class="aw-base" x="366.5" y="57">T</text><text class="aw-base" x="381.5" y="57">T</text><text class="aw-base" x="396.5" y="57">T</text><text class="aw-base" x="411.5" y="57">A</text><text class="aw-base" x="426.5" y="57">G</text><text class="aw-tick" x="426.5" y="71">1</text><text class="aw-tick" x="366.5" y="71">5</text><text class="aw-tick" x="291.5" y="71">10</text><text class="aw-tick" x="216.5" y="71">15</text><text class="aw-tick" x="141.5" y="71">20</text><text class="aw-tick" x="111.5" y="71">22</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="438" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">BdCAPE_Rev</text><rect class="aw-zone" x="404.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="479.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">A</text><text class="aw-base" x="126.5" y="139">A</text><text class="aw-base" x="141.5" y="139">A</text><text class="aw-base" x="156.5" y="139">G</text><text class="aw-base" x="171.5" y="139">T</text><text class="aw-base" x="186.5" y="139">C</text><text class="aw-base" x="201.5" y="139">A</text><text class="aw-base" x="216.5" y="139">A</text><text class="aw-base" x="231.5" y="139">T</text><text class="aw-base" x="246.5" y="139">C</text><text class="aw-base" x="261.5" y="139">G</text><text class="aw-base" x="276.5" y="139">G</text><text class="aw-base" x="291.5" y="139">T</text><text class="aw-base" x="306.5" y="139">G</text><text class="aw-base" x="321.5" y="139">A</text><text class="aw-base" x="336.5" y="139">T</text><text class="aw-base" x="351.5" y="139">A</text><text class="aw-base" x="366.5" y="139">T</text><text class="aw-base" x="381.5" y="139">C</text><text class="aw-base" x="396.5" y="139">G</text><text class="aw-base" x="411.5" y="139">T</text><text class="aw-base" x="426.5" y="139">A</text><text class="aw-base" x="441.5" y="139">G</text><text class="aw-base" x="456.5" y="139">C</text><text class="aw-base" x="471.5" y="139">T</text><text class="aw-tick" x="471.5" y="153">1</text><text class="aw-tick" x="411.5" y="153">5</text><text class="aw-tick" x="336.5" y="153">10</text><text class="aw-tick" x="261.5" y="153">15</text><text class="aw-tick" x="186.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">25</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="483" y="139">3′</text><text class="aw-track-label" x="74" y="216">probe</text><text class="aw-track-name" x="74" y="228">MGB_BdCAPE</text><rect class="aw-zone" x="179.0" y="174.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="208.0" x2="329.0" y2="208.0"/><text class="aw-base" x="111.5" y="221">C</text><text class="aw-base" x="126.5" y="221">C</text><text class="aw-base" x="141.5" y="221">A</text><text class="aw-base" x="156.5" y="221">G</text><text class="aw-base" x="171.5" y="221">G</text><text class="aw-base" x="186.5" y="221">C</text><text class="aw-base" x="201.5" y="221">C</text><text class="aw-base" x="216.5" y="221">T</text><text class="aw-base" x="231.5" y="221">T</text><text class="aw-base" x="246.5" y="221">A</text><text class="aw-base" x="261.5" y="221">A</text><text class="aw-base" x="276.5" y="221">T</text><text class="aw-base" x="291.5" y="221">T</text><text class="aw-base" x="306.5" y="221">C</text><text class="aw-base" x="321.5" y="221">A</text><text class="aw-tick" x="321.5" y="235">1</text><text class="aw-tick" x="261.5" y="235">5</text><text class="aw-tick" x="186.5" y="235">10</text><text class="aw-tick" x="111.5" y="235">15</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="333" y="221">3′</text></svg>
 <p class="aw-empty">No position carried a mismatch in enough records to report. 9 of the 9 records in the recent and baseline windows were not detected. Their mismatches are either spread too thinly to report at any one position, or the record has no site for an oligo (for example no probe site inside the amplicon), which leaves no position to draw.</p>
+
+## Verdict
+
+**insufficient data** — too few evaluable records to support an estimate; reported, never flagged
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (24 months, from Nov 2024) | 0 | 3 | 0.0% | 0.0% – 56.1% |
+| baseline (everything earlier) | 0 | 6 | 0.0% | 0.0% – 39.0% |
+
+Change from baseline, Newcombe interval: **-39.0% to 56.1%**. Threshold: **90.0%**.
+
+*3 evaluable records since Nov 2024, below the minimum of 15; the detected share is 0% (0%-56%), too wide to act on*
+
+From the 2026-11-10 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
+
+
+## Scope
+
+**Meant to detect:** B. dendrobatidis lineage BdCAPE, told apart from BdGPL.  
+**Scored against:** every record retrieved.  
+**Retrieved from:** Batrachochytrium dendrobatidis (taxid 109871), every record.
+
+This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
+
+Disclosures on this entry: `scope_narrower_than_taxid`, `oligos_read_from_figure`.
 
 ## Predicted detection by deposit year
 
 **0 of 9 evaluable records**, deposited between 2006 and 2025, read the same way: 0% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
+
+
+## Records reaching the statistics
+
+9,428 records were screened for this assay and **9 (0%)** were evaluable, meaning both primers landed in the right orientation and size range. 9,419 produced no amplicon at all.
+
+This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
+
+| why a record was not evaluable | records |
+|---|---|
+| `no_site` | 9,366 |
+| `chance_anchor` | 53 |
 
 ## What was deposited, by lineage
 
@@ -65,54 +115,6 @@ Of the records the target taxon holds, the share its own retrieval query returne
 Between the baseline and the recent window the detected share went
 0.0% to 0.0%, a change of +0.000. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **+0.000 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | BdCAPE_Fwd | `CACCAACACCCCACCACTTTAG` | 22 nt |
-| reverse | BdCAPE_Rev | `AAAGTCAATCGGTGATATCGTAGCT` | 25 nt |
-| probe | MGB_BdCAPE | `CCAGGCCTTAATTCA` | 15 nt |
-
-## Verdict
-
-**insufficient data** — too few evaluable records to support an estimate; reported, never flagged
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 0 | 3 | 0.0% | 0.0% – 56.1% |
-| baseline (everything earlier) | 0 | 6 | 0.0% | 0.0% – 39.0% |
-
-Change from baseline, Newcombe interval: **-39.0% to 56.1%**. Threshold: **90.0%**.
-
-*3 evaluable records since Nov 2024, below the minimum of 15; the detected share is 0% (0%-56%), too wide to act on*
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-
-## Scope
-
-**Meant to detect:** B. dendrobatidis lineage BdCAPE, told apart from BdGPL.  
-**Scored against:** every record retrieved.  
-**Retrieved from:** Batrachochytrium dendrobatidis (taxid 109871), every record.
-
-This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
-
-Disclosures on this entry: `scope_narrower_than_taxid`, `oligos_read_from_figure`.
-
-
-## Records reaching the statistics
-
-9,491 records were screened for this assay and **9 (0%)** were evaluable, meaning both primers landed in the right orientation and size range. 9,482 produced no amplicon at all.
-
-This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
-
-| why a record was not evaluable | records |
-|---|---|
-| `no_site` | 9,428 |
-| `chance_anchor` | 54 |
-
 
 ## Curation record
 
@@ -127,7 +129,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE%3A%20&body=Entry%3A%20Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE%3A%20&body=Entry%3A%20Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

@@ -40,6 +40,15 @@ def strip_version(accession: str) -> str:
     return stem if stem and tail.isdigit() else head
 
 
+def refseq_source(accession: str) -> str | None:
+    """The GenBank accession an unversioned `NZ_` record copies: `NZ_CP017733` -> `CP017733`.
+
+    None for anything else. `NZ_` is the only RefSeq prefix that names its source: an `NC_`
+    or `NM_` number has no relation to the record it was curated from.
+    """
+    return accession[3:] if accession.startswith("NZ_") else None
+
+
 def version_of(accession: str) -> int:
     """The `.N` version of an accession, 0 when there is none."""
     tail = accession.split()[0].rpartition(".")[2] if accession.split() else ""

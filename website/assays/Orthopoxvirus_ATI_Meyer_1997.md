@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Meyer H, Ropp SL, Esposito JJ. Gene for A-type inclusion body protein is useful for a polymerase chain reaction assay to differentiate orthopoxviruses. J Virol Methods 64:217-221 (1997).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Orthopoxvirus_ATI_Meyer_1997</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthopoxvirus_ATI_Meyer_1997</span></p>
 
 **Orthopoxvirus — ATI (A-type inclusion body protein) (Meyer 1997)**
 
@@ -18,6 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 540–1700 bp, varies by species |
 | Registry status | draft |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 <p class="aw-rounds-note">Product size by species, measured on GenBank records:</p>
 | species | product | records |
@@ -63,6 +64,7 @@
 
 ## Scope
 
+**Meant to detect:** Orthopoxvirus species, A-type inclusion body protein gene, told apart by product length.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Orthopoxvirus (taxid 10242), every record.
 
@@ -84,7 +86,7 @@ especially from the group that designed it. The sequences, the product size and
 the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
-<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Orthopoxvirus_ATI_Meyer_1997%3A%20&body=Entry%3A%20Orthopoxvirus_ATI_Meyer_1997%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Orthopoxvirus_ATI_Meyer_1997/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Orthopoxvirus_ATI_Meyer_1997%3A%20&body=Entry%3A%20Orthopoxvirus_ATI_Meyer_1997%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Orthopoxvirus_ATI_Meyer_1997/%0ARun%3A%202026-11-10%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/Orthopoxvirus_ATI_Meyer_1997.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/Orthopoxvirus_ATI_Meyer_1997.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
 </div>

@@ -9,6 +9,7 @@ from __future__ import annotations
 import csv
 import gzip
 import re
+from collections.abc import Iterable
 from pathlib import Path
 
 from assaywatch.accession import strip_version
@@ -57,6 +58,44 @@ def looks_like_patent(title: str) -> bool:
     `is_patent` column, which comes from GenBank's own division marker.
     """
     return bool(PATENT_TITLE.match(title or ""))
+
+
+def read_column(
+    retrieved_dir: Path,
+    column: str,
+    wanted: set[str] | None = None,
+    *,
+    files: Iterable[Path] | None = None,
+) -> dict[str, str]:
+    """{accession without version: the cell in `column`} over every archive metadata table.
+
+    The one scan of `*.meta.tsv.gz` the package has, so the callers that need a taxid, a
+    deposit year or a title per record do not each walk the archives with their own
+    header-index loop (four did, 2026-11-09). An archive whose header lacks the column is
+    skipped, since the archives written before a column existed are the sidecars' business;
+    an empty cell is not a value; the first value seen for an accession wins, as
+    `read_titles` has always done. `wanted` keeps only those accessions, spelled bare.
+    `files` scans those tables instead of the whole tree.
+    """
+    out: dict[str, str] = {}
+    paths = sorted(files) if files is not None else sorted(Path(retrieved_dir).rglob("*.meta.tsv.gz"))
+    for meta in paths:
+        try:
+            with gzip.open(meta, "rt") as fh:
+                header = (fh.readline() or "").rstrip("\n").split("\t")
+                if "accession" not in header or column not in header:
+                    continue
+                ai, ci = header.index("accession"), header.index(column)
+                for line in fh:
+                    parts = line.rstrip("\n").split("\t")
+                    if len(parts) <= max(ai, ci) or not parts[ci]:
+                        continue
+                    acc = strip_version(parts[ai])
+                    if (wanted is None or acc in wanted) and acc not in out:
+                        out[acc] = parts[ci]
+        except (OSError, EOFError):
+            continue
+    return out
 
 
 def read_titles(retrieved_dir: Path, accessions: set[str]) -> dict[str, str]:

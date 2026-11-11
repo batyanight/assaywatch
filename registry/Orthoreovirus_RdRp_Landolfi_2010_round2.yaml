@@ -13,13 +13,16 @@ oligos:
   reverse:
     name: Landolfi-2200R
     seq: CCRTCRTCWCCYTGRCAKACRTARTT
-amplicon_bp: 163
+amplicon_bp: 161
 citation:
   doi: 10.1177/104063871002200106
   design_year: 2010
   n_sequences_at_design: null
   doi_verified: true
   reference: Landolfi JA et al. 2010. J Vet Diagn Invest 22:37-43
+  claim: Orthoreovirus RNA polymerase gene, as the semi-nested second round.
+  description: Degenerate conventional PCR, 2090F x 2200R, a semi-nested second round on the first-round product, built 
+    to detect reovirus in fixed snake tissue.
 use_context:
 - wildlife
 - veterinary
@@ -41,8 +44,9 @@ source:
 
     THE ID CARRIES NO ROUND SUFFIX while source.nested_round says round2, because the base id is what three generated docs
     and the screened-results cache already key on, and the pair it holds never changed. The registry has the same asymmetry
-    at Adenoviridae_hexon_Casas_2005_round1 / _round2 and in the CMV gB family. Renaming it to _round2 for symmetry is a one-line change
-    plus regenerating those docs.'
+    at Adenoviridae_hexon_Casas_2005_round1 / _round2 and in the CMV gB family. Renaming it to _round2 for symmetry is a one-line
+    change plus regenerating those docs. CORRECTED 2026-11-06: amplicon_bp 163 -> 161: 1031 of 1033 measure 161, and the paper''s
+    109 bp without its two 26-mers is 161. The earlier ''so 163 stands'' didn''t follow.'
 needs_review:
 - flag: conditions_not_printed
   note: the paper prints no annealing temperature and no cycle count for either round

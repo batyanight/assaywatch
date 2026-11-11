@@ -642,6 +642,28 @@ rule collect_calls:
         )
 
 
+rule refseq_twins:
+    """Which curated RefSeq records repeat a non-RefSeq record's whole sequence. Every
+    reader of the calls table's verdicts takes it, so a copy doesn't count as a deposit.
+
+    Reads every archive, so it follows `collect_calls`, which is what guarantees they exist.
+    """
+    input:
+        calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+    output:
+        RESULTS / RUN_DATE / "refseq-twins.tsv.gz",
+    params:
+        code=_package_hash(*source_names("refseq_twins")),
+    threads: 6
+    # Measured over the 9.3 GB of archives on 2026-11-06: 154 s on 6 workers, 0.67 GB in the
+    # largest process. The declaration allows for the workers together.
+    resources:
+        mem_mb=4000,
+        runtime=30,
+    shell:
+        "assaywatch refseq-twins {RETRIEVED} --out {output} --workers {threads}"
+
+
 rule site_drift:
     """Which oligo positions are failing, and in which groups of accessions.
 
@@ -653,21 +675,21 @@ rule site_drift:
     """
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        twins=RESULTS / RUN_DATE / "refseq-twins.tsv.gz",
     output:
         md=RESULTS / RUN_DATE / "site-drift.md",
         tsv=RESULTS / RUN_DATE / "site-drift.tsv",
     params:
         code=_SITEDRIFT_PARAMS["code"],
         inputs=_SITEDRIFT_PARAMS["inputs"],
-    # MEMORY. This rule loads the whole calls table through `calls.read_calls`:
-    # 2.7M rows on 2026-10-22, about 1-1.5 GB resident after the interning that
-    # docstring describes. `report` and `site_drift` can be co-scheduled under
-    # --cores, so without a declaration two of these land on one node together;
-    # on SLURM, where `resources:` becomes the sbatch request, the job is killed
-    # rather than slowed. Sized at 3 GB: measured peak plus headroom for a
-    # registry that grows, since the table is assays x records.
+    # MEMORY. This rule loads the whole calls table through `calls.read_calls`.
+    # `report` and `site_drift` can be co-scheduled under --cores, so without a
+    # declaration two of these land on one node together; on SLURM, where `resources:`
+    # becomes the sbatch request, the job is killed rather than slowed. Measured on the
+    # 2026-11-01 calls, 3.4M rows, on 2026-11-06: 4.95 GB peak, so 6 GB leaves headroom
+    # for a registry that grows, since the table is assays x records.
     resources:
-        mem_mb=3000,
+        mem_mb=6000,
         runtime=60,
     shell:
         "assaywatch sitedrift {input.calls} --registry {REGISTRY} "
@@ -734,6 +756,7 @@ rule figures:
     """
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        twins=RESULTS / RUN_DATE / "refseq-twins.tsv.gz",
         taxonomy=config["drift"]["scope_taxonomy"],
     output:
         forest=RESULTS / RUN_DATE / "figures" / "forest.svg",
@@ -742,8 +765,10 @@ rule figures:
     params:
         code=_FIGURES_PARAMS["code"],
         inputs=_FIGURES_PARAMS["inputs"],
+    # It runs both assessments in one process, so it needs the larger of the two, which
+    # `site_drift` measures at 4.95 GB. Not measured on its own.
     resources:
-        mem_mb=4000,
+        mem_mb=6000,
         runtime=60,
     shell:
         "MPLBACKEND=Agg assaywatch figures {input.calls} --registry {REGISTRY} "
@@ -790,6 +815,7 @@ rule composition:
     """
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        twins=RESULTS / RUN_DATE / "refseq-twins.tsv.gz",
         # scope ancestry and the species roll-up: both change which records are counted
         # and what a cluster is named, exactly as they do for the report.
         taxonomy=config["drift"]["scope_taxonomy"],
@@ -810,16 +836,25 @@ rule composition:
     resources:
         mem_mb=13000,
         runtime=300,
+    # `--references cache` IS DELIBERATE AND IS THE DEFAULT (maintainer's decision,
+    # 2026-11-10): this stage makes no network call while a run is in flight. The spike
+    # sentences' GenBank REFERENCEs come from `.references.json.gz`, warmed beforehand by
+    # `assaywatch composition ... --references fetch --email ...`, which can be retried and
+    # read without putting a ~5 h run at NCBI's mercy. Anything the cache lacks is written
+    # to `references-missing.txt` beside the outputs, so a dropped study clause is visible
+    # rather than silent. It is spelled out here so it cannot be turned on by accident.
     shell:
         "assaywatch composition {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
-        "--config {CONFIG_EFFECTIVE} --coverage {input.coverage}"
+        "--config {CONFIG_EFFECTIVE} --coverage {input.coverage} --email {EMAIL} "
+        "--references cache"
 
 
 rule report:
     """Per-assay drift status, coverage gaps, and the degeneracy caveat beside both."""
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        twins=RESULTS / RUN_DATE / "refseq-twins.tsv.gz",
         # scope_taxids ancestry: a rebuilt tree changes which records count
         taxonomy=config["drift"]["scope_taxonomy"],
         # Inlined into the HTML. A hard input, so the page is never published
@@ -835,15 +870,14 @@ rule report:
     params:
         code=_REPORT_PARAMS["code"],
         inputs=_REPORT_PARAMS["inputs"],
-    # MEMORY. This rule loads the whole calls table through `calls.read_calls`:
-    # 2.7M rows on 2026-10-22, about 1-1.5 GB resident after the interning that
-    # docstring describes. `report` and `site_drift` can be co-scheduled under
-    # --cores, so without a declaration two of these land on one node together;
-    # on SLURM, where `resources:` becomes the sbatch request, the job is killed
-    # rather than slowed. Sized at 3 GB: measured peak plus headroom for a
-    # registry that grows, since the table is assays x records.
+    # MEMORY. This rule loads the whole calls table through `calls.read_calls`.
+    # `report` and `site_drift` can be co-scheduled under --cores, so without a
+    # declaration two of these land on one node together; on SLURM, where `resources:`
+    # becomes the sbatch request, the job is killed rather than slowed. Measured on the
+    # 2026-11-01 calls, 3.4M rows, on 2026-11-06: 3.64 GB peak, so 4.5 GB leaves headroom
+    # for a registry that grows, since the table is assays x records.
     resources:
-        mem_mb=3000,
+        mem_mb=4500,
         runtime=60,
     shell:
         "assaywatch report {input.calls} --registry {REGISTRY} "

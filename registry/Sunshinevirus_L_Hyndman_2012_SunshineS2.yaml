@@ -20,12 +20,16 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Hyndman TH et al. 2012. Vet Microbiol 161:77-87
+  claim: Sunshine virus polymerase (L) gene, for fresh-frozen tissue.
 use_context:
 - veterinary
 submitted_by: null
 status: active
 source:
   nested_round: null
+  notes_curator: 'CORRECTED 2026-11-10: 40 cycles.'
 needs_review:
 - flag: orientation_inferred
   note: the archive yields only 2 products and 6 none under this orientation (2026-10-27 run), too few to confirm it
+conditions:
+  cycles: 40

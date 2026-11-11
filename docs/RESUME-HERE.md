@@ -1,3 +1,112 @@
+# Resume point, 2026-11-10 night (frozen, and the run is in flight)
+
+**Steps 0-12 are done on `next-release`; the frozen run is RUNNING.** If it is not running when you
+read this, it died and should be resumed, not restarted:
+
+    cd ~/assaywatch && caffeinate -i snakemake --cores 4 --rerun-incomplete --retries 3 --config email=...
+
+It resumes from the archives already on disk. Count progress with
+`find data/retrieved -name '2026-11-10.fasta.gz' | wc -l` against 147 groups. Logs are in the session
+scratchpad and in `.snakemake/log/`.
+
+**What the run already survived.** The first attempt died at 32 minutes: NCBI esearch returned
+"Search Backend failed" on 45 of 147 groups, which is their server, not this code -- the same taxon
+answered HTTP 200 minutes later. Nothing was lost, and `--retries 3` was added to the command line
+(not the Snakefile, which is frozen) so a transient NCBI failure retries instead of killing the job.
+
+**The run is slower than the roadmap's 50-minute estimate**, which was measured on incremental
+fetches; this release's new and changed queries re-fetch from scratch. One archive alone (taxon
+10241) took over half an hour. The ~4 h composition stage follows retrieval.
+
+**The machine is on battery by the maintainer's decision**, against the standing rule. If the run
+dies with no error in the logs, that is why.
+
+**Next, at step 14**, there is a script that runs every check in the roadmap's order: see the
+session scratchpad's `step14.sh`, or redo it from ROADMAP step 14. A changelog draft for v0.3.0 sits
+beside it. **Step 15 publishing waits for the maintainer's go, after they read the step 14 output.**
+
+**Frozen:** nothing under `assaywatch/`, `config.yaml`, `registry/` or `Snakefile` changes until step
+14 is read. `website/` is not frozen and was re-rendered for the page reorder.
+
+# Resume point, 2026-11-10 (the pre-freeze work is merged; `page-narrative` waits on the maintainer)
+
+**Read `ROADMAP.md`, "Release plan: v0.3.0".** `next-release` now holds PRs #14, #15, #16 and #17, so steps
+0-9 and 11a are done and the only blockers left are 12, 13, 14 and 15.
+
+**STOPPED HERE, for the maintainer:** `page-narrative` (steps 10 and 11c) is rebuilt on `next-release`,
+pushed, every gate green, and NOT merged. The review packet is
+`local/release-work-2026-11-06/page-narrative-review-packet.md`, with the 46 drafted descriptions in
+`descriptions-for-review.tsv` and the three page notes in `page-notes-draft.md` beside it. It needs four
+interfaces approved, a decision on eight display-only placeholders, and a word on whether the frozen run
+should fetch GenBank REFERENCEs. No registry entry carries `citation.description` or `source.page_note` yet.
+
+**What moved today** (`docs/journal/2026-11-10-pre-freeze-reads.md` and `-document-audit.md`): the
+case-row `scope_taxid` column had never been honoured on real data and is fixed, with the clade sum the
+roadmap asked about; 15 validation rows applied, and no tier-2 figure moves; three curator notes corrected
+against their papers; ten amplicon sizes settled and one left open; Li 1995 answered as not a nest; and
+the document audit lists six documents wanting a decision.
+
+**Next, in order:** the maintainer's review of `page-narrative`, then step 11b (average linkage, once,
+journaled), then step 12's freeze, then the live run on the maintainer's go. Publishing waits for step 14.
+
+# Resume point, 2026-11-09 (audit of the planning documents; nothing in the release moved)
+
+**Read `ROADMAP.md`, "Release plan: v0.3.0".** Where things actually stand, corrected against GitHub and the
+branches on 2026-11-09:
+
+- `next-release` holds PRs #6-#13, all merged 2026-11-07: the PRD (`docs/PRD.md`), the backfill guard, the
+  C1b/G2R/synonyms decisions, the species synonyms table (step 11a, done), the rules' memory, the copy edit and
+  the 31-paper reread (`scope-reread-fixes`, so it is no longer an open PR). Steps 0-5, 6a, 7 and 11a are done.
+- `page-narrative` (worktree `../assaywatch-pages`) carries steps 10 and 11c, unreviewed; it merges into
+  `next-release` without conflict. Its `pytest` was testing the main checkout's package, not its own, until
+  `pyproject.toml` gained `pythonpath = ["."]` on this branch; with that, `pytest -m fast` is green there.
+- `next-run-prep` (local only) conflicts with `next-release` in `ROADMAP.md`, `docs/INDEX.md` and
+  `docs/RESUME-HERE.md`; step 12 says so now.
+- **PR #14 (`roadmap-prd-plan`, opened 2026-11-09) targets `main`, against the plan's merge rule,** and is based on
+  `main`, so its roadmap text predates everything above; it says the PRD is not in the repository, which is true
+  of `main` and false of `next-release`. It merges clean into either. Retargeting it is the maintainer's call.
+- The weekly job stays paused. The live run and publishing wait for the maintainer's go.
+
+Next, in order, unchanged: verify and apply batches 5-8 (step 6b, 8 papers unread, notes in gitignored
+`local/release-work-2026-11-06/`); review and merge `page-narrative`; the three page notes (G2R WA_F, E. coli LT,
+hlyA); the maintainer's validation skim (step 9); `assaywatch scope-check`; then step 12.
+
+# Resume point, 2026-11-06, night (paused at the maintainer's request)
+
+**Read `ROADMAP.md`, "Release plan: v0.3.0".** Steps 0-5, 6a and 7 are done on `next-release`, or in its open PR
+`scope-reread-fixes`; `main` carries only the removal of one document. The weekly job stays paused. Notes the
+session made are in gitignored `local/release-work-2026-11-06/`, including the batch notes, `verified.md` and the
+validation drafts. Branch `page-narrative` and its worktree `../assaywatch-pages` hold the page features, unreviewed.
+
+Next, in order: verify and apply batches 5-8 (step 6b, 8 papers unread); review and merge `page-narrative`; write the
+three page notes (G2R WA_F, E. coli LT, hlyA); the maintainer's validation skim; run `assaywatch scope-check`, then step 12.
+A worktree needs `papers/` linked to commit and `--retrieved` for a real extract. The live run and publishing wait for the maintainer's go.
+
+# Resume point, 2026-11-06, late (the release is planned, nothing started)
+
+**Read `ROADMAP.md`, "Release plan: v0.3.0", and start at step 0.** Grilled with the maintainer the same evening.
+Green PRs merge into `next-release`, never into `main`, because a push to `main` deploys the site. The weekly job
+is paused, so nothing runs by itself. The rebuild described just below is no longer the next step: it all waits
+for the frozen run, which makes its own coverage file.
+
+# Resume point, 2026-11-06 (stopped mid-task at the maintainer's request)
+
+**Checked out: branch `refseq-twins`, local only. `main` is what's published.** Read
+`docs/journal/2026-11-06-refseq-twins.md`. The `NZ_` fix is committed, but the site data isn't regenerated, and
+that will move two *V. coralliilyticus* vcpA statuses to `insufficient data`. No jobs are running. Rebuild with
+`assaywatch composition`, `python -m assaywatch.site extract ... --composition`, then `site_render`. The coverage
+file from the last build sat in the session scratchpad and may be gone, so it may need recounting with
+`assaywatch retrieve --year-counts`.
+
+**Also waiting: branch `next-run-prep`, local only,** with the Zimmermann correction, FT443 and the Li query. It
+stays unmerged until a live run, which the maintainer declined for now, and one extract test fails there until
+then. Its `ROADMAP.md` also carries a RefSeq item, which will conflict with this branch's when both merge.
+# Resume point, 2026-11-05 (next-run edits on branch `next-run-prep`, not merged)
+
+Read `docs/journal/2026-11-05-next-run-prep.md`. These edits take effect at the next live run, which the
+maintainer has not asked for yet. Until then `test_the_extract_still_describes_the_registry_it_was_taken_from`
+fails on this branch, so it isn't merged. *Chlamydia* assemblies were decided against.
+
 # Resume point, 2026-11-05 (review fixes on `main` once the PR merges)
 
 **The security and code review fixes and the page order are in the PR from `scope-review-fixes`.**

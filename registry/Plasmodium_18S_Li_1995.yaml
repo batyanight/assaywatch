@@ -31,8 +31,35 @@ submitted_by: null
 status: active
 source:
   nested_round: null
-  notes_curator: Primers sense-841 and antisense-844 were designed by Li et al. 1995 (Exp Parasitol 81:182-190). Grim et
-    al. 2003 (10.1638/02-070) used them and cited "as described previously [ref 23 = Li et al. 1995]". The entry was 
-    first cited to Grim 2003.
+  notes_curator: "Primers sense-841 and antisense-844 were designed by Li et al. 1995 (Exp Parasitol 81:182-190). Grim et
+    al. 2003 (10.1638/02-070) used them and cited \"as described previously [ref 23 = Li et al. 1995]\". The entry was first
+    cited to Grim 2003. NEST CHECKED AND ANSWERED 2026-11-10 (ROADMAP, \"The nested malaria assay\"): Li 1995 describes NO
+    nest, so `nested_family` and `nested_round` stay null, and this entry is unrelated to the Hellgren 2004 haemosporidian
+    nest it was grouped with by the question. Evidence, from the paper read page by page. (a) One round. Methods: cDNA is
+    primed with the antisense primer, then \"further amplification of the cDNA was accomplished by routine PCR\" at \"a total
+    of 30 cycles\", and nothing is carried into a second reaction. (b) Table I's eleven oligos are one pair plus probes, not
+    two pairs in series: 841/844 (genus, this entry), 842 (genus, sense, internal), 741 and 743 (P. vivax A-gene and S-gene),
+    and 933, 934, 935, 936 (P. ovale, P. malariae, P. falciparum, P. vivax). The species oligos are hybridisation probes,
+    used on Southern transfers of the one gel (Fig. 2b, Fig. 4b and 4c), never as primers. (c) The 566/570 pair is genuinely
+    outside 841/844 on the gene, which is what makes the nest question reasonable, but the paper uses them as ALTERNATIVES
+    for different jobs, not in series: 566/570 \"amplifies almost the entire Plasmodium SSU rRNA gene\" and had been used
+    for cloning, while \"For the purpose of species identification and taxonomy, however, shorter regions of sequence are
+    sufficient. The genus-conserved primer pair 841-844 (Table I) was selected for the work described here\". No text runs
+    one into the other. TWO FINDINGS FOR THE MAINTAINER, FOUND BY THAT READ AND NOT ACTED ON. (1) A PROBE EXISTS AND IS NOT
+    STORED. Oligo 842, TAACACAAGGAAGTTTAAGGC, is genus-conserved, sense, and sits between the primers: the pair \"includes
+    an internal genus-conserved sequence located between V7 and V8 which can serve to confirm the identification of the sequence
+    as Plasmodium-related\". That is the same shape as the Francisella tul4 FT443 item already on the roadmap. Adding a probe
+    needs a rescreen, so it is left for a maintainer's decision. (2) THE PRODUCT LENGTH VARIES AND THE PAPER DOES GIVE A SIZE.
+    Measured on the 2026-11-01 calls: 719 products over 59 distinct lengths, 280 to 466 bp, median 374 (the stored value),
+    mode 284 (271 products). The spread is the design, not drift -- the pair was chosen because it \"covers the two most variable
+    regions (V7 and V8)\". So `amplicon_bp_range` is arguably the right shape here rather than a scalar, which would change
+    which records are evaluable, so it is NOT changed and goes to the maintainer. The flags below ARE corrected, since they
+    are display only."
 needs_review:
-- flag: amplicon_measured_not_published
+- flag: amplicon_disagrees_with_paper
+  note: 'measured median 374 bp over 719 products; the paper gives "about 400 bp" twice (Fig. 2 legend, from mobility against
+    a 100-bp marker, and the Results, "predicted from the actual sequences"). Replaces amplicon_measured_not_published, which
+    was wrong: the paper does publish a size. Corrected 2026-11-10.'
+- flag: amplicon_multimodal
+  note: 59 distinct product lengths, 280-466 bp, modes 284 (271 of 719) and 374; the V7-V8 window the primers bracket 
+    varies in length across Plasmodium. Added 2026-11-10.

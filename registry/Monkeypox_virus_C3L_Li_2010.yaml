@@ -22,7 +22,7 @@ oligos:
   alternates: []
 amplicon_bp: 100
 citation:
-  claim: "Monkeypox virus Congo Basin strains."
+  claim: "Congo Basin clade of monkeypox virus, C3L gene."
   doi: 10.1016/j.jviromet.2010.07.012
   design_year: 2010
   n_sequences_at_design: null
@@ -30,6 +30,9 @@ citation:
     monkeypox virus West African and Congo Basin strain DNA. J Virol Methods 169:223-227
   doi_verified: true
   oligos_designed_here: true
+  description: Real-time PCR with a FAM/BHQ1 hydrolysis probe for monkeypox virus, built to run on several instruments 
+    and master mixes. One of three assays that together detect monkeypox virus and tell West African from Congo Basin 
+    strains. Congo Basin assay in the C3L gene; the gene is deleted in West African strains.
 conditions:
   annealing_c: 60.0
 use_context:

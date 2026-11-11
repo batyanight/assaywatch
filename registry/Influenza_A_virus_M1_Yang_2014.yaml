@@ -33,6 +33,8 @@ citation:
   doi_verified: true
   reference: Yang J-R et al. 2014. J Clin Microbiol 52:76-82
   oligos_designed_here: false
+  claim: Influenza A virus matrix (M) gene, degenerate version of an earlier test, for circulating human H1N1pdm09 and 
+    H3N2.
 conditions:
   annealing_c: 53
   cycles: 45
@@ -45,11 +47,11 @@ status: draft
 submitted_by: null
 source:
   nested_round: null
-  notes_curator: 'ENTERED 2026-10-30 beside Influenza_A_virus_M1_Ward_2004. This is the "At" assay the Taiwan CDC built to recover
-    the sensitivity that accumulated M-gene substitutions had cost Ward''s original; the paper says in as many words that
-    its oligos "were modified from those described by Ward et al. (15) but targeted the same regions of the genome". It is
-    entered so that the registry holds the documented FIX next to the assay that decayed, and it is the second half of the
-    drift case recorded in docs/journal/2026-10-30-two-strict-bar-drift-cases.md.
+  notes_curator: 'ENTERED 2026-10-30 beside Influenza_A_virus_M1_Ward_2004. This is the "At" assay the Taiwan CDC built to
+    recover the sensitivity that accumulated M-gene substitutions had cost Ward''s original; the paper says in as many words
+    that its oligos "were modified from those described by Ward et al. (15) but targeted the same regions of the genome".
+    It is entered so that the registry holds the documented FIX next to the assay that decayed, and it is the second half
+    of the drift case recorded in docs/journal/2026-10-30-two-strict-bar-drift-cases.md.
 
     THE REVERSE PRIMER IS STORED REVERSE-COMPLEMENTED FROM THE PAPER, WHICH IS THE ROUTINE CASE AND NOT A CORRECTION. Yang
     prints FLUA-214Rt as 5''-GGACTGCARCGYAGACGCTTTA-3''. Tested against a real record (PZ777374.2) with the project''s own
