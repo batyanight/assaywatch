@@ -82,7 +82,7 @@ flowchart TD
 Each YAML file in `registry/` defines one assay: its taxid, primer sequences,
 and probe. The rule checks that taxids resolve in NCBI, primer sequences are
 valid IUPAC, and no two assays share a name. Output is a sentinel file (empty
-file whose existence means "validation passed") — Snakemake uses its timestamp
+file whose existence means "validation passed"). Snakemake uses its timestamp
 to know whether to re-validate.
 
 ```mermaid
@@ -104,7 +104,7 @@ flowchart LR
 gene-targeted queries (`q*` groups scoped to specific genes), broad nucleotide
 (`all`), and genome assemblies (`asm`). An exclusive file lock prevents
 concurrent runs from corrupting the manifest. This rule is a Snakemake
-*checkpoint* — its outputs aren't known until it finishes, so downstream rules
+*checkpoint*. Its outputs aren't known until it finishes, so downstream rules
 re-evaluate after it runs. Archives and manifest are deliberately kept outside
 Snakemake's output tracking so Snakemake never deletes them before re-running.
 
@@ -139,7 +139,7 @@ The molecular core. For each FASTA archive, every sequence is tested against
 every assay's primer pair. The rule aligns forward and reverse primers to the
 target, records per-position match/mismatch calls, Tm shifts from mismatches,
 and the amplicon boundaries. Results are cached per-archive under
-`results/screened/` — once an archive is screened, it's never re-screened
+`results/screened/`. Once an archive is screened, it's never re-screened
 unless the code hash changes (via `triggers.py`). This is what makes cumulative
 screening feasible: new runs only screen new archives.
 
@@ -176,7 +176,7 @@ flowchart TD
 Straightforward merge: concatenates every cached per-archive TSV from
 `results/screened/`, joins deposit dates (mapping accessions to when they were
 deposited in NCBI), and compresses the result into `calls.tsv.gz`. This single
-file is the input for all downstream analysis — drift, lineage, sitedrift.
+file is the input for all downstream analysis: drift, lineage, sitedrift.
 Because screening is cumulative, `calls.tsv.gz` contains every screen ever run,
 not just the latest.
 
@@ -200,7 +200,7 @@ The statistical engine. Deposits in `calls.tsv.gz` are split into baseline
 (older) and recent (newer) time windows. For each assay, the mismatch fraction
 is computed for each window, and a Wilson score interval gives the uncertainty
 around each proportion. The Newcombe interval then quantifies the *difference*
-between the two fractions — if the lower bound of the difference CI exceeds the
+between the two fractions. If the lower bound of the difference CI exceeds the
 configured threshold, the assay is **declining**. If the CI spans the
 threshold, it's **watch**. If the upper bound stays below, **stable**.
 Minimum-evidence guards catch assays with too few deposits to assess.
@@ -239,8 +239,8 @@ flowchart TD
 
 Calls are split by NCBI taxonomy lineage. Each lineage with enough records gets
 its own drift assessment. A multiple-testing correction across all lineage
-tests for a given assay — Holm since 2026-10-23, set by
-`lineage.multiple_testing` — stops dozens of lineage tests producing spurious
+tests for a given assay (Holm since 2026-10-23, set by
+`lineage.multiple_testing`) stops dozens of lineage tests producing spurious
 "declining" calls. Holm and not Benjamini-Hochberg because the decision below is
 "any rejected lineage fails the assay", so the event that decides the status is
 *at least one* false rejection: that is family-wise error, which Holm controls,
@@ -251,9 +251,9 @@ upgrade one. The rationale: a pathogen lineage expanding where primers have
 mismatches is a real clinical risk even if global numbers look fine.
 
 The override is not unconditional. From a pooled `stable` or `watch` it fires
-on the failing lineage alone. From any other pooled verdict — in practice `low
+on the failing lineage alone. From any other pooled verdict (in practice `low
 coverage`, which says the assay was never shown to work on this denominator at
-all — it fires only if that lineage itself cleared the threshold in an earlier
+all), it fires only if that lineage itself cleared the threshold in an earlier
 measured year. `declining` claims a fall, and an assay that never cleared the
 threshold has no fall to claim; without the gate the override was flipping
 verdicts on lineages that detected at or above the pooled share. The gate is
@@ -299,7 +299,7 @@ behind the unclustered one, which makes pseudoreplication visible instead of
 leaving it in a footnote. `site-positions.svg` plots, for each flagged assay,
 how much detection falls when a record mismatches at each oligo position, with
 the base letters as the x-axis, the 3'-terminal zone shaded, and already-degenerate
-bases in amber — the figure a redesign decision actually comes from.
+bases in amber: the figure a redesign decision actually comes from.
 
 The rule runs the drift and site assessments itself rather than parsing the
 rendered markdown, so a figure cannot disagree with the document beside it. It
@@ -333,15 +333,15 @@ flowchart TD
 
 Four documents, each serving a different audience question:
 
-- **report** (`report.md` + `report.html`) — the main deliverable. Per-assay
+- **report** (`report.md` + `report.html`): the main deliverable. Per-assay
   drift verdicts with confidence intervals, pooled and lineage-conditional.
   The HTML version is self-contained with inline SVGs, no CDN dependencies.
-- **site_drift** (`site-drift.md` + `site-drift.tsv`) — per-position mismatch
+- **site_drift** (`site-drift.md` + `site-drift.tsv`): per-position mismatch
   rates across primer/probe binding sites.
-- **lineage_analysis** (`lineage.md`) — per-lineage statistics, coverage
+- **lineage_analysis** (`lineage.md`): per-lineage statistics, coverage
   fractions, and individual verdicts with override flags.
-- **degeneracy_table** (`degeneracy.tsv`) — pool dilution from degenerate IUPAC
-  bases in primer sequences. Reported alongside drift but never scored — it's a
+- **degeneracy_table** (`degeneracy.tsv`): pool dilution from degenerate IUPAC
+  bases in primer sequences. Reported alongside drift but never scored. It's a
   property of the assay design, not of sequence evolution.
 
 ```mermaid
@@ -382,7 +382,7 @@ These are the non-obvious ones; the Snakefile comments cover the rest.
 | Archives and manifest are never Snakemake outputs | Snakemake deletes outputs before re-running. Deleting fetched archives means re-downloading everything. |
 | `retrieve` is a checkpoint | Which archives exist isn't known until the fetch finishes. Downstream rules re-evaluate after. |
 | Screening is cached per-archive | A group with 200 archives and 3 new ones this week screens only the 3. |
-| Code-hash tracking via AST (`triggers.py`) | Editing screening code or scoring thresholds invalidates exactly the affected caches — no manual `-R` flag to remember. |
+| Code-hash tracking via AST (`triggers.py`) | Editing screening code or scoring thresholds invalidates exactly the affected caches. No manual `-R` flag to remember. |
 | Wilson score CIs, not Wald | Wilson is accurate at small sample sizes where Wald CIs can go negative. |
 | Newcombe interval for the difference | Proper CI for the difference of two proportions; doesn't assume normality. |
 | One-direction override for lineage verdicts | A lineage-specific decline is a real clinical risk even when global numbers look fine. Upgrading a global decline because one lineage looks okay would hide problems. |

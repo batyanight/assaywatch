@@ -12,7 +12,7 @@ newly deposited GenBank sequences.**
 
 An assay is designed against the sequences that existed when it was designed, then used
 for years while GenBank fills with strains nobody re-screens it against. Nothing tells
-you when the primers stop matching — the reaction just comes back negative, and a
+you when the primers stop matching. The reaction just comes back negative, and a
 negative looks the same whether the pathogen was absent or the primers missed it.
 
 AssayWatch keeps a version-controlled registry of **218 published assays**, each citing a
@@ -23,8 +23,8 @@ screening engine is the means.
 
 ### 📊 [Browse every assay →](https://batyanight.github.io/assaywatch/assays/)
 
-The website has a dashboard per assay — detection by deposit year, where the mismatches
-sit on each oligo, the per-lineage breakdown — plus
+The website has a dashboard per assay (detection by deposit year, where the mismatches
+sit on each oligo, the per-lineage breakdown), plus
 [scoring methods](https://batyanight.github.io/assaywatch/scoring/),
 [how a run works](https://batyanight.github.io/assaywatch/pipeline/),
 [validation](https://batyanight.github.io/assaywatch/validation/),
@@ -35,7 +35,7 @@ sit on each oligo, the per-lineage breakdown — plus
 ## Read this before trusting a status
 
 **A status is worth reading, not quoting.** `declining` means "worth looking at", not
-"this assay has failed" — and the project measures how often it is right rather than
+"this assay has failed". The project measures how often it is right rather than
 asserting it. Against the 50-case development set on the 2026-10-31 run, **4 of 10
 `declining` calls were real documented failures** (95% CrI 15%–70%), catching **6 of 11**
 documented failures with 4 false alarms in 32 working assays. All three held-out sets
@@ -53,10 +53,10 @@ before the paper that reported the problem:
 | assay | status | detected share |
 |---|---|---|
 | `Influenza_A_virus_M1_Ward_2004` | **declining** | 86.2% of 5,847 records |
-| `Influenza_A_virus_M1_Yang_2014` — the documented redesign | **stable** | 91.6% on the same records |
+| `Influenza_A_virus_M1_Yang_2014` (the documented redesign) | **stable** | 91.6% on the same records |
 
-The two entries differ in nothing but their oligos — same retrieval group, archive, date
-window, scoring config and chemistry — so the verdict difference is attributable to the
+The two entries differ in nothing but their oligos: same retrieval group, archive, date
+window, scoring config and chemistry, so the verdict difference is attributable to the
 primer and probe sequences and nothing else. That control is what makes the case worth
 more than the verdict. One case is one case: the second row of that held-out set is a
 miss, and [why](https://batyanight.github.io/assaywatch/validation/) is more
@@ -97,7 +97,7 @@ A full run needs an NCBI key and hours of fetching:
 | running the pipeline, disk, retrieval groups, cluster | [`docs/running-the-pipeline.md`](docs/running-the-pipeline.md) |
 | the pipeline's design, stage by stage | [`docs/pipeline-architecture.md`](docs/pipeline-architecture.md) |
 | setup in more detail | [`docs/installation.md`](docs/installation.md) |
-| everything under `docs/` — 12 reference documents, 148 journals, 23 data files (2026-11-09) | [`docs/INDEX.md`](docs/INDEX.md) |
+| everything under `docs/`: 12 reference documents, 148 journals, 23 data files (2026-11-09) | [`docs/INDEX.md`](docs/INDEX.md) |
 | the project vocabulary, used in code and commits | [`GLOSSARY.md`](GLOSSARY.md) |
 | submitting an assay | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
 | what changed between releases | [`CHANGELOG.md`](CHANGELOG.md) |
@@ -110,16 +110,16 @@ tools do it thermodynamically rather than with a positional penalty table:
 against genome sets via TNTBLAST, and [GoPrime](https://doi.org/10.3390/pathogens9040303)
 fits a model of real-time PCR performance from sequence instead of asserting one.
 [NEB's Primer Monitor](https://primer-monitor.neb.com/) is the closest thing to this
-project's premise — continuous monitoring of registered primers against new GenBank
-deposits, with alerts — and covers SARS-CoV-2 and RSV.
+project's premise (continuous monitoring of registered primers against new GenBank
+deposits, with alerts) and covers SARS-CoV-2 and RSV.
 [ViralPrimer](https://doi.org/10.1093/bioinformatics/btae657),
 [PCRv](https://doi.org/10.1016/j.jviromet.2019.05.002) and
 [openPrimeR](https://doi.org/10.1016/j.jim.2020.112752) cover the rest of the space.
 
 What none of them has is a **curated registry of published wildlife and One-Health
-pathogen assays** — citations verified against Crossref, amplicon sizes measured on
+pathogen assays** (citations verified against Crossref, amplicon sizes measured on
 real records rather than read off a gel band, provenance caveats under a controlled
-vocabulary — screened **by year of deposit** so decay reads as a trend rather than a
+vocabulary), screened **by year of deposit** so decay reads as a trend rather than a
 pass/fail against today's database. That registry and that axis are the contribution;
 the screening engine is the means. A third intended difference, a lineage-conditional
 estimand, is designed and only partly built, so it is not yet a contribution.
@@ -169,7 +169,7 @@ A file is one assay: forward + reverse primer, optional probe, target taxon,
 citation. `status: draft` files only need correct structure and IUPAC oligos
 of 15-40 nt, except that a probe may be as short as 12 nt (published MGB probes run
 13-14). `status: active` additionally requires `target.taxid`, a DOI with
-`doi_verified: true`, `design_year`, and no *open* review flag — every one of
+`doi_verified: true`, `design_year`, and no *open* review flag, every one of
 them evidence about the assay rather than about who entered it, which is why
 `submitted_by` is not among them. The validator enforces this; CI and the
 pre-commit hook run it.
@@ -179,8 +179,8 @@ than being silently ignored.
 `needs_review` is a list of `{flag, note}` items drawn from one controlled
 vocabulary, defined with its reasoning in `assaywatch/review.py`. A flag is
 either an **open question** a human still has to answer, which holds the entry
-at `draft`, or a **recorded caveat** that is settled and merely disclosed —
-`nested_protocol`, `oligos_modified`, `amplicon_measured_not_published` — which
+at `draft`, or a **recorded caveat** that is settled and merely disclosed
+(`nested_protocol`, `oligos_modified`, `amplicon_measured_not_published`), which
 does not. `note` carries one line of specifics where the flag alone is not
 enough; the full record stays in `source.notes_curator`. Flags that would only
 restate another field (`citation.doi`, `design_year`, `target.taxid`) are not in
@@ -210,7 +210,7 @@ same form.
 ## Contributing an assay
 
 `CONTRIBUTING.md` has the submission template and the review process.
-`scripts/check_submission.py` checks a candidate entry — schema, undeclared 5'
+`scripts/check_submission.py` checks a candidate entry: schema, undeclared 5'
 cloning tails, degeneracy, that the DOI resolves to the paper named, that the
 taxid still means what it says, and above all whether the oligos find their
 amplicon in real records. `scripts/scan_literature.py` proposes recently

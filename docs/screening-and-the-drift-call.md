@@ -41,7 +41,7 @@ GenBank entry look like drift.
 within a quarter either way, instead of only to the global 50–3000 bp window. A
 1931 bp product is not a 194 bp assay amplifying: the extension time, probe
 geometry and efficiency belong to something else. The tolerance is measured
-rather than chosen — over the 2026-10-07 run, |observed/declared − 1| has a knee
+rather than chosen. Over the 2026-10-07 run, |observed/declared − 1| has a knee
 at about 0.2 and flattens past it, so 0.25 keeps 99.3% of the calls that had a
 declared size. Applied to that run it would move 59,141 rows out of the
 denominator, 54,966 of them `fail`, which is the correction running in the
@@ -52,16 +52,16 @@ assay's numbers collapse.
 
 What the filter mostly catches, though, is not a wrong number but **two products
 in one entry**. The three assays whose measured product sat furthest from their
-declared size each hold a second amplicon in `oligos.alternates` — a nested
-secondary pair, or an alternative reverse — and `score.oligo_pools` treats
+declared size each hold a second amplicon in `oligos.alternates` (a nested
+secondary pair, or an alternative reverse), and `score.oligo_pools` treats
 alternates as interchangeable members of one pool, which is right for a
 consensus cocktail and wrong for a second round. Measured over the first 400
-records of each archive — 290 for the nidovirus one, which holds no more —
+records of each archive (290 for the nidovirus one, which holds no more),
 their declared pairs give 1320, 161 and 1695 bp against a declared 1319, 163
 and 1694: the stored numbers are right, and it was the alternate's product
 being credited to the assay. With the filter on, the out-of-window combination
 is `no_amplicon` and the screener falls back to the declared pair. 20 of 214
-entries could form a second product this way. The fix is curation — one entry
+entries could form a second product this way. The fix is curation: one entry
 per round, as the CMV gB and adenovirus polymerase assays already have.
 
 ### What the scoring rule assumes about PCR, and where it is wrong
@@ -81,7 +81,7 @@ distance from the 3' end is therefore the right shape (Kwok et al. 1990,
 1. *The penalty is blind to which mismatch it is.* Both papers above find
    identity dominates: at the 3' terminus, A:A, A:G, G:A and C:C suppress yield
    by orders of magnitude (>7 Cq in Stadhouders), while T:G, T:C and T:T are
-   nearly free (<1.5 Cq) — a T:G wobble still stacks. So
+   nearly free (<1.5 Cq). A T:G wobble still stacks. So
    `terminal_mismatch_fails` is right for about half of terminal mismatches and
    wrong for the rest. The *E. coli* malB result survives this because all 92
    failures are a single A→G at the reverse 3' base, which is in the severe
@@ -90,7 +90,7 @@ distance from the 3' end is therefore the right shape (Kwok et al. 1990,
    needs forward **and** reverse and detection needs the probe on top. Those are
    serial gates. Three trivial mismatches, one per oligo, land in the same bin as
    one near-lethal 3'-proximal mismatch.
-3. *One table serves every chemistry in the registry* -- 155 conventional PCRs and 50
+3. *One table serves every chemistry in the registry*: 155 conventional PCRs and 50
    probe assays on 2026-10-24. A 100-fold yield
    loss is a missed Cq cutoff in qPCR and often still a visible band after 40
    cycles of endpoint PCR. The same `fail` is printed for both.
@@ -99,8 +99,8 @@ distance from the 3' end is therefore the right shape (Kwok et al. 1990,
    adds roughly 15–20 °C of Tm and makes short probes viable; such a probe tolerates
    mismatches a bare oligo of the same length would not. `--thermo` computes the real duplex ΔTm and is the better
    guide where it is available.
-5. *Mismatches add linearly*, so two adjacent ones — which destroy a contiguous
-   run of base stacking — are under-penalised relative to two spread apart.
+5. *Mismatches add linearly*, so two adjacent ones (which destroy a contiguous
+   run of base stacking) are under-penalised relative to two spread apart.
 
 None of this is hidden in code: every threshold is annotated in `config.yaml`
 with its justification or an admission that it has none, and the standing
@@ -109,7 +109,7 @@ numbers are in
 Against the 50-case development set, on the 2026-10-31 run, the tool catches **6 of 11**
 documented failures and **4 of its 10 `declining` calls** were real failures
 (95% CrI 15%-70%), with 4 false alarms in 32 working assays. Of the 11
-documented failures, 10 are coverage gaps and **one is drift** — and that one is
+documented failures, 10 are coverage gaps and **one is drift**, and that one is
 caught: Yang 2014 on the influenza A M1 assay of Ward 2004, the only case in the
 project where the drift flag itself caught a documented failure. Those figures
 are in-sample on roughly seven independent failure events.
@@ -146,7 +146,7 @@ Undetermined positions are reported per oligo (`fwd_ambiguous`,
 `rev_ambiguous`, `probe_ambiguous`). Once an oligo's footprint carries more
 than `max_ambiguous_per_oligo` of them, too little of the binding site is known
 to judge and the record is called `indeterminate`. That cap also stops a run of
-Ns elsewhere in a record — which matches every oligo — from being reported as a
+Ns elsewhere in a record (which matches every oligo) from being reported as a
 clean amplicon.
 
 ### Degeneracy is reported instead
@@ -214,8 +214,8 @@ shift caused by the record's mismatches depends on them much less.
 **Why it is reported and not scored, measured rather than asserted** (2026-10-27,
 `docs/journal/2026-10-27-tntblast-head-to-head.md`): a ΔTm only means something against
 the temperature the reaction ran at, and that is a property of each assay's protocol.
-Run thermonucleotideBLAST — the engine PCR_strainer wraps, and so the one this question
-is really about — over the 179 labelled wet-lab outcomes in `docs/bench-panels/`, and
+Run thermonucleotideBLAST (the engine PCR_strainer wraps, and so the one this question
+is really about) over the 179 labelled wet-lab outcomes in `docs/bench-panels/`, and
 with two free parameters fitted on those same rows it reads 64.8% against the penalty
 rule's 92.7% as it ships, 58–8 on the discordant rows. Fit a separate cut per panel and
 it reads 87.7%, and on the Salmonella specificity panel its separation is total. The
@@ -288,7 +288,7 @@ assay. Folding them in would let a bad sequencing year look exactly like drift.
 
 **Why intervals and not just the fraction.** A wildlife assay may have five
 records in the last two years. Three failing is 40% detected, which looks
-alarming and means nothing — the 95% interval runs from about 10% to 70%.
+alarming and means nothing: the 95% interval runs from about 10% to 70%.
 Flagging on point estimates would bury real signals under noise from exactly
 the sparsely sequenced taxa this tool exists to serve. So an assay is flagged
 only when the *upper* bound of its recent interval falls below the
@@ -301,7 +301,7 @@ merely consistent with it failing. A flagged assay is then one of two things:
   2026-10-14). The share has fallen from a level that worked; that is drift.
   The last condition is what keeps the word honest: without it 14 of the 37
   assays called declining on 2026-10-07 were pan-family consensus PCRs that
-  never covered the taxon they are screened against — a fall from 14% to 0% is
+  never covered the taxon they are screened against. A fall from 14% to 0% is
   a change in which clades were deposited, not an assay degrading. The test is
   per year, not on the aggregate baseline, which a long decline drags down by
   itself. Those 14 are now **low coverage**, and their note says they are also
@@ -329,7 +329,7 @@ as **insufficient data** and never flagged, whatever the fraction looks like;
 below threshold with an interval that still covers it, it is **watch**.
 
 The interval is Wilson rather than the textbook normal approximation, which
-misbehaves near 0 and 1 — it can return bounds outside [0, 1], and at k = n it
+misbehaves near 0 and 1. It can return bounds outside [0, 1], and at k = n it
 collapses to zero width and claims certainty from a handful of records. The
 change from baseline uses the Newcombe hybrid-score interval, which builds a CI
 for a difference of proportions out of the two Wilson intervals and keeps that
@@ -351,7 +351,7 @@ Neither half holds:
   deposited. The bias runs toward optimism, which makes `declining` strong
   evidence and `stable` weak evidence. They are not symmetric.
 * *One proportion per assay is the wrong estimand for most real failures.*
-  Published failures are nearly always lineage-conditional — fails on clade B,
+  Published failures are nearly always lineage-conditional: fails on clade B,
   on the lineage circulating in one region, on the fish ranaviruses the assay
   never claimed. A clade that is 5% of deposits can be 100% of a region's cases,
   and averaging it away is precisely why only 2 of the 11 documented failures in
@@ -372,7 +372,7 @@ accession appear, the latest revision wins rather than both being counted.
 
 **Nested protocols are scored per round, then round 2 is warned about round 1.**
 A nested or semi-nested protocol is several entries here, one per round, and each
-is screened independently — which is right, because either product can be read on
+is screened independently, which is right, because either product can be read on
 a gel, so a round whose primers still match is a usable assay on its own. But
 round 2's figure answers "would these primers bind this sequence", which is the
 question for round 2 run *directly*; run as published its template is round 1's
@@ -385,7 +385,7 @@ most: `Lyssavirus_N_Vazquez-Moron_2006_round1` reads 99.5% for round 2 alone and
 **32.4% run as a nest**, because round 1 escapes on two thirds of the records
 round 2 would otherwise reach; `Bocaparvovirus_NS1_Kapoor_2010` and
 `Orthoflavivirus_NS5_Scaramozzino_2001` lose essentially nothing. Only round-1 failures that are
-the assay's fault count — a `fail`, or a `no_amplicon` labelled `diverged` — on
+the assay's fault count (a `fail`, or a `no_amplicon` labelled `diverged`) on
 the same reasoning the drift denominator already uses.
 
 Nothing here changes a status: it is reported beside the per-round rows, as
@@ -397,7 +397,7 @@ rounds score, does the inner amplicon actually lie inside the outer? Three
 families fail that test and get no conditional coverage, because conditioning
 round 2 on a round 1 that does not feed it would invent a number. The clearest is
 `Coronaviridae_RdRp_Watanabe_2010`, whose two amplicons are **disjoint**
-— about 2.7 kb apart in the RdRp gene — so whatever the `_round2` suffix says,
+(about 2.7 kb apart in the RdRp gene), so whatever the `_round2` suffix says,
 these are two assays rather than two rounds. Round order comes from
 `source.nested_round` rather than the id, because the id does not always carry it:
 the Landolfi orthoreovirus base entry holds the paper's *second* round, and taking

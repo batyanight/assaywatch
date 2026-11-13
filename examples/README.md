@@ -1,7 +1,7 @@
 # A worked example: screening one assay, offline, in a second
 
 This runs AssayWatch's screening step on a small FASTA and shows how to read the
-result. It needs no network, no NCBI key and no Snakemake — just the installed
+result. It needs no network, no NCBI key and no Snakemake, just the installed
 package.
 
 ```bash
@@ -18,8 +18,8 @@ assay, taken from the registry: a 29 nt forward primer, a 22 nt reverse primer, 
 
 ## The records are synthetic, and that is the point
 
-`make_example_fasta.py` builds each record from the assay's **own oligos** — the
-146 bp amplicon with one defect introduced — and names it after the defect. They
+`make_example_fasta.py` builds each record from the assay's **own oligos** (the
+146 bp amplicon with one defect introduced) and names it after the defect. They
 are not GenBank sequences. Real records give you whichever verdicts those
 particular records happen to produce; these are chosen so that every verdict the
 screener can reach appears exactly once or twice, so you can see what each one
@@ -61,7 +61,7 @@ are:
 land on three different verdicts. A polymerase extends from a primer's 3' end, so
 a mismatch there obstructs extension itself, while one near the 5' end costs only
 a little duplex stability. The weights live in `config.yaml` under `scoring:`,
-with the literature behind them — and an explicit note that the shape is
+with the literature behind them, and an explicit note that the shape is
 plausible rather than measured.
 
 **`fail` here is not a penalty threshold.** `config.yaml` sets `detect_max: 1.0`
@@ -71,7 +71,7 @@ at the 3'-most base fails regardless of the total. `fwd_mm_from_3prime` in the
 TSV is `1` for that record, which is how you spot it.
 
 **`no_amplicon` is not a failure of the assay.** Three records produce it for
-three unrelated reasons — a missing site, a record too short to span the product,
+three unrelated reasons: a missing site, a record too short to span the product,
 and an irrelevant sequence. Only the first says anything about the assay. This
 distinction is why coverage is reported separately from detection: a share
 computed over records that cannot physically contain the product would be
@@ -86,8 +86,8 @@ weights do not know an MGB 15-mer from a bare 32-mer.
 
 ## Next
 
-- `python -m assaywatch.screen --help` — `--workers` for large archives, and
+- `python -m assaywatch.screen --help`: `--workers` for large archives, and
   `--thermo` for duplex Tm beside each call (needs primer3-py)
-- the repository `Snakefile` — the full retrieve → screen → drift → report
+- the repository `Snakefile`: the full retrieve → screen → drift → report
   pipeline against live GenBank, which needs the network and an NCBI key
-- `python -m assaywatch.validate registry` — schema-check the registry
+- `python -m assaywatch.validate registry`: schema-check the registry

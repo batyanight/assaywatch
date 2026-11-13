@@ -4,14 +4,14 @@ Where AssayWatch sits, and the papers the method rests on.
 
 **Provenance of this file.** Every DOI below was resolved against `api.crossref.org`
 on 2026-10-23 and the author, year, title and venue recorded here are Crossref's, not
-transcribed from memory — the same rule `CLAUDE.md` sets for registry citations. Two
+transcribed from memory, the same rule `CLAUDE.md` sets for registry citations. Two
 entries carry no DOI and say so. Nothing here has been entered into `registry/`; the
 registry's own citations go through `scripts/resolve_citations.py` and
 `scripts/check_citations.py` as usual.
 
 ## 1. What already exists
 
-In-silico PCR — matching oligos against sequence and counting mismatches — is solved,
+In-silico PCR (matching oligos against sequence and counting mismatches) is solved,
 and in two cases solved thermodynamically rather than positionally. AssayWatch's
 contribution is not the engine.
 
@@ -24,7 +24,7 @@ ships, reads **64.8% against 92.7%**, and the paired comparison goes 58–8 to t
 rule (McNemar p < 0.0001). The reason is not thermodynamics: with a separate cut fitted
 per panel it reads 87.7%, and on the Salmonella specificity panel its separation is
 total. **A melting temperature only means something against the temperature the reaction
-ran at**, which is a property of each assay's protocol — so a single global cut asks it
+ran at**, which is a property of each assay's protocol, so a single global cut asks it
 to be right about seven protocols at once. That is the same argument `thermo: false`
 rests on, and the registry carries an annealing temperature for one of those six assays,
 which is why the comparison with each assay's published Ta cannot be run yet.
@@ -32,11 +32,11 @@ which is why the comparison with each assay's published Ta cannot be run yet.
 | tool | what it does | what it does not do |
 |---|---|---|
 | **PCR_strainer** | Assesses the inclusivity of primer and probe oligos from diagnostic qPCR assays and amplicon schemes against large genome sets. Wraps `thermonucleotideBLAST` (TNTBLAST), so matching is thermodynamic, not a positional penalty table. Installable as `pcr-strainer`. | No curated assay registry; no longitudinal axis; run on demand against a genome set you supply. |
-| **Primer Monitor** (NEB) | **Continuous** monitoring: users register primer sets and the service tracks overlapping variants in new GenBank/GISAID sequences and alerts when variation crosses a threshold. The closest thing in existence to AssayWatch's premise. | SARS-CoV-2 and RSV only. Not a registry of published assays — each user registers their own. |
+| **Primer Monitor** (NEB) | **Continuous** monitoring: users register primer sets and the service tracks overlapping variants in new GenBank/GISAID sequences and alerts when variation crosses a threshold. The closest thing in existence to AssayWatch's premise. | SARS-CoV-2 and RSV only. Not a registry of published assays. Each user registers their own. |
 | **ViralPrimer** | Web server monitoring primer efficiency for nucleic-acid amplification tests during outbreaks. | SARS-CoV-2 and Mpox. |
 | **PCRv** | Automates in-silico validation of a PCR test against public databases, integrating freely available tools. Defines in-silico sensitivity as the share of hits with <= 1 mismatch per oligo. The paper's own motivation is that database growth and pathogen drift make periodic re-validation necessary; the authors name incremental analysis as future work. | Single assay at a time; no registry; no deposit-year axis. |
-| **GoPrime** | **Fits a model** of real-time PCR performance from sequence, rather than asserting a penalty table — a linear model predicting primer/probe performance, developed on foot-and-mouth disease virus. The methodological precedent for calibrating `config.yaml`'s penalties against measured Cq rather than by eye. | One virus; a prediction tool, not a monitor. |
-| **openPrimeR** | R/Bioconductor package for designing and evaluating multiplex primer sets. Reports a coverage ratio — the share of template sequences covered — at a chosen mismatch allowance. | Design-oriented; no registry, no time axis, no drift statistic. |
+| **GoPrime** | **Fits a model** of real-time PCR performance from sequence, rather than asserting a penalty table: a linear model predicting primer/probe performance, developed on foot-and-mouth disease virus. The methodological precedent for calibrating `config.yaml`'s penalties against measured Cq rather than by eye. | One virus; a prediction tool, not a monitor. |
+| **openPrimeR** | R/Bioconductor package for designing and evaluating multiplex primer sets. Reports a coverage ratio (the share of template sequences covered) at a chosen mismatch allowance. | Design-oriented; no registry, no time axis, no drift statistic. |
 
 **References**
 
@@ -75,7 +75,7 @@ which is why the comparison with each assay's published Ta cannot be run yet.
 Three things, and it is worth being precise because only the first two are defensible
 today:
 
-1. **A curated registry of published wildlife and One-Health pathogen assays** — 218 (2026-10-30)
+1. **A curated registry of published wildlife and One-Health pathogen assays**: 218 (2026-10-30)
    entries with citations verified against Crossref, amplicon sizes measured against
    real records rather than quoted from a gel band, and a controlled vocabulary of
    provenance caveats (`assaywatch/review.py`). Every comparable tool either targets
@@ -87,7 +87,7 @@ today:
    crossing a threshold; AssayWatch reports the series. Honestly stated: the *verdict*
    is still a two-window contrast (recent against a pooled baseline). What makes the
    series more than a table is the Cochran-Armitage trend test printed beside each
-   flagged assay since 2026-10-27 (`assaywatch/trend.py`) — reported, never folded
+   flagged assay since 2026-10-27 (`assaywatch/trend.py`), reported, never folded
    into the status, and with no significance threshold because the project has no
    evidence to set one.
 3. **A lineage-conditional estimand.** Designed (`docs/journal/2026-10-17-estimand-plan.md`),
@@ -105,7 +105,7 @@ almost never done. The canonical demonstration:
   [10.1038/s41598-018-37869-w](https://doi.org/10.1038/s41598-018-37869-w)
 
   Re-assessing the EU-recommended influenza A RT-qPCR against public sequence confirmed
-  high inclusivity for avian, swine and pandemic H1N1 — and found human H3N2 strains
+  high inclusivity for avian, swine and pandemic H1N1, and found human H3N2 strains
   carrying a probe-interfering mutation **circulating since 2010**, at a fluctuating
   prevalence. This is the paper AssayWatch should be measured against: the same
   analysis, done once, by hand, for one assay. It is also a ready-made tier-2
@@ -119,7 +119,7 @@ almost never done. The canonical demonstration:
   The Bd failure case in `docs/validation-cases.tsv`: 30 GenBank ITS haplotypes with
   TaqMan probe-site mutations and 15 with reverse-primer-site mutations; 33 qPCR
   positives against 119 by nested PCR on the same swabs. The assay AssayWatch was built
-  to watch, failing in the way AssayWatch currently cannot see — its records sit in the
+  to watch, failing in the way AssayWatch currently cannot see: its records sit in the
   `no_amplicon`/`diverged` pool that the drift denominator excludes.
 
 ## 4. The scoring model
@@ -147,27 +147,27 @@ assumes about PCR"; repeated here so the reference list is in one place.
 
 - Wilson EB. *Probable Inference, the Law of Succession, and Statistical Inference.*
   Journal of the American Statistical Association 22(158), 1927.
-  [10.1080/01621459.1927.10502953](https://doi.org/10.1080/01621459.1927.10502953)
-  — the score interval used by `drift.wilson_interval`.
+  [10.1080/01621459.1927.10502953](https://doi.org/10.1080/01621459.1927.10502953):
+  the score interval used by `drift.wilson_interval`.
 - Newcombe RG. *Interval estimation for the difference between independent proportions:
   comparison of eleven methods.* Statistics in Medicine 17(8):873–890, 1998.
-  [10.1002/(SICI)1097-0258(19980430)17:8<873::AID-SIM779>3.0.CO;2-I](https://doi.org/10.1002/%28SICI%291097-0258%2819980430%2917%3A8%3C873%3A%3AAID-SIM779%3E3.0.CO%3B2-I)
-  — method 10 (square-and-add / MOVER-W), used by `drift.newcombe_difference`.
+  [10.1002/(SICI)1097-0258(19980430)17:8<873::AID-SIM779>3.0.CO;2-I](https://doi.org/10.1002/%28SICI%291097-0258%2819980430%2917%3A8%3C873%3A%3AAID-SIM779%3E3.0.CO%3B2-I):
+  method 10 (square-and-add / MOVER-W), used by `drift.newcombe_difference`.
   `tests/test_drift.py` pins both against this paper's worked example.
 - Brown LD, Cai TT, DasGupta A. *Interval Estimation for a Binomial Proportion.*
   Statistical Science 16(2), 2001.
-  [10.1214/ss/1009213286](https://doi.org/10.1214/ss/1009213286)
-  — the standard reference for why the Wald interval is unacceptable near 0 and 1, and
+  [10.1214/ss/1009213286](https://doi.org/10.1214/ss/1009213286):
+  the standard reference for why the Wald interval is unacceptable near 0 and 1, and
   the citation for replacing `lineage.confidence_interval_wald`. Also gives the
   Jeffreys-prior interval, which is the conjugate Bayesian answer to the same problem.
 - Benjamini Y, Hochberg Y. *Controlling the False Discovery Rate: A Practical and
   Powerful Approach to Multiple Testing.* Journal of the Royal Statistical Society
   Series B 57(1), 1995.
-  [10.1111/j.2517-6161.1995.tb02031.x](https://doi.org/10.1111/j.2517-6161.1995.tb02031.x)
-  — what `lineage.worst_lineage_verdict` currently applies.
+  [10.1111/j.2517-6161.1995.tb02031.x](https://doi.org/10.1111/j.2517-6161.1995.tb02031.x):
+  what `lineage.worst_lineage_verdict` currently applies.
 - Holm S. *A simple sequentially rejective multiple test procedure.* Scandinavian
   Journal of Statistics 6(2):65–70, 1979. **No Crossref DOI** (checked 2026-10-23);
-  JSTOR stable id 4615733. — FWER control, which is what an "any rejected lineage flags
+  JSTOR stable id 4615733. FWER control, which is what an "any rejected lineage flags
   the assay" rule requires. BH controls the expected *share* of false rejections among
   rejections; it does not control the probability of **at least one**, which is the
   event that decides an assay's status.
@@ -178,25 +178,25 @@ For the exploration in `docs/bayesian-scoring-plan.md`.
 
 - Gelman A, Hill J, Yajima M. *Why We (Usually) Don't Have to Worry About Multiple
   Comparisons.* Journal of Research on Educational Effectiveness 5(2), 2012.
-  [10.1080/19345747.2011.618213](https://doi.org/10.1080/19345747.2011.618213)
-  — the argument that partial pooling does the work multiplicity correction exists to
+  [10.1080/19345747.2011.618213](https://doi.org/10.1080/19345747.2011.618213):
+  the argument that partial pooling does the work multiplicity correction exists to
   do. Directly relevant to the 1,512 per-lineage tests a run performs.
 - Gelman A, Jakulin A, Grazia Pittau M, Su Y-S. *A weakly informative default prior
   distribution for logistic and other regression models.* The Annals of Applied
   Statistics 2(4), 2008.
-  [10.1214/08-AOAS191](https://doi.org/10.1214/08-aoas191)
-  — why a small, partly separable logistic fit (the 166 bench-panel rows) needs priors
+  [10.1214/08-AOAS191](https://doi.org/10.1214/08-aoas191):
+  why a small, partly separable logistic fit (the 166 bench-panel rows) needs priors
   rather than maximum likelihood.
 - Prentice RL. *Binary Regression Using an Extended Beta-Binomial Distribution, with
   Discussion of Correlation Induced by Covariate Measurement Errors.* Journal of the
   American Statistical Association 81(394), 1986.
-  [10.1080/01621459.1986.10478275](https://doi.org/10.1080/01621459.1986.10478275)
-  — beta-binomial overdispersion, i.e. estimating the pseudo-replication the footprint
+  [10.1080/01621459.1986.10478275](https://doi.org/10.1080/01621459.1986.10478275):
+  beta-binomial overdispersion, i.e. estimating the pseudo-replication the footprint
   check currently reports and then ignores.
 - Efron B. *Large-Scale Simultaneous Hypothesis Testing.* Journal of the American
   Statistical Association 99(465), 2004.
-  [10.1198/016214504000000089](https://doi.org/10.1198/016214504000000089)
-  — empirical-Bayes treatment of many simultaneous tests: the deterministic alternative
+  [10.1198/016214504000000089](https://doi.org/10.1198/016214504000000089):
+  empirical-Bayes treatment of many simultaneous tests: the deterministic alternative
   to MCMC for a hierarchical lineage layer.
 
 ## 7. Regulatory
@@ -205,6 +205,6 @@ For the exploration in `docs/bayesian-scoring-plan.md`.
   on COVID-19 Tests (Revised).* January 2023, docket FDA-2020-D-0987. Tells molecular
   test developers to align primer/probe sequences against public genome databases
   periodically and to act when mutations "reduce performance by 5% or more from the
-  previously established performance" — the external precedent for
+  previously established performance", the external precedent for
   `drift.min_decline: 0.05`, with the two caveats recorded beside that setting in
   `config.yaml`.

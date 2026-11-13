@@ -32,7 +32,7 @@ assaywatch validate registry
 python scripts/check_citations.py
 ```
 
-All four must pass. They are the project's gates — see `CLAUDE.md`.
+All four must pass. They are the project's gates. See `CLAUDE.md`.
 
 ## Pip, if you would rather
 
@@ -49,13 +49,13 @@ turned both CI jobs red while the Mac stayed green.
 | extra | brings | for |
 |---|---|---|
 | `dev` | pytest, ruff, pre-commit, build | the gates, and `python -m build` |
-| `lineage` | scipy, statsmodels | the per-lineage verdict and its multiple-testing correction. **Without it anything that computes a verdict raises**, including most of `tests/test_drift.py` — and the lineage check drives 18 of the 38 `declining` calls, so this is not a side feature. CI runs one job without it on purpose, to prove the rest of the pipeline still works. |
+| `lineage` | scipy, statsmodels | the per-lineage verdict and its multiple-testing correction. **Without it anything that computes a verdict raises**, including most of `tests/test_drift.py`, and the lineage check drives 18 of the 38 `declining` calls, so this is not a side feature. CI runs one job without it on purpose, to prove the rest of the pipeline still works. |
 | `pdf` | pypdf | `scripts/verify_oligos_against_paper.py --pdf-dir` |
 | `thermo` | primer3-py | the duplex-Tm columns, opt-in via `thermo: true` |
 
 Pip alone does **not** install Snakemake or the NCBI CLI tools. Without
 Snakemake you can still use the library and `assaywatch screen`
-directly — see `examples/README.md` — but not the `Snakefile` pipeline.
+directly (see `examples/README.md`) but not the `Snakefile` pipeline.
 
 ## The NCBI command-line tools
 
@@ -74,7 +74,7 @@ Get a key from https://www.ncbi.nlm.nih.gov/account/settings/ and put it in
 **one** place. Resolution order, first hit wins:
 
 1. the `NCBI_API_KEY` environment variable
-2. `.secrets/ncbi.key` — **relative to the checkout**, not your home directory
+2. `.secrets/ncbi.key`, **relative to the checkout**, not your home directory
 
 ```bash
 mkdir -p .secrets
@@ -94,8 +94,8 @@ assaywatch credentials            # says which credentials are visible
 assaywatch credentials --check    # also asks NCBI whether it accepts the key
 ```
 
-A key that is unusable — more than one line, control characters, an empty or
-unreadable file — is ignored with a reason given, and never sent.
+A key that is unusable (more than one line, control characters, an empty or
+unreadable file) is ignored with a reason given, and never sent.
 
 ## Network access
 
@@ -106,19 +106,19 @@ environments block these; `CLAUDE.md` records that network steps are run
 locally for that reason.
 
 `scripts/check_citations.py` reads the committed
-`docs/papers-index.cache.json` and so passes offline — but a **new** DOI cannot
+`docs/papers-index.cache.json` and so passes offline, but a **new** DOI cannot
 be verified without Crossref, and waits rather than being entered.
 
 ## Next
 
-- `examples/README.md` — screen one assay offline in a second
-- `README.md` — what the project is and how the registry is laid out
-- `CONTRIBUTING.md` — how an assay gets in
+- `examples/README.md`: screen one assay offline in a second
+- `README.md`: what the project is and how the registry is laid out
+- `CONTRIBUTING.md`: how an assay gets in
 
 ## A note on pinning
 
 `environment.yml` pins `python`, `ruff` and `snakemake` exactly, gives floors for
-`pydantic` and `ruamel.yaml`, and leaves the rest to the solver — so two machines
+`pydantic` and `ruamel.yaml`, and leaves the rest to the solver, so two machines
 can still differ in a sub-dependency. `conda-lock.yml` is the fully pinned
 alternative, with checksums, for `linux-64` and `osx-arm64`:
 

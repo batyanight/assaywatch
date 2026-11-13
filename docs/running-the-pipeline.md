@@ -57,8 +57,8 @@ the report folder.
 every screen that went into it with the time it was written, its rows and its
 assay count, plus the screening code-and-config hash, the git commit and the
 signature the pipeline expects for each group. Because reports are cumulative,
-the table is a mosaic — a run mixes archives screened tonight with archives
-screened three weeks ago under whatever the config said then — so the sidecar
+the table is a mosaic (a run mixes archives screened tonight with archives
+screened three weeks ago under whatever the config said then), so the sidecar
 records per-archive facts and the span of screening times rather than claiming
 one set of settings for the whole table. It exists because
 `results/2026-10-18/calls.tsv.gz` turned out to have been screened under a
@@ -90,7 +90,7 @@ python scripts/storage_report.py          # measures; deletes nothing, ever
 ```
 
 Keeping every archive is what makes a past report reproducible, so
-`data/retrieved/` only grows — 9.1 GB across 134 groups on 2026-10-30, against
+`data/retrieved/` only grows: 9.1 GB across 134 groups on 2026-10-30, against
 491 MB of cached screens and 236 MB of reports. Run the script rather than
 trusting these figures; they are a measurement with a date, not a property. The
 instinct when that fills a disk is to delete the biggest thing, and here the
@@ -98,25 +98,25 @@ biggest thing is the only thing that cannot be recovered:
 
 | | 2026-10-30 | recoverable? |
 |---|---|---|
-| `data/retrieved/*.fasta.gz` | 9.1 GB | **no** — retrieval is incremental (`datetype=mdat`), so each archive is the set of records that changed since the previous run, which NCBI will not reproduce on request; records are also revised and withdrawn |
-| `data/retrieved/*.meta.tsv.gz` | 22 MB | **no**, and it carries the deposit dates the whole drift statistic is indexed on — 0.2% of the volume for the most irreplaceable part of it |
+| `data/retrieved/*.fasta.gz` | 9.1 GB | **no**: retrieval is incremental (`datetype=mdat`), so each archive is the set of records that changed since the previous run, which NCBI will not reproduce on request; records are also revised and withdrawn |
+| `data/retrieved/*.meta.tsv.gz` | 22 MB | **no**, and it carries the deposit dates the whole drift statistic is indexed on (0.2% of the volume for the most irreplaceable part of it) |
 | `results/screened/` | 491 MB | yes, deterministically, ~54 min on 10 cores |
 | `results/<date>/` | 236 MB over 23 runs | yes, minutes, from the screens |
 
-So the order that loses least is: old reports, then the screen cache, then —
-only after deciding their records are not wanted again — **orphaned groups**.
+So the order that loses least is: old reports, then the screen cache, then,
+only after deciding their records are not wanted again, **orphaned groups**.
 A group is a (taxid, query) pair taken from the registry; re-scope a query or
 retire an assay and its archives stay on disk, screened by nothing and reported
 in nothing. There are 6, holding 608 MB, and the report says for each how much
 of it the live groups still hold (`1387563/all` is 506 MB of which 6,856
 accessions appear in no live group). Deleting one is reversible only in the
-sense that re-scoping brings the group back — not the deposits that have
+sense that re-scoping brings the group back, not the deposits that have
 changed or gone meanwhile.
 
 The report also measures **cross-group duplication**, which is the archive
 format working as designed rather than a fault: archives are stored per group,
 while a record belongs to every group whose query matches it. On gene-sized
-records that is cheap; on the Mycobacterium complex it is not — `77643`'s two
+records that is cheap; on the Mycobacterium complex it is not: `77643`'s two
 query groups share 822 whole-genome accessions, about 253 MB, and
 `1387563/qdb308affab` is wholly contained in the orphaned `1387563/all`.
 Fixing it properly means storing each record once and having groups reference
@@ -126,7 +126,7 @@ repaired.
 ### Retrieval groups and gene-targeted queries
 
 A retrieval group is a (taxid, query) pair, and the archive lives at
-`data/retrieved/<taxid>/<group>/<date>.fasta.gz` — `all` when the whole taxon
+`data/retrieved/<taxid>/<group>/<date>.fasta.gz`: `all` when the whole taxon
 is fetched, a short hash of the query otherwise. The query is the assay's own
 `target.query`, an Entrez term ANDed onto the taxon:
 
@@ -143,8 +143,8 @@ shotgun contigs). The 44 assays on taxa too large to fetch whole carry a query
 set in their own entry's `target.query`; the terms OR together gene
 names, title phrases and `"complete genome"[Title]` because annotation is
 inconsistent and a complete genome always carries the locus. A record the
-query misses is a record the assay is not judged against — a coverage cost,
-not a scoring error — and `--dry-run` reports each group's count so the
+query misses is a record the assay is not judged against (a coverage cost,
+not a scoring error), and `--dry-run` reports each group's count so the
 query can be widened or narrowed before anything is fetched.
 
 Each group is then screened only against the assays that asked for it
@@ -226,7 +226,7 @@ Each run writes `data/retrieved/<taxid>/<group>/<date>.fasta.gz` plus a
 title. The dates are the point: the drift question is whether coverage has
 fallen *since the assay was designed*, which needs a year per record, and FASTA
 headers do not carry one while full GenBank flatfiles are an order of magnitude
-more data to move. Nothing is deduplicated at fetch time — each archive is a
+more data to move. Nothing is deduplicated at fetch time. Each archive is a
 self-describing snapshot of what that query returned that day, which is what
 makes a past report reproducible.
 

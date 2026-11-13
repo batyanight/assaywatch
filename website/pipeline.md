@@ -54,29 +54,29 @@ oligonucleotide sequences alone.
 
 ## The stages
 
-**[The registry](registry/)** — One YAML file per assay, 218 in all. Each records the oligonucleotide sequences, target organism, chemistry, product size and source publication.
+**[The registry](registry/)**: One YAML file per assay, 218 in all. Each records the oligonucleotide sequences, target organism, chemistry, product size and source publication.
 
-**[validate](validate/)** — Runs before any other stage and stops the pipeline if the registry does not parse, has a duplicate key, or holds an entry without a confirmed citation.
+**[validate](validate/)**: Runs before any other stage and stops the pipeline if the registry does not parse, has a duplicate key, or holds an entry without a confirmed citation.
 
-**[retrieve](retrieve/)** — Fetches nucleotide records from GenBank for each target and archives them.
+**[retrieve](retrieve/)**: Fetches nucleotide records from GenBank for each target and archives them.
 
-**[screen](screen/)** — The heaviest stage, and the only one that works on sequence at scale.
+**[screen](screen/)**: The heaviest stage, and the only one that works on sequence at scale.
 
-**[collect](collect/)** — Merges the cached per-archive results into one table for the run.
+**[collect](collect/)**: Merges the cached per-archive results into one table for the run.
 
-**[The calls table](calls/)** — Every later stage reads this file and nothing else. This is deliberate: the four analyses below cannot disagree about the data, because there is only one copy.
+**[The calls table](calls/)**: Every later stage reads this file and nothing else. This is deliberate: the four analyses below cannot disagree about the data, because there is only one copy.
 
-**[drift + report](report/)** — Groups calls by deposit year, compares recent detection with all earlier records, and assigns a status.
+**[drift + report](report/)**: Groups calls by deposit year, compares recent detection with all earlier records, and assigns a status.
 
-**[lineage](lineage/)** — Splits each assay's records by organism below the target and recomputes detection for each clade.
+**[lineage](lineage/)**: Splits each assay's records by organism below the target and recomputes detection for each clade.
 
-**[site drift](sitedrift/)** — For flagged assays, finds **which base** is responsible.
+**[site drift](sitedrift/)**: For flagged assays, finds **which base** is responsible.
 
-**[figures](figures/)** — Draws the overview plots and puts them in the HTML report.
+**[figures](figures/)**: Draws the overview plots and puts them in the HTML report.
 
-**[degeneracy](degeneracy/)** — Computed from the oligonucleotide sequences alone, with no sequence database involved. That is why it comes from the registry and not the calls table.
+**[degeneracy](degeneracy/)**: Computed from the oligonucleotide sequences alone, with no sequence database involved. That is why it comes from the registry and not the calls table.
 
-**[config.yaml](config/)** — Nineteen thresholds decide every verdict, and all but one were set by inspection. None are written into code.
+**[config.yaml](config/)**: Nineteen thresholds decide every verdict, and all but one were set by inspection. None are written into code.
 
 
 *A complete run takes about 50 minutes on eight cores, not counting retrieval.*

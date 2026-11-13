@@ -71,7 +71,7 @@ controlled vocabulary rather than free text. Pick the flag that a *filter* would
 ask for and put the entry's own specifics in `note`; one item per flag, so two
 findings about the same flag are one item with both in the note. If no flag
 fits, say what is pending under `curation_decision_pending` (which requires a
-note) rather than inventing a flag — and then the vocabulary is probably missing
+note) rather than inventing a flag, and then the vocabulary is probably missing
 a category, which is worth raising.
 
 Four flags that existed before 2026-10-21 are deliberately absent: `DOI_MISSING`,
@@ -88,7 +88,7 @@ a promise about time that cannot be kept is worse than none. What makes a
 submission quick to review is also what makes it correct, so do these first: the
 validator passes (`assaywatch validate pending --pending` for a new
 entry), the citation has a DOI that `scripts/check_citations.py` can resolve, and
-every oligo can be read from the cited paper's own table — `scripts/verify_oligos_against_paper.py`
+every oligo can be read from the cited paper's own table. `scripts/verify_oligos_against_paper.py`
 should report `exact`. An entry that meets those three is usually a short read.
 One that does not waits on whichever of them is missing, and the review says so.
 
@@ -114,14 +114,14 @@ Three fields deserve care:
   filovirus reverse primer from `seq` would call it 8192-fold degenerate when it
   is 8-fold.
 - **`tail_5prime`.** If the printed primer begins with bases that do not bind the
-  target — a restriction site and clamp for cloning, an M13 or sequencing
-  adapter — declare them. An undeclared tail makes the assay appear to match
+  target (a restriction site and clamp for cloning, an M13 or sequencing
+  adapter), declare them. An undeclared tail makes the assay appear to match
   nothing: the CDV F-gene primers carry SalI and NotI tails and matched 0 of
   3,990 records until they were declared.
 - **`query`.** Without one, the assay is screened against every record for its
   taxon, most of which will not carry the locus. That is only a cost in noise,
   except where the taxon is huge. With one, records the query misses are records
-  the assay is never judged against — a coverage cost, not a scoring error. Use
+  the assay is never judged against (a coverage cost, not a scoring error). Use
   `--dry-run` on retrieval to see the counts before deciding.
 
 ## 2. Check it
@@ -138,7 +138,7 @@ entry says; the cited paper itself, fetched into `papers/` when an open copy
 exists (Europe PMC, Unpaywall, OpenAlex, Elsevier with a key) and otherwise
 queued on `papers/papers-fetch-list.md` for a human; every stored oligo against
 what that paper prints; the amplicon measured over the local archive; and then
-the decisive one — whether the oligos actually find their amplicon in real
+the decisive one: whether the oligos actually find their amplicon in real
 records for that target.
 
 It is write-through. What can be resolved or measured is written into the entry
@@ -171,8 +171,8 @@ assaywatch retrieve registry/YOUR_ASSAY.yaml --email you@example.org
 
 **If the oligos came from a paper other than the one you cite, say so in the first
 sentence of `source.notes_curator`, with that paper's author and DOI.** Record the
-modification on the oligo itself too — `modified_from` holds the cited paper's printed
-sequence and `modification_doi` the paper that publishes the modified form — but a field
+modification on the oligo itself too (`modified_from` holds the cited paper's printed
+sequence and `modification_doi` the paper that publishes the modified form), but a field
 two levels down is not where a reader looks first. The schema enforces the note: an
 oligo whose `modification_doi` differs from `citation.doi` fails validation unless that
 DOI appears in `notes_curator`. The house form is
@@ -196,7 +196,7 @@ The one exception is a print error the evidence settles, by maintainer decision 
 on the entry, so its status stays withheld. Zimmermann 1994 round 2 is the one case.
 
 If the printed sequence then fails against real records, that is a finding and it is
-reported as one — flag `oligo_sequence_uncertain`, which withholds the status until a
+reported as one: flag `oligo_sequence_uncertain`, which withholds the status until a
 human re-reads the source, rather than storing a corrected sequence. Four oligos across
 four entries were removed on 2026-11-01 under this rule; `BORNA_VIRUS_N_gene` is the hard
 case, where the printed primer detects nothing and the removed one detected 308 of 456.
@@ -207,8 +207,8 @@ python scripts/verify_oligos_against_paper.py --assay YOUR_ASSAY --pdf-dir ~/Dow
 
 **The literature is the truth.** The registry was started from a list of primers in use; every entry has since been checked against, and cites, its own paper.
 
-This fetches the paper's open-access full text — or reads a PDF you have
-downloaded — and looks for each stored sequence in it. Papers print reverse
+This fetches the paper's open-access full text (or reads a PDF you have
+downloaded) and looks for each stored sequence in it. Papers print reverse
 primers in either orientation and break sequences into codon groups, both of
 which it handles. When a sequence is **not** found it reports the closest
 printed oligo by edit distance, so `near:1` arrives with the correction already
@@ -222,8 +222,8 @@ accordingly.
 ## 3. Open a pull request
 
 Include the paper's table or figure the sequences came from, or a quotation of
-it. Sequences transcribed from a secondary source — a review, another
-registry — are the main source of error here, so say which
+it. Sequences transcribed from a secondary source (a review, another
+registry) are the main source of error here, so say which
 you used. CI runs the registry validator on every push.
 
 ## Finding assays to add
@@ -236,7 +236,7 @@ This searches Europe PMC for recent papers that look like they publish an assay
 for a taxon the registry already tracks, and writes a review queue sorted so
 that papers with readable oligo sequences in their open full text come first.
 It proposes and never adds: a row is a reading assignment. Precision is modest
-even with title and abstract filtering — expect roughly one paper in five to
+even with title and abstract filtering. Expect roughly one paper in five to
 actually contain a usable primer table.
 
 For a target the registry does not cover yet, pass `--taxon` with the name you
@@ -246,15 +246,15 @@ want searched.
 
 `draft` is the default and means the entry is believed correct but unproven.
 `active` additionally requires a taxid, a verified DOI, a design year, no *open*
-review flag, and that the schema's own checks pass — the validator enforces
+review flag, and that the schema's own checks pass. The validator enforces
 this. A recorded caveat such as `nested_protocol` or `cross_reactive` is no bar:
 it is a permanent, disclosed property of a sound entry, and refusing those here
 is what kept 146 of 208 entries permanently unactivatable before 2026-10-21.
 
 **`submitted_by` is not required, as of 2026-10-21.** Every other precondition is
 evidence about the assay; authorship is not. Once the review-flag rule was fixed,
-`submitted_by` was the only thing blocking 167 of 208 entries on 2026-10-21 — including all
-four remaining Phase 0 candidates — because the registry was bulk-imported by one
+`submitted_by` was the only thing blocking 167 of 208 entries on 2026-10-21, including all
+four remaining Phase 0 candidates, because the registry was bulk-imported by one
 curator and 207 of 208 entries (2026-10-21) left the field null. Setting it 207 times to one
 name would have been a rubber stamp. Fill it in if you are submitting an entry;
 do not treat it as a step on the way to `active`.
@@ -262,9 +262,9 @@ do not treat it as a step on the way to `active`.
 What that leaves is judgement, and only a maintainer sets `active`. In practice a
 maintainer wants the assay to have been screened against real records with a
 defensible result, and its orientation confirmed rather than inferred from the
-order of rows in a table. A `watch` status is not automatically a bar —
-`active` means the assay can be screened and cited, not that it performs well,
-and the report says `watch` either way — but a maintainer should say so
+order of rows in a table. A `watch` status is not automatically a bar
+(`active` means the assay can be screened and cited, not that it performs well,
+and the report says `watch` either way), but a maintainer should say so
 deliberately rather than by default.
 
 `deprecated` means do not use: kept so that reports and past analyses still
@@ -274,8 +274,8 @@ resolve the id.
 
 Maintainers: run `assaywatch curate` on the entry and clear its "Left for a
 human" list, then screen the assay's group before merging. If the assay's performance has been
-reported anywhere in the literature, add a row to `docs/validation-cases.tsv` —
-that file is the only thing calibrating the thresholds in `config.yaml`, and it
+reported anywhere in the literature, add a row to `docs/validation-cases.tsv`.
+That file is the only thing calibrating the thresholds in `config.yaml`, and it
 is dated to the latest sequence each cited paper could have seen so that the
 tool is never shown the answer. A `fails` row also records its `mechanism`, `drift` or
 `coverage`, from the source's own account of why the assay missed (see the
@@ -341,7 +341,7 @@ each test, is `docs/journal/2026-11-01-no-recent-data-scope-check.md`.
 
 **Which assays.** Every assay whose status in the release run is `no recent data` or
 `insufficient data`, plus every group `scripts/check_archive_recency.py --months 24
---verbose` lists as stale, plus — for test 4 only — every `declining` and `low coverage`
+--verbose` lists as stale, plus, for test 4 only, every `declining` and `low coverage`
 assay carrying `scope_taxids`. A below-threshold verdict can be produced by a scope that
 has stopped matching how NCBI files the taxon, exactly as `no recent data` can: on
 2026-11-01 one `declining` assay turned out to rest on 155 evaluable records while 816
