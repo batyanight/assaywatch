@@ -60,8 +60,9 @@ records of each archive (290 for the nidovirus one, which holds no more),
 their declared pairs give 1320, 161 and 1695 bp against a declared 1319, 163
 and 1694: the stored numbers are right, and it was the alternate's product
 being credited to the assay. With the filter on, the out-of-window combination
-is `no_amplicon` and the screener falls back to the declared pair. 20 of 214
-entries could form a second product this way. The fix is curation: one entry
+is `no_amplicon` and the screener falls back to the declared pair. When the
+registry held 214 entries (mid-October 2026), 20 of them could form a second
+product this way. The fix is curation: one entry
 per round, as the CMV gB and adenovirus polymerase assays already have.
 
 ### What the scoring rule assumes about PCR, and where it is wrong
