@@ -24,7 +24,18 @@
       "mcp__Claude_Browser__find",
       "mcp__23523cb2-e073-461f-ae03-1721e36b3dab__search_articles",
       "mcp__23523cb2-e073-461f-ae03-1721e36b3dab__get_full_text_article",
-      "mcp__23523cb2-e073-461f-ae03-1721e36b3dab__get_article_metadata"
+      "mcp__23523cb2-e073-461f-ae03-1721e36b3dab__get_article_metadata",
+      "Bash(mlr *)",
+      "Bash(xtract *)",
+      "Bash(gzcat *)",
+      "Bash(zcat *)",
+      "Bash(conda run -n assaywatch pytest *)",
+      "Bash(conda run -n assaywatch ruff check *)",
+      "Bash(conda run -n assaywatch ruff format --check *)",
+      "Bash(conda run -n assaywatch assaywatch validate *)",
+      "Bash(assaywatch validate *)",
+      "Bash(pmset -g *)",
+      "Bash(conda env list *)"
     ]
   }
 }

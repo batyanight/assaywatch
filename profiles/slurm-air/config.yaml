@@ -1,0 +1,72 @@
+# Snakemake profile for the Air: the Ubuntu MacBook Air run as a one-node SLURM
+# practice cluster (spec #19). Same rules, same Snakefile; only the requests change.
+#
+#     micromamba run -n assaywatch snakemake --profile profiles/slurm-air \
+#       --config email="$(cat .secrets/email)" --omit-from composition
+#
+# THE NODE. One machine, 4 CPUs, 7.2 GB of RAM of which SLURM may hand out 5800 MB
+# (`RealMemory` in /etc/slurm/slurm.conf, `scontrol show node`), one partition
+# `debug` with no time limit. SelectTypeParameters=CR_Core_Memory, so memory is a
+# consumable: two 5500 MB jobs never run at once, the second waits for the first.
+#
+# WHY THE RUN IS SPLIT. `composition` peaked at 12.1 GB on the 2026-11-01 run and
+# asks for 13000 MB, and `lineage_analysis` and `report` need its output. No request
+# the Air could accept would let it finish, so `--omit-from composition` stops the
+# Air half there and the Mac runs those three rules from copies of the Air's outputs
+# (docs/running-the-pipeline.md, "Running on the Air").
+#
+# WHY THE CAPS. A job that asks for more memory than any node has is not killed: it
+# is never started, and sits pending while Snakemake waits for it. So every rule that
+# declares or scales past 5800 MB in the Snakefile gets a flat request here, at
+# 5500 MB to leave the operating system some room. tests/test_profile_slurm_air.py
+# fails if any value here passes 5800.
+#
+# Accounting is off on the Air (no slurmdbd), so `sacct` cannot report MaxRSS. Peak
+# memory per job comes from the `benchmark:` files instead; check them after a run
+# against the caps below.
+#
+# Do NOT use `--use-conda`; see profiles/slurm/config.yaml for why.
+
+executor: slurm
+# 4 CPUs are 2 cores with 2 threads each, and SLURM hands out whole cores: a job
+# asking for 1 CPU gets 2 (`sbatch --test-only` says "using 2 processors"). So at
+# most 2 single-CPU jobs run at once; the other 2 wait in the queue, which costs
+# nothing. Memory usually binds first anyway.
+jobs: 4
+# A CPU request larger than the node is as unschedulable as a memory one: it sits
+# pending forever. `refseq_twins` declares 6 threads and `screen_archive` can ask
+# for up to `screen.max_workers` (16), so every rule is cut to the node's 4 here.
+max-threads: 4
+latency-wait: 60
+rerun-incomplete: true
+printshellcmds: true
+
+# The generic profile retries 3 times with a larger request each attempt. Here a
+# larger request is unschedulable, so a retry asks for the same memory and fails
+# the same way. One retry still covers a transient failure.
+restart-times: 1
+
+default-resources:
+  - slurm_partition="debug"
+  - mem_mb=4000
+  - runtime=60
+
+# A two-level mapping, rule then resource. Snakemake 9.27 rejects the list form
+# (`- mem_mb=5500`) here with "Invalid set-resources format in profile", although
+# it accepts a list for default-resources above.
+set-resources:
+  # `retrieve` and `retrieval_coverage` are localrules: they run inside the
+  # Snakemake process on the Air, not through sbatch, so nothing is set for them.
+  screen_archive:
+    # The Snakefile asks (2000 + 500 * threads) * attempt: 4000 MB at 4 threads on
+    # the first attempt, 8000 on the second. Flat instead.
+    mem_mb: 5500
+    runtime: 240
+  site_drift:
+    mem_mb: 5500                 # Snakefile: 6000. Measured peak 4.95 GB (2026-11-06)
+  figures:
+    mem_mb: 5500                 # Snakefile: 6000
+  collect_calls:
+    # Declares nothing in the Snakefile and has never been measured; the Greene
+    # profile guesses 16000. If it is killed here, it moves to the Mac half.
+    mem_mb: 5500

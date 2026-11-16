@@ -7,6 +7,9 @@ data/retrieved/*
 !data/retrieved/.gitkeep
 results/*
 !results/.gitkeep
+# Copies of a run made on the Air, for the Mac half (docs/running-the-pipeline.md)
+data/retrieved-air/
+results-air/
 out/
 
 # Snakemake working state (locks, metadata, logs)
