@@ -53,6 +53,12 @@ def test_no_rule_asks_for_more_cpus_than_the_air_has(profile):
     assert profile["max-threads"] <= AIR_CPUS
 
 
+def test_job_status_comes_from_squeue_because_the_air_has_no_accounting(profile):
+    """With no slurmdbd, `sacct` reports no job, and the plugin's default `sacct`
+    status command left the first live run waiting forever on a finished job."""
+    assert profile["slurm-status-command"] == "squeue"
+
+
 def test_set_resources_is_the_two_level_mapping_snakemake_accepts(profile):
     """Snakemake 9.27 refuses a list per rule here ("Invalid set-resources format in
     profile. Expected two-level mapping"), found by the first dry run on the Air.
