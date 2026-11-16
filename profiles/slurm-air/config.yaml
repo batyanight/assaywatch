@@ -37,6 +37,13 @@ jobs: 4
 # pending forever. `refseq_twins` declares 6 threads and `screen_archive` can ask
 # for up to `screen.max_workers` (16), so every rule is cut to the node's 4 here.
 max-threads: 4
+# How Snakemake learns a job has finished. The plugin defaults to `sacct`, which
+# reads the accounting database, and the Air has none (no slurmdbd): `sacct` never
+# reports a job, so Snakemake waited forever on the first one (2026-11-15, job 11
+# finished in 12 s and was still "running" minutes later). `squeue --states=all`
+# keeps showing a finished job for MinJobAge, 300 s on the Air, against a 40 s
+# polling interval, so it sees every job end.
+slurm-status-command: squeue
 latency-wait: 60
 rerun-incomplete: true
 printshellcmds: true
