@@ -251,3 +251,100 @@ defaults. Retrieval stays a single job on purpose: NCBI's rate limit is global,
 so parallel fetch jobs would each sleep for their own limit and together exceed
 it. The parallelism worth having is in scoring, which is pure CPU and
 embarrassingly parallel across taxa.
+
+### Running on the Air
+
+The Air is an Ubuntu MacBook Air set up as a one-node SLURM cluster: 4 CPUs,
+7.2 GB of RAM, of which SLURM may hand out 5800 MB, and one partition, `debug`.
+It stays up with the lid closed, so a run does not depend on the Mac staying awake.
+`profiles/slurm-air/` is its profile. Spec: issue #19.
+
+**The run is split.** `composition` peaked at 12.1 GB on the 2026-11-01 run, and
+`lineage_analysis` and `report` need its output, so none of the three can run on the
+Air. The Air runs everything else; the Mac runs those three from copies of the Air's
+archives and results.
+
+**The environment** on the Air comes from micromamba, a single-file conda
+installer kept in `~/.local/bin` with no base environment. It builds from
+`conda-lock.yml`, the fully pinned list of every package for each platform, so the
+Air resolves the same packages as the Mac. Over SSH it is not on `PATH`; prefix
+commands with `~/.local/bin/micromamba run -n assaywatch`.
+
+The commands below use `air` as the SSH name of the Air. Set it once in the Mac's
+`~/.ssh/config` (`Host air`, with your `HostName` and `User`).
+
+**Air half.** Start it inside `tmux` so it outlives the SSH session:
+
+```bash
+tmux new -s assaywatch
+~/.local/bin/micromamba run -n assaywatch snakemake --profile profiles/slurm-air \
+  --config email="$(cat .secrets/email)" --omit-from composition
+```
+
+`--omit-from composition` leaves out `composition` and every rule that needs its
+output (`lineage_analysis`, `report`). `retrieve` and `retrieval_coverage` are
+localrules, so they run inside this Snakemake process; every other rule becomes its
+own `sbatch` job, which `squeue -u $USER` shows. Detach with
+Ctrl-b d and reattach later with `tmux attach -t assaywatch`. The run date is the
+folder name under `results/`; note it for the Mac half.
+
+What the profile asks SLURM for, and why:
+
+| Setting | Value | Why |
+|---|---|---|
+| `jobs` | 4 | the 4 CPUs are 2 cores of 2 threads, and SLURM hands out whole cores, so a 1-CPU job takes 2 and at most 2 run at once; the rest wait in the queue at no cost |
+| partition | `debug` | the Air's only partition |
+| `max-threads` | 4 | `refseq_twins` declares 6 threads and `screen_archive` can ask for 16; a CPU request larger than the node never starts either |
+| default memory | 4000 MB | what any rule without its own request gets |
+| `screen_archive`, `site_drift`, `figures` | 5500 MB flat | the Snakefile asks for 6000, or scales past 5800 on a retry |
+| `collect_calls` | 5500 MB | declares nothing and was never measured; 5500 rather than the default, as a guess |
+| `restart-times` | 1 | a retry cannot ask for more memory than the node has, so further retries fail the same way |
+
+A job that asks for more memory than any node has is not killed. It is never
+started: it sits pending while Snakemake waits for it. `tests/test_profile_slurm_air.py`
+fails if any memory request in the profile passes 5800 MB or `max-threads` passes 4. `collect_calls` has never been
+measured; if it is killed at 5500 MB, run it on the Mac with the other three.
+
+SLURM accounting is off on the Air, so `sacct` reports nothing. Peak memory and wall
+time per job are in the `benchmark:` files.
+
+**Mac half.** The Air's archives and all of its `results/` (the screened files under
+`results/screened/` as well as the run-date folder, so every input of the calls table
+exists) go into their own gitignored folders, never into the Mac's
+`data/retrieved/`, which holds the incremental history NCBI will not reproduce:
+
+```bash
+rsync -a air:projects/assaywatch/data/retrieved/ data/retrieved-air/
+rsync -a air:projects/assaywatch/results/ results-air/
+```
+
+Warm the reference cache, which reads GenBank and then stops without clustering:
+
+```bash
+assaywatch composition results-air/RUN_DATE/calls.tsv.gz --retrieved data/retrieved-air \
+  --out results-air/RUN_DATE --run-date RUN_DATE --references prefetch \
+  --email "$(cat .secrets/email)"
+```
+
+Then run only the three remaining rules. Dry-run first (`-n`): the plan should list
+exactly `composition`, `lineage_analysis` and `report`. Anything else means the Mac
+sees an upstream output as out of date; stop and find out why.
+
+```bash
+snakemake -n --cores 4 --allowed-rules composition lineage_analysis report \
+  --config run_date=RUN_DATE retrieved_dir=data/retrieved-air results_dir=results-air \
+  email="$(cat .secrets/email)"
+caffeinate -i snakemake --cores 4 --allowed-rules composition lineage_analysis report \
+  --config run_date=RUN_DATE retrieved_dir=data/retrieved-air results_dir=results-air \
+  email="$(cat .secrets/email)"
+```
+
+`run_date` names the Air's folder outright. `--allowed-rules` makes Snakemake stop
+with an error, not quietly re-fetch or re-screen, if it decides an upstream output
+is out of date. That happens when the Mac and the Air are on different commits,
+because rule params hash the package code: bring both to the same commit first.
+
+**A run from a fresh fetch is not comparable** with runs built on the Mac's
+incremental archives. Each archive holds the current state of its records, not the
+revisions and withdrawals the incremental history kept, so detection by deposit
+year can shift for reasons that are not drift. Say so wherever the run is reported.

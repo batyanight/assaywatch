@@ -27,6 +27,7 @@ FAST_FILES = frozenset(
         "loci",
         "metadata",
         "nested",
+        "profile_slurm_air",
         "refseq_twins",
         "registry",
         "scope_check",
