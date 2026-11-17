@@ -258,6 +258,7 @@ Generated or maintained TSVs. Read columns with `mlr --itsv --opprint head -n 3 
 
 | | |
 |---|---|
+| [`journal/2026-11-17-lipl32-wgs-master-pages.md`](journal/2026-11-17-lipl32-wgs-master-pages.md) | why the 2026-11-15 run failed: two efetch pages of WGS master records came back empty on the lipL32 query, fixed in the registry with the WGS exclusion |
 | [`journal/2026-10-17-nested-family-key.md`](journal/2026-10-17-nested-family-key.md) | how nested rounds are paired into families |
 | [`journal/2026-10-20-tier2-rename-resolution.md`](journal/2026-10-20-tier2-rename-resolution.md) | why a validation case must never match nothing silently |
 | [`journal/2026-10-22-supplements-and-three-citations.md`](journal/2026-10-22-supplements-and-three-citations.md) | a supplement in `papers/` that the verifier could not see |
