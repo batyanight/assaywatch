@@ -5,7 +5,7 @@ target:
   gene: lipL32
   genome_type: dsDNA
   taxon_name: Leptospira
-  query: lipL32[Gene] OR lipL32[All Fields] OR "complete genome"[Title]
+  query: (lipL32[Gene] OR lipL32[All Fields] OR "complete genome"[Title]) NOT "whole genome shotgun"[Title]
 chemistry: hydrolysis_probe
 oligos:
   forward:
