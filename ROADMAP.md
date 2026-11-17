@@ -1017,6 +1017,8 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   warm-up between two Snakemake calls; a systemd user timer on the Air, Fridays 11:00 PM;
   the running guide's split run becomes the fallback. The Air's `data/retrieved/` becomes
   the canonical history. Supersedes the launchd restore in the next item once done.
+  The script launches with no `run_date`, so since 2026-11-17 it stops when the previous
+  run has no `report.html`; decide whether the timer passes `new_run=1` or stops and says so.
 - [ ] **`asm` archives carry no taxid, and the guard that should say so is masked** (found
   2026-11-17). The assembly writer's metadata header has no `taxid` column, and the backfill
   sidecar (2026-10-18) holds no `GCA_` accession, so no `asm` record has ever had a taxid
@@ -1025,6 +1027,14 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   the Mac's sidecar was copied to the Air to finish that run. Diagnose whether the missing
   taxids change scopes or lineages for the 13 `asm` assays, then fix the writer and the
   guard. The Air's history becoming canonical (item above) depends on this. Ticket #30.
+- [x] **The split run's launch mistakes of 2026-11-17 are guarded** (retro items 1 to 4, done
+  2026-11-17, `docs/journal/2026-11-17-retro-fixes.md`). A launch that would pin a new run
+  date while the latest earlier run folder has no `report.html` stops unless given
+  `--config new_run=1` (`timing.unfinished_run`); the running guide's Mac-half command
+  names its two targets before `--config`, and a `slow` test runs it; the Air profile and
+  the guide say per-rule overrides go in the profile, never in `--set-resources`; and
+  `composition` writes `results/benchmarks/composition/<run date>.tsv`, so spec #28's
+  "with a benchmark" is in place (max_rss fills in on Linux only).
 - **The weekly re-screen is PAUSED until the v0.3.0 release** (2026-11-06, maintainer's decision):
   `launchctl` shows `com.assaywatch.weekly` unloaded and disabled, and the plist is unchanged. It runs
   `--live` on whatever is checked out and only warns off `main`. Step 15 restores it:
