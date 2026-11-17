@@ -1009,6 +1009,14 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Operations
 
+- [ ] **Every routine run goes start to finish on the Air** (grilled 2026-11-17, spec #28). In
+  order: measure `composition`'s peak on the Air as the last stage of the 2026-11-15 run; at
+  4.8 GB or less, declare `mem_mb=5500` with a benchmark in the Snakefile and drop the Air
+  profile's `omit-from: [composition]` line, otherwise reduce `composition`'s memory first;
+  make `scripts/weekly_run.sh` run on both machines with `--profile DIR` and the reference
+  warm-up between two Snakemake calls; a systemd user timer on the Air, Fridays 11:00 PM;
+  the running guide's split run becomes the fallback. The Air's `data/retrieved/` becomes
+  the canonical history. Supersedes the launchd restore in the next item once done.
 - **The weekly re-screen is PAUSED until the v0.3.0 release** (2026-11-06, maintainer's decision):
   `launchctl` shows `com.assaywatch.weekly` unloaded and disabled, and the plist is unchanged. It runs
   `--live` on whatever is checked out and only warns off `main`. Step 15 restores it:
