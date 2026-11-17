@@ -1017,6 +1017,14 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   warm-up between two Snakemake calls; a systemd user timer on the Air, Fridays 11:00 PM;
   the running guide's split run becomes the fallback. The Air's `data/retrieved/` becomes
   the canonical history. Supersedes the launchd restore in the next item once done.
+- [ ] **`asm` archives carry no taxid, and the guard that should say so is masked** (found
+  2026-11-17). The assembly writer's metadata header has no `taxid` column, and the backfill
+  sidecar (2026-10-18) holds no `GCA_` accession, so no `asm` record has ever had a taxid
+  through `read_taxid_backfill`. Its guard fires only when the sidecar is missing, which is
+  why the Air's 2026-11-15 run failed in `figures` and `site_drift` and the Mac never did;
+  the Mac's sidecar was copied to the Air to finish that run. Diagnose whether the missing
+  taxids change scopes or lineages for the 13 `asm` assays, then fix the writer and the
+  guard. The Air's history becoming canonical (item above) depends on this. Ticket #30.
 - **The weekly re-screen is PAUSED until the v0.3.0 release** (2026-11-06, maintainer's decision):
   `launchctl` shows `com.assaywatch.weekly` unloaded and disabled, and the plist is unchanged. It runs
   `--live` on whatever is checked out and only warns off `main`. Step 15 restores it:
