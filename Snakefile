@@ -48,6 +48,7 @@ from assaywatch.timing import (
     screen_core_seconds,
     screen_workers,
     screening_progress,
+    unfinished_run,
     write_run_marker,
 )
 from assaywatch.settings import Settings
@@ -104,6 +105,26 @@ _STATE_DIR = Path(workflow.basedir) / ".snakemake"
 # must not pin a date. The marker is written in `onstart`, which Snakemake does
 # not fire on a dry run.
 RUN_DATE, RUN_DATE_REASON = resolve_run_date(config, _STATE_DIR)
+REPORT_HTML = "report.html"
+# A NEW date is refused while the previous run has no report, unless the launch
+# says `--config new_run=1`. The pin is cleared when a run succeeds, and the Air
+# half of a split run succeeds (`--omit-from composition`) without a report, so
+# on 2026-11-17 a launch with no `run_date` meant to finish 2026-11-15 pinned
+# 2026-11-17 and ran a whole new run instead: a fetch that advanced the
+# manifest, screening and `composition`. A dry run refuses too, so `-n` shows
+# what the real launch would do. A named `run_date` and a resumed pin are never
+# a new run and skip the check.
+if RUN_DATE_REASON == "new" and str(config.get("new_run", "")).lower() not in ("1", "true", "yes"):
+    _unfinished = unfinished_run(RESULTS, RUN_DATE, finished=REPORT_HTML)
+    if _unfinished:
+        raise SystemExit(
+            f"[assaywatch] refusing to start run {RUN_DATE}: the previous run, "
+            f"{RESULTS / _unfinished}, has no {REPORT_HTML}, so it is either a split run "
+            "whose second half is still outstanding or a run that failed.\n"
+            f"  To finish it: --config run_date={_unfinished} ...\n"
+            "  To start a new run anyway: --config new_run=1 ...\n"
+            "  docs/running-the-pipeline.md, \"Running on the Air\", explains both."
+        )
 # Retrieval's run record is named for the SAME pinned date, so a fetch that
 # starts before midnight and finishes after it stays one run record instead of
 # starting a second one halfway through.
@@ -402,7 +423,7 @@ onerror:
 
 rule all:
     input:
-        RESULTS / RUN_DATE / "report.html",
+        RESULTS / RUN_DATE / REPORT_HTML,
         RESULTS / RUN_DATE / "degeneracy.tsv",
         RESULTS / RUN_DATE / "site-drift.md",
         RESULTS / RUN_DATE / "lineage.md",
@@ -866,7 +887,7 @@ rule report:
         composition=RESULTS / RUN_DATE / "composition.json",
     output:
         md=RESULTS / RUN_DATE / "report.md",
-        html=RESULTS / RUN_DATE / "report.html",
+        html=RESULTS / RUN_DATE / REPORT_HTML,
     params:
         code=_REPORT_PARAMS["code"],
         inputs=_REPORT_PARAMS["inputs"],

@@ -43,6 +43,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import threading
 import time
 from collections.abc import Callable, Iterable, Mapping
@@ -60,6 +61,7 @@ __all__ = [
     "format_duration",
     "heartbeat",
     "resolve_run_date",
+    "unfinished_run",
     "weighted_eta",
     "write_run_marker",
 ]
@@ -187,6 +189,36 @@ def clear_run_marker(state_dir: Path | str) -> None:
         # Instrumentation must never be the reason a successful run reports
         # failure.
         pass
+
+
+_RUN_FOLDER = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
+def unfinished_run(results_dir: Path | str, before: str, *, finished: str = "report.html") -> str | None:
+    """The previous run's date if its folder has no `finished` file, else None.
+
+    "Previous" is the latest folder under `results_dir` named exactly as a date
+    and earlier than `before`, the date a launch is about to pin. Hand-named
+    copies (`2026-10-28.partial-stopped`, `2026-10-24-anchorfdr`) and the
+    `screened/` and `benchmarks/` caches are not runs. Only the latest earlier
+    run is checked: an older folder without a report is history, not the first
+    half of a split run waiting for its second.
+
+    Why the Snakefile asks: the run date stays pinned only until a run succeeds,
+    and the Air half of a split run succeeds (`--omit-from composition`) without
+    writing `report.html`. A launch with no `run_date` after it pinned a new date
+    and started a whole new run on 2026-11-17, when the intent was to finish
+    2026-11-15 (docs/journal/2026-11-17-composition-on-the-air.md).
+    """
+    root = Path(results_dir)
+    if not root.is_dir():
+        return None
+    earlier = sorted(
+        p for p in root.iterdir() if p.is_dir() and _RUN_FOLDER.fullmatch(p.name) and p.name < before
+    )
+    if not earlier or (earlier[-1] / finished).exists():
+        return None
+    return earlier[-1].name
 
 
 def _atomic_write_json(path: Path, payload: Any) -> None:

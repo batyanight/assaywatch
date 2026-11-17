@@ -25,7 +25,7 @@ import re
 import shutil
 import subprocess
 import sys
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 import pytest
@@ -597,3 +597,53 @@ def test_the_snakefile_accepts_an_address_from_the_environment(tree):
     )
     assert r.returncode == 0, (r.stdout[-1200:], r.stderr[-1200:])
     assert "No contact address" not in r.stdout + r.stderr
+
+
+def _snakemake_as_typed(tree: Path, *argv: str) -> subprocess.CompletedProcess:
+    """Run Snakemake in `tree` with exactly `argv`, in the order a user would type it.
+
+    `_snakemake` puts its own `--config` first, which is fine for flags but not for
+    targets or a second `--config`: `--config` takes every following word up to the
+    next flag, so where a target sits on the command line decides what it is.
+    """
+    env = {
+        **os.environ,
+        "PYTHONPATH": str(tree),
+        "PATH": f"{Path(sys.executable).parent}{os.pathsep}{os.environ.get('PATH', '')}",
+    }
+    return subprocess.run(
+        [sys.executable, "-m", "snakemake", *argv],
+        cwd=tree,
+        capture_output=True,
+        text=True,
+        env=env,
+        timeout=1800,
+    )
+
+
+@pytest.mark.slow
+def test_a_new_run_date_is_refused_while_the_previous_run_has_no_report(tree):
+    """The 2026-11-17 launch on the Air, as a test. The Air half of 2026-11-15 had
+    succeeded, which clears the pin, and a launch with no `run_date` pinned a new date
+    and ran a whole new run. Now it refuses, and `new_run=1` says the new run is meant."""
+    yesterday = (date.fromisoformat(TODAY) - timedelta(days=1)).isoformat()
+    unfinished = tree / "results" / yesterday
+    unfinished.mkdir()
+    try:
+        refused = _snakemake_as_typed(tree, "-n", "--cores", "2", "--config", "email=t@example.org")
+        assert refused.returncode != 0
+        out = refused.stdout + refused.stderr
+        assert yesterday in out and "new_run=1" in out, out[-1500:]
+
+        meant = _snakemake_as_typed(
+            tree, "-n", "--cores", "2", "--config", "email=t@example.org", "new_run=1"
+        )
+        assert meant.returncode == 0, meant.stdout[-1500:] + meant.stderr[-1500:]
+
+        # Naming the date, as the Mac half does, is never a new run and needs no flag.
+        named = _snakemake_as_typed(
+            tree, "-n", "--cores", "2", "--config", "email=t@example.org", f"run_date={TODAY}"
+        )
+        assert named.returncode == 0, named.stdout[-1500:] + named.stderr[-1500:]
+    finally:
+        shutil.rmtree(unfinished)

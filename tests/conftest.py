@@ -34,6 +34,7 @@ FAST_FILES = frozenset(
         "sitedrift",
         "title_filter",
         "trend",
+        "unfinished_run",
         "windows",
     )
 )

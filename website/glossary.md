@@ -206,6 +206,8 @@ word for a concept.
 
 **diverged stratum**{: #term-diverged-stratum } — in the composition [panel](#term-panel), the records whose primers both landed past the mismatch budget: they have no [amplicon](#term-amplicon) and so no [composition window](#term-composition-window), and are drawn and counted as a [lineage](#term-lineage) of their own rather than placed by guesswork (`composition.DIVERGED`). Under `drift.count_diverged_as_fail` they are in the denominator, which is why the panel must show them.
 
+**split run**{: #term-split-run } — one run date run in two halves: the Air runs everything except `composition`, `lineage_analysis` and `report` (`--omit-from composition`), the Mac runs those three from copies of the Air's archives and results. Until the report exists, a launch with no `run_date` is refused a new date unless given `new_run=1` (`timing.unfinished_run`, `docs/running-the-pipeline.md`).
+
 **manifest**{: #term-manifest } — the [retrieve](#term-retrieve) stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 
 **run record**{: #term-run-record } — what `retrieve` returns for one fetched group (`TaxonRun`), written to the [manifest](#term-manifest) (`retrieve.py`).
