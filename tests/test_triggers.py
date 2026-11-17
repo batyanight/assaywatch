@@ -647,3 +647,42 @@ def test_a_new_run_date_is_refused_while_the_previous_run_has_no_report(tree):
         assert named.returncode == 0, named.stdout[-1500:] + named.stderr[-1500:]
     finally:
         shutil.rmtree(unfinished)
+
+
+@pytest.mark.slow
+def test_the_documented_mac_half_plans_exactly_the_three_rules_the_air_left_out(tree, tmp_path):
+    """The Mac half of a split run (docs/running-the-pipeline.md, "Mac half").
+
+    The tree's run folder is put in the state the Air half leaves: everything but
+    `composition`'s outputs, `lineage.md` and the report. On Snakemake 9.27 the
+    command as first documented, with no targets, planned nothing ("Nothing to be
+    done"), probably because `--allowed-rules` also excludes `rule all`. Naming the
+    two final files as targets, BEFORE `--config`, plans exactly the three rules.
+    If the second assertion ever fails, Snakemake has changed how `--allowed-rules`
+    treats `rule all`, and the targets in the guide are no longer strictly needed.
+    """
+    # As the Mac sees the Air's run: copies under `-air` names, and no `.snakemake/`, so
+    # Snakemake holds no metadata for any of these files and judges them by mtime alone.
+    half = tmp_path / "half"
+    shutil.copytree(tree, half, symlinks=True, ignore=shutil.ignore_patterns(".snakemake"))
+    (half / "data" / "retrieved").rename(half / "data" / "retrieved-air")
+    (half / "results").rename(half / "results-air")
+    run = Path("results-air") / TODAY
+    for name in ("composition.json", "composition.tsv", "lineage.md", "report.html", "report.md"):
+        (half / run / name).unlink(missing_ok=True)
+    allowed = ["--allowed-rules", "composition", "lineage_analysis", "report"]
+    config = [
+        "--config",
+        f"run_date={TODAY}",
+        "retrieved_dir=data/retrieved-air",
+        "results_dir=results-air",
+        "email=t@example.org",
+    ]
+
+    documented = _snakemake_as_typed(
+        half, "-n", f"{run}/report.html", f"{run}/lineage.md", "--cores", "4", *allowed, *config
+    )
+    assert _planned(documented) == {"composition", "lineage_analysis", "report"}
+
+    without_targets = _snakemake_as_typed(half, "-n", "--cores", "4", *allowed, *config)
+    assert _planned(without_targets) == set()

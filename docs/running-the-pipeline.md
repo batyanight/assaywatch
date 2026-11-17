@@ -300,6 +300,11 @@ What the profile asks SLURM for, and why:
 | `collect_calls` | 5500 MB | declares nothing and was never measured; 5500 rather than the default, as a guess |
 | `restart-times` | 1 | a retry cannot ask for more memory than the node has, so further retries fail the same way |
 
+Per-rule overrides go in the profile's `set-resources`, never in `--set-resources` on
+the command line: the command-line flag replaces the profile's whole block, so on
+2026-11-17 `figures` and `site_drift` fell back to the Snakefile's 6000 MB and `sbatch`
+refused them.
+
 A job that asks for more memory than any node has is not killed. It is never
 started: it sits pending while Snakemake waits for it. `tests/test_profile_slurm_air.py`
 fails if any memory request in the profile passes 5800 MB or `max-threads` passes 4. `collect_calls` has never been
@@ -331,10 +336,12 @@ exactly `composition`, `lineage_analysis` and `report`. Anything else means the 
 sees an upstream output as out of date; stop and find out why.
 
 ```bash
-snakemake -n --cores 4 --allowed-rules composition lineage_analysis report \
+snakemake -n results-air/RUN_DATE/report.html results-air/RUN_DATE/lineage.md \
+  --cores 4 --allowed-rules composition lineage_analysis report \
   --config run_date=RUN_DATE retrieved_dir=data/retrieved-air results_dir=results-air \
   email="$(cat .secrets/email)"
-caffeinate -i snakemake --cores 4 --allowed-rules composition lineage_analysis report \
+caffeinate -i snakemake results-air/RUN_DATE/report.html results-air/RUN_DATE/lineage.md \
+  --cores 4 --allowed-rules composition lineage_analysis report \
   --config run_date=RUN_DATE retrieved_dir=data/retrieved-air results_dir=results-air \
   email="$(cat .secrets/email)"
 ```
@@ -343,6 +350,37 @@ caffeinate -i snakemake --cores 4 --allowed-rules composition lineage_analysis r
 with an error, not quietly re-fetch or re-screen, if it decides an upstream output
 is out of date. That happens when the Mac and the Air are on different commits,
 because rule params hash the package code: bring both to the same commit first.
+
+The two targets are needed, and they must come before `--config`. Without them the
+dry run says "Nothing to be done" although both files are missing (Snakemake 9.27;
+probably `--allowed-rules` also leaves out `rule all`). After `--config`, Snakemake
+would read them as more config words, since `--config` takes every word up to the next
+flag. `test_the_documented_mac_half_plans_exactly_the_three_rules_the_air_left_out` in
+`tests/test_triggers.py` runs this command.
+
+**Copy the report back to the Air.** The Air's `results/RUN_DATE/` has no
+`report.html` until you do, and the next launch there with no `run_date` refuses to
+start a new run while the previous run has no report:
+
+```bash
+rsync -a results-air/RUN_DATE/ air:projects/assaywatch/results/RUN_DATE/
+```
+
+**Starting a new run while the previous one has no report.** The run date stays
+pinned only until a run succeeds, and the Air half succeeds without a report, so a
+launch with no `run_date` after it would pin a new date and run a whole new run. On
+2026-11-17 that is what happened. The Snakefile now refuses, naming the folder. To
+finish that run, pass `--config run_date=RUN_DATE`; to start a new one anyway, add
+`new_run=1`:
+
+```bash
+snakemake --profile profiles/slurm-air --config email="$(cat .secrets/email)" new_run=1 \
+  --omit-from composition
+```
+
+The check looks only at the latest folder under `results/` named as a date and earlier
+than the new date; hand-named copies such as `2026-10-28.partial-stopped` do not count.
+A named `run_date`, or a pin still being resumed, skips it.
 
 **A run from a fresh fetch is not comparable** with runs built on the Mac's
 incremental archives. Each archive holds the current state of its records, not the

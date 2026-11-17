@@ -61,6 +61,9 @@ default-resources:
 # A two-level mapping, rule then resource. Snakemake 9.27 rejects the list form
 # (`- mem_mb=5500`) here with "Invalid set-resources format in profile", although
 # it accepts a list for default-resources above.
+# Per-rule overrides go here, never in `--set-resources` on the command line: that
+# replaces this whole block, so on 2026-11-17 `figures` and `site_drift` fell back to
+# the Snakefile's 6000 MB and sbatch refused them.
 set-resources:
   # `retrieve` and `retrieval_coverage` are localrules: they run inside the
   # Snakemake process on the Air, not through sbatch, so nothing is set for them.
