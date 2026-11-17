@@ -857,6 +857,13 @@ rule composition:
     resources:
         mem_mb=13000,
         runtime=300,
+    # Per run date, like the rule's outputs. Until 2026-11-17 the only figure for this
+    # rule's memory was "5.1 GB peak observed", which was no benchmark; the 2026-11-15
+    # run then peaked at 9.9 GiB on the Mac and was OOM-killed at 6.6 GB on the Air
+    # (docs/journal/2026-11-17-composition-on-the-air.md). max_rss fills in on Linux (the
+    # Air, CI, a cluster) and reads NA on macOS, for the reason given at BENCH.
+    benchmark:
+        BENCH / "composition" / f"{RUN_DATE}.tsv"
     # `--references cache` IS DELIBERATE AND IS THE DEFAULT (maintainer's decision,
     # 2026-11-10): this stage makes no network call while a run is in flight. The spike
     # sentences' GenBank REFERENCEs come from `.references.json.gz`, warmed beforehand by
