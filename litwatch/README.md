@@ -5,7 +5,15 @@
 
 Literature Watch: a weekly digest of new papers in three streams
 (AssayWatch leads, infectious disease phylodynamics, the AI frontier).
-The design lives in the "Literature Watch — PRD" doc.
+
+## Where the PRD is
+
+The design is the "Literature Watch — PRD" doc, a private Claude artifact
+(only its owner can open the link):
+<https://claude.ai/artifact/1A4PVgjGWbm7cxssakgvH3>
+
+It is deliberately not copied into this public repo. The build plan there has
+six tickets; this folder is the first slice of ticket 1.
 
 ## Status
 
