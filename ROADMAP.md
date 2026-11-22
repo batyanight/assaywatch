@@ -2582,7 +2582,8 @@ points of detected share.
       beside the flag counts at the top instead of only inside the per-assay
       detail; and both reports carry an `entry` column plus a header line
       saying how much of the registry is `draft`: on 2026-10-14, 210 of 214 entries
-      were (205 of 208 on 2026-10-23), and the table had presented them exactly
+      were (205 of 208 on 2026-10-23, 42 of 216 on 2026-11-21), and the table had
+      presented them exactly
       like the one `active` assay.
       Registry counts are now printed by `python -m assaywatch.validate
       registry` rather than written into prose, where they had drifted to
